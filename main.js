@@ -26,7 +26,12 @@ client.on("message", (message) => {
       // do stuff
     } catch (err) {
       //console.log(err);
-      dict = ""
+      dict = {}
+      for (let [snowflake, GuildChannel] of message.guild.channels) {
+        if (GuildChannel.type == "voice" && typeof GuildChannel !== 'undefined') {
+          dict[GuildChannel.name] = [GuildChannel.name.toLowerCase().replace(/\s/g, "")];
+        }
+      }
     }
     channels = []
     var values = Object.values(dict)
@@ -38,15 +43,16 @@ client.on("message", (message) => {
       }
     }
     //Command interface
-    if (msg[0] == "move" || msg[0] == "m" || channels.includes(msg[0].toLowerCase())) {
-      lib.move(message, dict, channels);
-    } else if (msg[0] == "clear" || msg[0] == "c") {
+    if (msg[0] == "clear" || msg[0] == "c") {
       lib.clearChannel(message);
     } else if (msg[0] == "alias" || msg[0] == "a") {
       lib.alias(message, dict);
     } else if (msg[0] == "id") {
       lib.idGuild(message)
+    }else if (msg[0] == "move" || msg[0] == "m" || channels.includes(msg[0].toLowerCase()) || channels.includes(message.content.toLowerCase())) {
+      lib.move(message, dict, channels);
     } else {
+      message.channel.send("No such command")
     }
     lib.log(message);
   }
