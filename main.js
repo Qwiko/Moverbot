@@ -1,61 +1,76 @@
+/*
+Author: Qwiko
+A moverbot for Discord
+*/
+
+//Discord setup
 const Discord = require("discord.js");
+const client = new Discord.Client();
+
+//lib setup and config
 const lib = require('./lib');
 const config = require("./files/config.json");
 
-const client = new Discord.Client();
+//MongoDB setup and connect to databases
+var mongojs = require('mongojs')
+var dbLogs = mongojs("mongodb://localhost:27017/logs")
+var dbAlias = mongojs("mongodb://localhost:27017/alias")
 
+
+
+
+//Connecting to discord with the client
 client.on("ready", () => {
-  console.log("Moverbot Started");
+  //console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`); 
+  console.log("Moverbot ready");
+  //client.user.setActivity(`Serving ${client.guilds.size} servers`);
+  
+
+  
 });
 
+
+//Waiting for messages
 client.on("message", (message) => {
-  if (message.channel.type == "text" && message.channel.name == "move" && message.content.startsWith(config.prefix) && typeof message.content !== 'undefined') {
 
+  ////////////////////////////////
+  //        Permissions         //
+  ////////////////////////////////
 
-    //Removing prefix and makes the string lowercase
-    message.content = message.content.toLowerCase().substring(1);
-    //Splitting the message
-    msg = message.content.split(" ")
+  //Only accept text channel.
+  if (message.channel.type != "text") return;
+  //Only accept channel with name move
+  if (message.channel.name != "move") return;
 
+  //Dont read bot messages.
+  if(message.author.bot) return;
+  
+  //Ignores all messages without the prefix
+  if(message.content.indexOf(config.prefix) !== 0) return;
+  
+  
+  
+  //Message to lowercase and splitting it
+  msg = message.content.toLowerCase().split(" ");
 
-
-      
-    //Loading the guilds dictonary
-    try {
-      dict = require('./dict/' + message.guild.id + '.json');
-      // do stuff
-    } catch (err) {
-      //console.log(err);
-      dict = {}
-      for (let [snowflake, GuildChannel] of message.guild.channels) {
-        if (GuildChannel.type == "voice" && typeof GuildChannel !== 'undefined') {
-          dict[GuildChannel.name] = [GuildChannel.name.toLowerCase().replace(/\s/g, "")];
-        }
-      }
-    }
-    channels = []
-    var values = Object.values(dict)
-    var keys = Object.keys(dict);
-    for (i in values) {
-      channels.push(keys[i].toLowerCase());
-      for (j in values[i]) {
-        channels.push(values[i][j])
-      }
-    }
+  p = config.prefix;
     //Command interface
-    if (msg[0] == "clear" || msg[0] == "c") {
+  if (msg[0] == p + "clear" || msg[0] == p + "c") {
       lib.clearChannel(message);
-    } else if (msg[0] == "alias" || msg[0] == "a") {
-      lib.alias(message, dict);
-    } else if (msg[0] == "id") {
+    } else if (msg[0] == p + "id") {
       lib.idGuild(message)
-    }else if (msg[0] == "move" || msg[0] == "m" || channels.includes(msg[0].toLowerCase()) || channels.includes(message.content.toLowerCase())) {
-      lib.move(message, dict, channels);
     } else {
-      message.channel.send("No such command")
+      lib.loadAlias(message, dbAlias, function(result) {
+        if (msg[0] == p + "alias" || msg[0] == p + "a") {
+          lib.alias(message, result, dbAlias);
+        } else {
+          lib.move(message, result);
+        }
+      });
     }
-    lib.log(message);
+    //Logging every command
+    lib.log(message, dbLogs);
   }
-});
+);
 
 client.login(config.token);
