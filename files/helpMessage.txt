@@ -11,3 +11,9 @@ Tar bort meddelanden från denna textkanal.
 
 **!alias/!a**
 Du kan använda andra namn än kanalnamnet. Detta uppger vilka alias som finns för respektive kanal.
+
+**!alias alias KANALNAMN**
+Lägg till fler alias
+
+**!alias del alias**
+Ta bort ett alias

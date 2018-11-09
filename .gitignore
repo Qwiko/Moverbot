@@ -2,7 +2,6 @@ files/config.json
 node_modules
 package-lock.json
 logs
-dict
 docker-compose.yml
 Dockerfile
 startbackground.bat
