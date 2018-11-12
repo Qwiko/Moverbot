@@ -17,16 +17,11 @@ var dbLogs = mongojs("mongodb://localhost:27017/logs")
 var dbAlias = mongojs("mongodb://localhost:27017/alias")
 
 
-
-
 //Connecting to discord with the client
 client.on("ready", () => {
   //console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`); 
   console.log("Moverbot ready");
   //client.user.setActivity(`Serving ${client.guilds.size} servers`);
-  
-
-  
 });
 
 
