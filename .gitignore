@@ -1,8 +1,5 @@
 files/config.json
 node_modules
 package-lock.json
-logs
 docker-compose.yml
 Dockerfile
-startbackground.bat
-test.js
