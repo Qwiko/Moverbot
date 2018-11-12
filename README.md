@@ -9,6 +9,8 @@ If you would like to add this bot to your channel use this link:
 
 <a href="https://discordapp.com/oauth2/authorize?client_id=449878054203031562&scope=bot&permissions=16854016" target="_blank">Add Moverbot</a>
 
+This bot is not yet hosted 24/7. If you would like it to be please let me know.
+
 ---
 After adding the bot to your channel create a textchannel named **move**.\
 In which you can write commands for the bot.
