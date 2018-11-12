@@ -48,8 +48,12 @@ client.on("message", (message) => {
   //Ignores all messages without the prefix
   if(message.content.indexOf(config.prefix) !== 0) return;
   
-  
-  
+  //If message is only prefix = do nothing
+  if(message.content == config.prefix) {
+    message.channel.send("Please enter a command");
+    return;
+  }
+
   //Message to lowercase and splitting it
   msg = message.content.toLowerCase().split(" ");
 

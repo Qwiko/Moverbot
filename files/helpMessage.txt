@@ -1,7 +1,6 @@
 Kommandon för att använda botten:
-
 **!move/!m KANALNAMN**
-Exempel !move PUBG 1 flyttar alla från den kanal du befinner dig i till PUBG 1.
+Flyttar alla från den kanal du befinner dig i till KANALNAMN.
 
 **!KANALNAMN**
 Funkar precis som !move KANALNAMN men du kan skriva vilken alias du vill efter ett !.
@@ -12,8 +11,8 @@ Tar bort meddelanden från denna textkanal.
 **!alias/!a**
 Du kan använda andra namn än kanalnamnet. Detta uppger vilka alias som finns för respektive kanal.
 
-**!alias alias KANALNAMN**
+**!alias/!a alias KANALNAMN**
 Lägg till fler alias
 
-**!alias del alias**
+**!alias/!a del alias**
 Ta bort ett alias
