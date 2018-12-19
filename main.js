@@ -36,7 +36,7 @@ client.on("message", (message) => {
   //Only accept text channel.
   if (message.channel.type != "text") return;
   //Only accept channel with name move
-  if (message.channel.name != "move") return;
+  if (message.channel.name != "moverbot") return;
 
   //Dont read bot messages.
   if(message.author.bot) return;
@@ -54,7 +54,7 @@ client.on("message", (message) => {
   msg = message.content.toLowerCase().split(" ");
 
   p = config.prefix;
-    //Command interface
+  //Command interface
   if (msg[0] == p + "clear" || msg[0] == p + "c") {
       lib.clearChannel(message);
     } else if (msg[0] == p + "id") {
