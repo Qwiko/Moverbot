@@ -5,7 +5,7 @@ exports.run = function (client, message, args, alias) {
     //Show aliases
     aliasMessage = ""
     for (var key in alias) {
-      channelName = message.guild.channels.find("id", key).name
+      channelName = message.guild.channels.find(val => val.id === key).name
       arrayKey = alias[key];
       arrayKey.shift()
       //Show only those who have aliases
