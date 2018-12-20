@@ -1,4 +1,4 @@
-module.exports = function (message, alias) {
+exports.run = function (client, message, args, alias) {
 
   msg = message.content.substring(1).toLowerCase();
   newChannelName = ""
@@ -46,3 +46,9 @@ module.exports = function (message, alias) {
   }
   message.channel.send("Moved " + counter + (counter == 1 ? ' user' : ' users') + ' to the channel: "' + message.guild.channels.find("id", newChannelId).name + '"');
 };
+
+exports.help = {
+  name: "move",
+  usage: "!move CHANNELNAME",
+  aliases: ["m"]
+}

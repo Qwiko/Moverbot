@@ -11,8 +11,8 @@ Clear messages for this channel.
 **!alias/!a**
 List current aliases.
 
-**!alias/!a alias CHANNELNAME**
-Add more aliases. If adding alias to long names with whitespace use "" on both the alias and the channel.
+**!alias/!a CHANNELNAME alias**
+Add more aliases. If adding alias to long names with whitespace use "".
 
 **!alias/!a del alias**
 Remove an alias.

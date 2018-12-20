@@ -1,6 +1,40 @@
-module.exports = function (message, alias, dbAlias) {
+exports.run = function (client, message, args, alias, dbAlias) {
+  
+  if (args.length == 0) {
+    //Show aliases
+    aliasMessage = ""
+    for (var key in alias) {
+      channelName = message.guild.channels.find("id", key).name
+      arrayKey = alias[key];
+      arrayKey.shift()
+      //Show only those who have aliases
+      if (arrayKey.length > 0) {
+        aliasMessage += "**" + channelName + "**" + " = "
+        for (i in arrayKey) {
+          aliasMessage += arrayKey[i] + (i < arrayKey.length-1 ? ', ' : '')
+          //console.log(channelName)
+        }
+        aliasMessage += "\n"
+      }
+    }
+    if (aliasMessage.trim().length > 0){ 
+      aliasMessage = "Aliases for your channel:\n" + aliasMessage
+      message.channel.send(aliasMessage)
+    } else {
+      message.channel.send("You have no aliases configured.")
+    }
+    return;
+  } else {
+    const addToAlias = require('../lib/addToAlias.js')
+    addToAlias(message, dbAlias, alias, args[0], args[1]);
+  }
+
+
+
 
   //message.guild.channels.find("id", newChannelId).name
+
+  /*
   msg = message.content.substring(1).toLowerCase();
   
   if (msg.startsWith("alias ") || msg.startsWith("a ") ) {
@@ -58,10 +92,18 @@ module.exports = function (message, alias, dbAlias) {
       message.channel.send("You have no aliases configured.")
     }
    
-  }
+  }*/
 };
+
+exports.help = {
+  name: "alias",
+  usage: "!alias",
+  aliases: ["a"]
+}
 
 function addAlias(m, dbAliases, aliases, keyn, valuen) {
   addToAlias = require('./addToAlias.js')
   addToAlias(m, dbAliases, aliases, keyn, valuen);
 }
+
+

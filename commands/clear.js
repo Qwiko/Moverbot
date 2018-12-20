@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-module.exports = async function (message) {
+exports.run = async function (client, message, args) {
 
   messages = await message.channel.fetchMessages({ limit: 100 })
 
@@ -38,4 +38,10 @@ module.exports = async function (message) {
       color: 0x43b581,
       description: fs.readFileSync("./files/helpMessage-eng.txt").toString()
   }});
+}
+
+exports.help = {
+  name: "clear",
+  usage: "!clear",
+  aliases: ["c"]
 }
