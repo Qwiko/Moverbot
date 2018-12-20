@@ -13,7 +13,7 @@ const config = require("./files/config.json");
 const log = require('./lib/log.js');
 const loadAlias = require('./lib/loadAlias.js');
 
-//
+//Loading commands
 const fs = require("fs");
 client.commands = new Discord.Collection();
 fs.readdir("./commands/", (err, files) => {
@@ -27,8 +27,14 @@ fs.readdir("./commands/", (err, files) => {
   jsfiles.forEach((f, i) => {
     let props = require('./commands/' + f);
     //console.log((i + 1) + ": " + f + " loaded.");
+
     client.commands.set(props.help.name, props);
+    //Setting aliases
+    props.help.aliases.forEach(alias => {
+      client.commands.set(alias, props);
+    });
   });
+  //console.log(client.commands);
 })
 
 
@@ -56,10 +62,9 @@ client.on("ready", () => {
 //Waiting for messages
 client.on("message", async message => {
 
-  ////////////////////////////////
-  //        Permissions         //
-  ////////////////////////////////
-
+  /////////////////////////////////
+  //         Permissions         //
+  /////////////////////////////////
   //Only accept text channel.
   if (message.channel.type != "text") return;
   //Only accept channel with name move
@@ -104,29 +109,15 @@ client.on("message", async message => {
   args = newargs.filter(function (el) {
     return el != null;
   });
-  //Check aliases for commands
-  if (typeof client.commands[command] !== "function") {
-    for (let [comm, func] of client.commands) {
-      func.help.aliases.forEach(alias => {
-        if (command == alias) {
-          command = func.help.name;
-          return;
-        }
-      });
-    }
-  }
-  
 
-
+  //Load async alias from MongoDB.
   loadAlias(message, client.dbAlias, function(alias) {
-    //Run the command
+    //Check if command is an alias for a channel.
     for (var key in alias) {
-      for (i in alias[key]) {
-        if (command == alias[key][i]) {
-          command = "move"
-          args[0] = alias[key][i]
-          break;
-        }
+      if (alias[key].includes(command)) {
+        args[0] = command;
+        command = "move";
+        break;
       }
     }
     const cmd = client.commands.get(command);
@@ -134,8 +125,6 @@ client.on("message", async message => {
       message.channel.send("Cannot handle that command, please try again");
       return;
     }
-
-
 
     cmd.run(client, message, args, alias);
   });

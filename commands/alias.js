@@ -19,7 +19,7 @@ exports.run = function (client, message, args, alias) {
       }
     }
     if (aliasMessage.trim().length > 0){ 
-      aliasMessage = "Aliases for your channel:\n" + aliasMessage
+      aliasMessage = "Aliases:\n" + aliasMessage
       message.channel.send(aliasMessage)
     } else {
       message.channel.send("You have no aliases configured.")
@@ -28,7 +28,6 @@ exports.run = function (client, message, args, alias) {
   } else {
     addToAlias(message, client.dbAlias, alias, args);
   }
-
 };
 exports.help = {
   name: "alias",

@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-exports.run = async function (client, message, args) {
+exports.run = async function (client, message) {
 
   messages = await message.channel.fetchMessages({ limit: 100 })
 

@@ -3,14 +3,15 @@ exports.run = function (client, message, args, alias) {
   currentChannel = message.member.voiceChannel;
   newChannelId = "";
   newChannelName = args[0];
+
+  //
   for (var key in alias) {
-    for (i in alias[key]) {
-      if (newChannelName == alias[key][i]) {
-        newChannelId = key;
-        break;
-      }
+    if (alias[key].includes(newChannelName)) {
+      newChannelId = key;
+      break;
     }
   }
+  
   if (newChannelId == "") {
     message.channel.send("There is no such channel: *" + newChannelName + "*.");
     return
