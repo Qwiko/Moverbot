@@ -106,9 +106,8 @@ client.on("message", async message => {
   });
   //Check aliases for commands
   if (typeof client.commands[command] !== "function") {
-    for (let [comm, func] of client.commands) { 
-      //console.log(func.help.aliases);
-      func.help.aliases.forEach(function(alias) {
+    for (let [comm, func] of client.commands) {
+      func.help.aliases.forEach(alias => {
         if (command == alias) {
           command = func.help.name;
           return;
