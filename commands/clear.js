@@ -6,7 +6,6 @@ exports.run = async function (client, message, args) {
 
   message.channel.bulkDelete(messages, true)
     .then(function(deletedMessages) {
-      
       for (let [dsnowflake, dMessage] of deletedMessages) {
         for (let [snowflake, Message] of messages) {
           if (dMessage.id == Message.id){
@@ -14,12 +13,16 @@ exports.run = async function (client, message, args) {
           }
         }
       };
-
+      //console.log(messages.size);
       if (messages.size != 0){
-        for (let [snowflake, Message] of messages) {
+        messages.forEach(mess => {
+          mess.delete()
+            .catch(console.error);
+        })
+        /*for (let [snowflake, Message] of messages) {
           Message.delete()
             .catch(console.error);
-        }
+        }*/
       }
     })
     .catch(function(error) {
@@ -29,11 +32,6 @@ exports.run = async function (client, message, args) {
         console.log(error);
       }
     });
-
-    
-
-
-
   message.channel.send({embed: {
       color: 0x43b581,
       description: fs.readFileSync("./files/helpMessage-eng.txt").toString()

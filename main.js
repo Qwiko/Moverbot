@@ -26,7 +26,7 @@ fs.readdir("./commands/", (err, files) => {
   }
   jsfiles.forEach((f, i) => {
     let props = require('./commands/' + f);
-    console.log((i + 1) + ": " + f + " loaded.");
+    //console.log((i + 1) + ": " + f + " loaded.");
     client.commands.set(props.help.name, props);
   });
 })
@@ -34,17 +34,21 @@ fs.readdir("./commands/", (err, files) => {
 
 //MongoDB setup and connect to databases
 var mongojs = require('mongojs')
-var dbLogs = mongojs("mongodb://localhost:27017/logs")
-var dbAlias = mongojs("mongodb://localhost:27017/alias")
-
+client.dbLogs = mongojs("mongodb://localhost:27017/logs")
+client.dbAlias = mongojs("mongodb://localhost:27017/alias")
+ 
 
 
 
 //Connecting to discord with the client
 client.on("ready", () => {
-  console.log(`Moverbot has started in ${client.guilds.size} guilds.`); 
-  //console.log("Moverbot ready");
+  //console.log(`Moverbot has started in ${client.guilds.size} guilds.`); 
+  console.log("Moverbot ready");
   //client.user.setActivity(`Serving ${client.guilds.size} servers`);
+  
+  client.user.setActivity('commands', { type: 'LISTENING' })
+  //.then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
+  .catch(console.error);
 });
 
 
@@ -89,6 +93,8 @@ client.on("message", async message => {
           j++
         }
         i = j;
+      } else {
+        newargs[i] = newargs[i].slice(0, -1).toLowerCase();
       }
     } else {
       newargs[i] = args[i].toLowerCase();
@@ -113,7 +119,7 @@ client.on("message", async message => {
   
 
 
-  loadAlias(message, dbAlias, function(alias) {
+  loadAlias(message, client.dbAlias, function(alias) {
     //Run the command
     for (var key in alias) {
       for (i in alias[key]) {
@@ -125,15 +131,17 @@ client.on("message", async message => {
       }
     }
     const cmd = client.commands.get(command);
-    if (!cmd) return;
+    if (!cmd) {
+      message.channel.send("Cannot handle that command, please try again");
+      return;
+    }
 
 
 
-
-    cmd.run(client, message, args, alias, dbAlias);
+    cmd.run(client, message, args, alias);
   });
   //Logging every command
-  log(message, dbLogs);
+  log(message, client.dbLogs);
   
 
 
