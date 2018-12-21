@@ -33,9 +33,10 @@ exports.run = async function (client, message) {
       }
     });
   message.channel.send({embed: {
+      title: "Commands to use the bot:",
       color: 0x43b581,
       description: fs.readFileSync("./files/helpMessage-eng.txt").toString()
-  }});
+  }})
 }
 
 exports.help = {

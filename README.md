@@ -24,16 +24,13 @@ Moves all users from the channel you are in to CHANNELNAME
 Use aliases instead to move between channels.
 
 **!clear/!c**
-Clear messages for this channel.
+Dletes the past 100 messages on this channel.
 
 **!alias/!a**
 List current aliases.
 
-**!alias/!a alias CHANNELNAME**
-Add more aliases.
-If adding alias to long names with whitespace
-use "" on both the alias and the channel.
-Example !a "c1" "Channel 1".
+**!alias/!a CHANNELNAME alias**
+Add more aliases. If adding alias to long names with whitespace use "".
 
 **!alias/!a del alias**
 Remove an alias.

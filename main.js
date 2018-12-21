@@ -8,7 +8,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 
 //lib setup and config
-const config = require("./files/config.json");
+client.config = require("./files/config.json");
 
 const log = require('./lib/log.js');
 const loadAlias = require('./lib/loadAlias.js');
@@ -68,14 +68,14 @@ client.on("message", async message => {
   //Dont read bot messages.
   if(message.author.bot) return;
   //Ignores all messages without the prefix
-  if(!message.content.startsWith(config.prefix)) return;
+  if(!message.content.startsWith(client.config.prefix)) return;
   //If message is only prefix = do nothing
-  if(message.content == config.prefix) {
+  if(message.content == client.config.prefix) {
     message.channel.send("Please enter a command");
     return;
   }
 
-  var args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+  var args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
   var command = args.shift().toLowerCase();
   var newargs = [];
 
@@ -129,4 +129,4 @@ client.on("message", async message => {
   }
 );
 
-client.login(config.token);
+client.login(client.config.token);

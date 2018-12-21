@@ -2,6 +2,7 @@ const addToAlias = require('../lib/aliasTools.js');
 
 exports.run = function (client, message, args, alias) {
   if (args.length == 0) {
+    message.delete();
     //Show aliases
     aliasMessage = ""
     for (var key in alias) {
@@ -19,8 +20,12 @@ exports.run = function (client, message, args, alias) {
       }
     }
     if (aliasMessage.trim().length > 0){ 
-      aliasMessage = "Aliases:\n" + aliasMessage
-      message.channel.send(aliasMessage)
+      //aliasMessage = "Aliases:\n" + aliasMessage
+      message.channel.send({embed: {
+        title: "Aliases",
+        color: 0x43b581,
+        description: aliasMessage
+      }});
     } else {
       message.channel.send("You have no aliases configured.")
     }

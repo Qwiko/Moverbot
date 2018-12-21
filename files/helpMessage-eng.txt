@@ -1,4 +1,3 @@
-Commands to use the bot:
 **!move/!m CHANNELNAME**
 Moves all users from the channel you are in to CHANNELNAME
 
@@ -6,7 +5,7 @@ Moves all users from the channel you are in to CHANNELNAME
 Use aliases instead to move between channels.
 
 **!clear/!c**
-Clear messages for this channel.
+Dletes the past 100 messages on this channel.
 
 **!alias/!a**
 List current aliases.
