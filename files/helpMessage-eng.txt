@@ -5,7 +5,7 @@ Moves all users from the channel you are in to CHANNELNAME
 Use aliases instead to move between channels.
 
 **!clear/!c**
-Dletes the past 100 messages on this channel.
+Deletes the past 100 messages on this channel.
 
 **!alias/!a**
 List current aliases.
