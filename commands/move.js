@@ -14,17 +14,17 @@ exports.run = function (client, message, args, alias) {
   
   if (newChannelId == "") {
     message.channel.send("There is no such channel: *" + newChannelName + "*.");
-    return
+    return;
   }
     
   if(typeof currentChannel === 'undefined') {
     message.channel.send("You are not part of a voicechannel.");
-    return
+    return;
   }
 
   if(currentChannel.id == newChannelId) {
     message.channel.send("You are already in that channel.");
-    return
+    return;
   }
 
   //Moving users

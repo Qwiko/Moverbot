@@ -1,4 +1,4 @@
-const addToAlias = require('../lib/addToAlias.js');
+const addToAlias = require('../lib/aliasTools.js');
 
 exports.run = function (client, message, args, alias) {
   if (args.length == 0) {
@@ -26,7 +26,7 @@ exports.run = function (client, message, args, alias) {
     }
     return;
   } else {
-    addToAlias(message, client.dbAlias, alias, args);
+    addToAlias(client, message, alias, args);
   }
 };
 exports.help = {

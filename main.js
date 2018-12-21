@@ -34,7 +34,6 @@ fs.readdir("./commands/", (err, files) => {
       client.commands.set(alias, props);
     });
   });
-  //console.log(client.commands);
 })
 
 
@@ -42,8 +41,6 @@ fs.readdir("./commands/", (err, files) => {
 var mongojs = require('mongojs')
 client.dbLogs = mongojs("mongodb://localhost:27017/logs")
 client.dbAlias = mongojs("mongodb://localhost:27017/alias")
- 
-
 
 
 //Connecting to discord with the client
@@ -56,7 +53,6 @@ client.on("ready", () => {
   //.then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
   .catch(console.error);
 });
-
 
 
 //Waiting for messages
@@ -130,10 +126,6 @@ client.on("message", async message => {
   });
   //Logging every command
   log(message, client.dbLogs);
-  
-
-
- 
   }
 );
 
