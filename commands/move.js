@@ -4,7 +4,8 @@ exports.run = function (client, message, args, alias) {
   newChannelId = "";
   newChannelName = args[0];
 
-  if (newChannelName == "") {
+  
+  if (typeof newChannelName == "undefined") {
     message.channel.send("Please provide a channelname.");
     return;
   }
