@@ -101,7 +101,7 @@ client.on("message", async message => {
       newargs[i] = args[i].toLowerCase();
     }
   }
-  //Returning to original args
+  //Returning to original args remove null elements
   args = newargs.filter(function (el) {
     return el != null;
   });

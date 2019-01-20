@@ -1,4 +1,4 @@
-const fs = require("fs");
+const helpMessage = require('../lib/helpMessage.js'); 
 
 exports.run = async function (client, message) {
 
@@ -28,15 +28,14 @@ exports.run = async function (client, message) {
     .catch(function(error) {
       if (error.code == 50013){
         console.log(error);
+      } else if (error.code == 10008) { //Unknown Message
+        console.log(error);
       } else {
         console.log(error);
       }
     });
-  message.channel.send({embed: {
-      title: "Commands to use the bot:",
-      color: 0x43b581,
-      description: fs.readFileSync("./files/helpMessage-eng.txt").toString()
-  }})
+  //After cleared print out the helpmessage again.
+  helpMessage(message, client);
 }
 
 exports.help = {
