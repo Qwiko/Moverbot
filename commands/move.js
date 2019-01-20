@@ -4,7 +4,11 @@ exports.run = function (client, message, args, alias) {
   newChannelId = "";
   newChannelName = args[0];
 
-  //
+  if (newChannelName == "") {
+    message.channel.send("Please provide a channelname.");
+    return;
+  }
+
   for (var key in alias) {
     if (alias[key].includes(newChannelName)) {
       newChannelId = key;
