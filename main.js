@@ -12,6 +12,7 @@ client.config = require("./files/config.json");
 
 const log = require('./lib/log.js');
 const loadAlias = require('./lib/loadAlias.js');
+const loadConfig = require('./lib/loadConfig.js');
 
 //Loading commands
 const fs = require("fs");
@@ -67,14 +68,18 @@ client.on("message", async message => {
   if (message.channel.name != "moverbot") return;
   //Dont read bot messages.
   if(message.author.bot) return;
-  //Ignores all messages without the prefix
-  if(!message.content.startsWith(client.config.prefix)) return;
-  //If message is only prefix = do nothing
-  if(message.content == client.config.prefix) {
-    message.channel.send("Please enter a command");
-    return;
-  }
 
+  //Ignores all messages without the prefix
+  loadConfig(message, client.dbAlias, function(config) {
+    client.config.prefix = config.prefix;
+    //console.log(client.config)
+    if(!message.content.startsWith(client.config.prefix)) return;
+    //If message is only prefix = do nothing
+    if(message.content == client.config.prefix) {
+      message.channel.send("Please enter a command");
+      return;
+    }
+  });
   var args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
   var command = args.shift().toLowerCase();
   var newargs = [];

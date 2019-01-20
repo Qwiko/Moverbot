@@ -44,6 +44,6 @@ exports.run = function (client, message, args, alias) {
 
 exports.help = {
   name: "move",
-  usage: "!move CHANNELNAME",
+  usage: "Move users from your current channel to another with move CHANNELNAME",
   aliases: ["m"]
 }
