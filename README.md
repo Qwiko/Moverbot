@@ -20,7 +20,7 @@ Commands to use the bot:
 !alias/!a
 See current aliases and create new ones with: alias CHANNELNAME alias.
 !clear/!c
-Clear this channel from messages.
+Clears this channel from messages.
 !help/!h
 Shows the help-message.
 !move/!m
