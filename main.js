@@ -70,6 +70,7 @@ client.on("message", async message => {
   if(message.author.bot) return;
 
   //Ignores all messages without the prefix
+  //Load async config from the mongoDB.
   loadConfig(message, client.dbAlias, function(config) {
     client.config.prefix = config.prefix;
     //console.log(client.config)
@@ -79,55 +80,56 @@ client.on("message", async message => {
       message.channel.send("Please enter a command");
       return;
     }
-  });
-  var args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
-  var command = args.shift().toLowerCase();
-  var newargs = [];
+    
+    var args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
+    var command = args.shift().toLowerCase();
+    var newargs = [];
 
-  //args cleanup
-  for (var i = 0; i < args.length; i++) {
-    if (args[i].startsWith('"')) {
-      newargs[i] = args[i].slice(1); //slice removes "
-      if (!args[i].endsWith('"')) {
-        j = i+1;
-        while(j < args.length) {
-            newargs[i] = newargs[i] + " " + args[j];
-            if (args[j].endsWith('"')) {
-              newargs[i] = newargs[i].slice(0, -1).toLowerCase();
-              break;
-            }
-          j++
+    //args cleanup
+    for (var i = 0; i < args.length; i++) {
+      if (args[i].startsWith('"')) {
+        newargs[i] = args[i].slice(1); //slice removes "
+        if (!args[i].endsWith('"')) {
+          j = i+1;
+          while(j < args.length) {
+              newargs[i] = newargs[i] + " " + args[j];
+              if (args[j].endsWith('"')) {
+                newargs[i] = newargs[i].slice(0, -1).toLowerCase();
+                break;
+              }
+            j++
+          }
+          i = j;
+        } else {
+          newargs[i] = newargs[i].slice(0, -1).toLowerCase();
         }
-        i = j;
       } else {
-        newargs[i] = newargs[i].slice(0, -1).toLowerCase();
-      }
-    } else {
-      newargs[i] = args[i].toLowerCase();
-    }
-  }
-  //Returning to original args remove null elements
-  args = newargs.filter(function (el) {
-    return el != null;
-  });
-
-  //Load async alias from MongoDB.
-  loadAlias(message, client.dbAlias, function(alias) {
-    //Check if command is an alias for a channel.
-    for (var key in alias) {
-      if (alias[key].includes(command)) {
-        args[0] = command;
-        command = "move";
-        break;
+        newargs[i] = args[i].toLowerCase();
       }
     }
-    const cmd = client.commands.get(command);
-    if (!cmd) {
-      message.channel.send("Cannot handle that command, please try again");
-      return;
-    }
+    //Returning to original args remove null elements
+    args = newargs.filter(function (el) {
+      return el != null;
+    });
 
-    cmd.run(client, message, args, alias);
+    //Load async alias from MongoDB.
+    loadAlias(message, client.dbAlias, function(alias) {
+      //Check if command is an alias for a channel.
+      for (var key in alias) {
+        if (alias[key].includes(command)) {
+          args[0] = command;
+          command = "move";
+          break;
+        }
+      }
+      const cmd = client.commands.get(command);
+      if (!cmd) {
+        message.channel.send("Cannot handle that command, please try again");
+        return;
+      }
+
+      cmd.run(client, message, args, alias);
+    });
   });
   //Logging every command
   log(message, client.dbLogs);

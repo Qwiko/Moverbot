@@ -15,25 +15,18 @@ If you would like to add this bot to your channel use this link:
 After adding the bot to your channel create a textchannel named **moverbot**.\
 In which you can write commands for the bot.
 
-Commands are as following:
+Commands to use the bot:
 ```text
-**!move/!m CHANNELNAME**
-Moves all users from the channel you are in to CHANNELNAME
-
-**!CHANNELNAME**
-Use aliases instead to move between channels.
-
-**!clear/!c**
-Deletes the past 100 messages on this channel.
-
-**!alias/!a**
-List current aliases.
-
-**!alias/!a CHANNELNAME alias**
-Add more aliases. If adding alias to long names with whitespace use "".
-
-**!alias/!a del alias**
-Remove an alias.
+!alias/!a
+See current aliases and create new ones with: alias CHANNELNAME alias.
+!clear/!c
+Clear this channel from messages.
+!help/!h
+Shows the help-message.
+!move/!m
+Move users from your current channel to another with move CHANNELNAME.
+!prefix
+Change prefix for moverbot with: prefix NEW_PREFIX
 ```
 ---
 If you have any suggestions or bug-reports please contact me using git-hub or in the discord-channel. 

@@ -36,6 +36,6 @@ exports.run = function (client, message, args, alias) {
 };
 exports.help = {
   name: "alias",
-  usage: "See current aliases and create new ones with: alias CHANNELNAME alias.",
+  detail: "See current aliases and create new ones with: alias CHANNELNAME alias.",
   aliases: ["a"]
 }

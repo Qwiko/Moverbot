@@ -4,7 +4,9 @@ exports.run = function (client, message, args) {
         ".",
         ",",
         ":",
-        ";"
+        ";",
+        "!!",
+        ".."
     ]
 
     if (typeof args[0] == "undefined") {
@@ -12,8 +14,8 @@ exports.run = function (client, message, args) {
         return;
     }
 
-    if (args[0].length != 1) {
-        message.channel.send("Your new prefix must be only 1 character.");
+    if (args[0].length > 2 || args[0].length == 0) {
+        message.channel.send("Your new prefix can maximum be 2 characters.");
         return;
     }
 
@@ -40,6 +42,6 @@ exports.run = function (client, message, args) {
 
 exports.help = {
     name: "prefix",
-    usage: "Change prefix for moverbot with: prefix NEW_PREFIX",
+    detail: "Change prefix for moverbot with: prefix NEW_PREFIX.",
     aliases: []
 }
