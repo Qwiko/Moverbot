@@ -39,20 +39,21 @@ fs.readdir("./commands/", (err, files) => {
 
 
 //MongoDB setup and connect to databases
-var mongojs = require('mongojs')
-client.dbLogs = mongojs("mongodb://localhost:27017/logs")
-client.dbAlias = mongojs("mongodb://localhost:27017/alias")
-
+var mongojs = require('mongojs');
+client.dbLogs = mongojs("mongodb://localhost:27017/logs");
+client.dbAlias = mongojs("mongodb://localhost:27017/alias");
+client.dbConfig = mongojs("mongodb://localhost:27017/config");
 
 //Connecting to discord with the client
 client.on("ready", () => {
   //console.log(`Moverbot has started in ${client.guilds.size} guilds.`); 
   console.log("Moverbot ready");
-  //client.user.setActivity(`Serving ${client.guilds.size} servers`);
-  
-  client.user.setActivity('commands', { type: 'LISTENING' })
-  //.then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
-  .catch(console.error);
+  //client.user.setActivity(`Moverbot starting.`);
+  const tUM = require('./lib/tUM.js');
+  tUM(client, 0);
+  //client.user.setActivity('commands', { type: 'LISTENING' })
+  //.then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'Moved a total of '}`))
+  //.catch(console.error);
 });
 
 
