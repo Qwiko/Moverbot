@@ -26,7 +26,7 @@ Shows the help-message.
 !move/!m
 Move users from your current channel to another with move CHANNELNAME.
 !prefix
-Change prefix for moverbot with: prefix NEW_PREFIX
+Change prefix for moverbot with: prefix NEW_PREFIX.
 ```
 ---
 If you have any suggestions or bug-reports please contact me using git-hub or in the discord-channel. 
