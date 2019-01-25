@@ -39,7 +39,7 @@ exports.run = function (client, message, args, alias) {
       .catch(console.error);
     counter++;
   })
-  message.channel.send("Moved " + counter + (counter == 1 ? ' user' : ' users') + ' to the channel: *' + message.guild.channels.find(val => val.id === key).name + '*.');
+  message.channel.send("Moved " + counter + (counter == 1 ? ' user' : ' users') + ' to the channel: *' + message.guild.channels.find(val => val.id === newChannelId).name + '*.');
   const tUM = require('../lib/tUM.js');
   tUM(client, counter);
 };

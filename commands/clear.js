@@ -27,9 +27,9 @@ exports.run = async function (client, message) {
     })
     .catch(function(error) {
       if (error.code == 50013){
-        console.log(error);
+        console.log(error.code);
       } else if (error.code == 10008) { //Unknown Message
-        console.log(error);
+        console.log(error.code);
       } else {
         console.log(error);
       }

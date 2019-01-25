@@ -21,6 +21,8 @@ Commands to use the bot:
 See current aliases and create new ones with: !alias CHANNELNAME alias.
 !clear/!c
 Clears this channel from messages.
+!drag
+Drag users from a channel to your channel !drag CHANNELNAME.
 !help/!h
 Shows the help-message.
 !move/!m
