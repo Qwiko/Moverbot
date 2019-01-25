@@ -40,6 +40,6 @@ exports.run = async function (client, message) {
 
 exports.help = {
   name: "clear",
-  detail: "Clear this channel from messages.",
+  detail: "Clears this channel from messages.",
   aliases: ["c"]
 }

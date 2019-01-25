@@ -42,6 +42,6 @@ exports.run = function (client, message, args) {
 
 exports.help = {
     name: "prefix",
-    detail: "Change prefix for moverbot with: prefix NEW_PREFIX.",
+    detail: "Change prefix for moverbot with: ${PREFIX}prefix NEW_PREFIX.",
     aliases: []
 }

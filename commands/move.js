@@ -44,6 +44,6 @@ exports.run = function (client, message, args, alias) {
 
 exports.help = {
   name: "move",
-  detail: "Move users from your current channel to another with move CHANNELNAME.",
+  detail: "Move users from your current channel to another with ${PREFIX}move CHANNELNAME.",
   aliases: ["m"]
 }
