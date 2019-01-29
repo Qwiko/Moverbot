@@ -35,9 +35,19 @@ exports.run = function (client, message, args) {
     }
 
     message.channel.send("Changed prefix to: " + args[0]);
-    client.dbAlias.collection(message.guild.id).update({_id: "config"}, {$set: {"config":{"prefix":args[0]}}}, {upsert:true, w: 1}, function () {
-    })
-    
+    client.dbGuild.collection(message.guild.id).update({
+        _id: "config"
+    }, {
+        $set: {
+            config: {
+                prefix: args[0]
+            }
+        }
+    }, {
+        upsert: true,
+        w: 1
+    }, function () {})
+
 }
 
 exports.help = {

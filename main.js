@@ -18,10 +18,10 @@ const loadConfig = require('./lib/loadConfig.js');
 const fs = require("fs");
 client.commands = new Discord.Collection();
 fs.readdir("./commands/", (err, files) => {
-  if(err) console.error(err);
+  if (err) console.error(err);
 
   let jsfiles = files.filter(f => f.split(".").pop() == "js");
-  if(jsfiles.length <= 0) {
+  if (jsfiles.length <= 0) {
     console.log("No commands to load");
     return;
   }
@@ -41,19 +41,20 @@ fs.readdir("./commands/", (err, files) => {
 //MongoDB setup and connect to databases
 var mongojs = require('mongojs');
 client.dbLogs = mongojs("mongodb://localhost:27017/logs");
-client.dbAlias = mongojs("mongodb://localhost:27017/alias");
+client.dbGuild = mongojs("mongodb://localhost:27017/guilds");
 client.dbConfig = mongojs("mongodb://localhost:27017/config");
 
 //Connecting to discord with the client
 client.on("ready", () => {
   //console.log(`Moverbot has started in ${client.guilds.size} guilds.`); 
-  console.log("Moverbot ready");
+
   //client.user.setActivity(`Moverbot starting.`);
   const tUM = require('./lib/tUM.js');
   tUM(client, 0);
   //client.user.setActivity('commands', { type: 'LISTENING' })
   //.then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'Moved a total of '}`))
   //.catch(console.error);
+  console.log("Moverbot ready");
 });
 
 
@@ -68,20 +69,20 @@ client.on("message", async message => {
   //Only accept channel with name move
   if (message.channel.name != "moverbot") return;
   //Dont read bot messages.
-  if(message.author.bot) return;
+  if (message.author.bot) return;
 
   //Ignores all messages without the prefix
   //Load async config from the mongoDB.
-  loadConfig(message, client.dbAlias, function(config) {
+  loadConfig(message, client.dbGuild, function (config) {
     client.config.prefix = config.prefix;
     //console.log(client.config)
-    if(!message.content.startsWith(client.config.prefix)) return;
+    if (!message.content.startsWith(client.config.prefix)) return;
     //If message is only prefix = do nothing
-    if(message.content == client.config.prefix) {
+    if (message.content == client.config.prefix) {
       message.channel.send("Please enter a command");
       return;
     }
-    
+
     var args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
     var command = args.shift().toLowerCase();
     var newargs = [];
@@ -91,13 +92,13 @@ client.on("message", async message => {
       if (args[i].startsWith('"')) {
         newargs[i] = args[i].slice(1); //slice removes "
         if (!args[i].endsWith('"')) {
-          j = i+1;
-          while(j < args.length) {
-              newargs[i] = newargs[i] + " " + args[j];
-              if (args[j].endsWith('"')) {
-                newargs[i] = newargs[i].slice(0, -1).toLowerCase();
-                break;
-              }
+          j = i + 1;
+          while (j < args.length) {
+            newargs[i] = newargs[i] + " " + args[j];
+            if (args[j].endsWith('"')) {
+              newargs[i] = newargs[i].slice(0, -1).toLowerCase();
+              break;
+            }
             j++
           }
           i = j;
@@ -114,7 +115,7 @@ client.on("message", async message => {
     });
 
     //Load async alias from MongoDB.
-    loadAlias(message, client.dbAlias, function(alias) {
+    loadAlias(message, client.dbGuild, function (alias) {
       //Check if command is an alias for a channel.
       for (var key in alias) {
         if (alias[key].includes(command)) {
@@ -134,7 +135,6 @@ client.on("message", async message => {
   });
   //Logging every command
   log(message, client.dbLogs);
-  }
-);
+});
 
 client.login(client.config.token);

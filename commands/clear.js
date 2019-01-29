@@ -1,20 +1,22 @@
-const helpMessage = require('../lib/helpMessage.js'); 
+const helpMessage = require('../lib/helpMessage.js');
 
 exports.run = async function (client, message) {
 
-  messages = await message.channel.fetchMessages({ limit: 100 })
+  messages = await message.channel.fetchMessages({
+    limit: 100
+  })
 
   message.channel.bulkDelete(messages, true)
-    .then(function(deletedMessages) {
+    .then(function (deletedMessages) {
       for (let [dsnowflake, dMessage] of deletedMessages) {
         for (let [snowflake, Message] of messages) {
-          if (dMessage.id == Message.id){
+          if (dMessage.id == Message.id) {
             messages.delete(snowflake)
           }
         }
       };
       //console.log(messages.size);
-      if (messages.size != 0){
+      if (messages.size != 0) {
         messages.forEach(mess => {
           mess.delete()
             .catch(console.error);
@@ -25,8 +27,8 @@ exports.run = async function (client, message) {
         }*/
       }
     })
-    .catch(function(error) {
-      if (error.code == 50013){
+    .catch(function (error) {
+      if (error.code == 50013) {
         console.log(error.code);
       } else if (error.code == 10008) { //Unknown Message
         console.log(error.code);
