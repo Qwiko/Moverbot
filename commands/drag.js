@@ -38,7 +38,7 @@ exports.run = function (client, message, args, alias) {
     }
 
     if (newChannel.members.size == 0) {
-        message.channel.send("There is no players in: *" + newChannel.name + "*.");
+        message.channel.send("There is no users in: *" + newChannel.name + "*.");
         return;
     }
 
@@ -50,7 +50,7 @@ exports.run = function (client, message, args, alias) {
             .catch(console.error);
         counter++;
     })
-    message.channel.send("Dragged " + counter + (counter == 1 ? ' user' : ' users') + ' from channel: *' + newChannel.name + '* to the channel: *' + currentChannel.name + '*.');
+    message.channel.send("Dragged " + counter + (counter == 1 ? ' user' : ' users') + ' from channel: *' + newChannel.name + '* to channel: *' + currentChannel.name + '*.');
     const tUM = require('../lib/tUM.js');
     tUM(client, counter);
 }

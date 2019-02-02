@@ -6,7 +6,9 @@ exports.run = function (client, message, args) {
         ":",
         ";",
         "!!",
-        ".."
+        "..",
+        "--",
+        "-"
     ]
 
     if (typeof args[0] == "undefined") {
