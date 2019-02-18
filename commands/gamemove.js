@@ -2,7 +2,7 @@ exports.run = function (client, message, args, alias) {
     users = client.guild.config.users;
 
     //Check if arguments exists and contain what we want
-    if (args.length == 0 || ["on", "off"].includes(args[0])) {
+    if (args.length == 0 || !["on", "off"].includes(args[0])) {
         message.channel.send("Usage: " + client.guild.config.prefix + "gamemove on/off");
         return;
     }
@@ -17,10 +17,18 @@ exports.run = function (client, message, args, alias) {
     }
 
     if (args[0] == "on") {
+        if (users[message.author.id]) {
+            message.channel.send("Automatic moving is already on for " + message.author.username + ".");
+            return;
+        }
         set = true;
         //console.log("Setting to true")
         message.channel.send("Turning on automatic moving for " + message.author.username + ".");
     } else if (args[0] == "off") {
+        if (!users[message.author.id]) {
+            message.channel.send("Automatic moving is already off for " + message.author.username + ".");
+            return;
+        }
         set = false;
         //console.log("Setting to false")
         message.channel.send("Turning off automatic moving for " + message.author.username + ".");
