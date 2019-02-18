@@ -2,7 +2,6 @@ const tUM = require('../lib/tUM.js');
 const loadAlias = require('../lib/loadAlias.js');
 const loadConfig = require('../lib/loadConfig.js');
 
-//Waiting for messages
 module.exports = async (client, oldMember, newMember) => {
     //Do not read bot updates.
     if (newMember.user.bot) return;
@@ -22,13 +21,12 @@ module.exports = async (client, oldMember, newMember) => {
         users = config.users;
 
         if (typeof config.users == "undefined") {
-            //No data means no users active presence mover.
+            //No data means no users have activated presencemoving.
             return;
         }
         //console.log(config);
         if (users[newMember.id] == null || users[newMember.id] == false) {
-            //Send message to enable presenceupdater.
-            //Send to user but enable in guild.
+            //If we can't find information about the user in the database skip, or if they have opted out.
             return;
         }
 

@@ -26,7 +26,7 @@ Drag users from a channel to your channel !drag CHANNELNAME.
 !gamemove/!g
 Enable or disable automatic moving depending on your game with !gamemove on/off.
 !help/!h
-Shows the help-message.
+Shows this help-message.
 !move/!m
 Move users from your current channel to another with !move CHANNELNAME.
 !prefix

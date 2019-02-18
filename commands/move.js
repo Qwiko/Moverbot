@@ -4,12 +4,13 @@ exports.run = function (client, message, args, alias) {
   newChannelId = "";
   newChannelName = args[0];
 
-
+  //Check if no argument is passed
   if (typeof newChannelName == "undefined") {
     message.channel.send("Please provide a channelname.");
     return;
   }
 
+  //Tried to find the channelID from the name
   for (var key in alias) {
     if (alias[key].includes(newChannelName)) {
       newChannelId = key;
@@ -17,16 +18,19 @@ exports.run = function (client, message, args, alias) {
     }
   }
 
+  //Check if no key is found
   if (newChannelId == "") {
     message.channel.send("There is no such channel: *" + newChannelName + "*.");
     return;
   }
 
+  //Check if the user is part of a voicechannel.
   if (typeof currentChannel === 'undefined') {
     message.channel.send("You are not part of a voicechannel.");
     return;
   }
 
+  //Check if it is the same channel.
   if (currentChannel.id == newChannelId) {
     message.channel.send("You are already in that channel.");
     return;

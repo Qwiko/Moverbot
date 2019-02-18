@@ -1,6 +1,8 @@
 const addToAlias = require('../lib/aliasTools.js');
 
 exports.run = function (client, message, args, alias) {
+
+  //If no args are passed through just list the aliases.
   if (args.length == 0) {
     message.delete();
     //Show aliases

@@ -32,6 +32,10 @@ module.exports = async (client, message) => {
         var newargs = [];
 
         //args cleanup
+
+
+        //Create a function for this and pass on "" or ''
+        
         for (var i = 0; i < args.length; i++) {
             if (args[i].startsWith('"')) {
                 newargs[i] = args[i].slice(1); //slice removes "
