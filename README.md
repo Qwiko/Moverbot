@@ -23,6 +23,8 @@ See current aliases and create new ones with: !alias CHANNELNAME alias.
 Clears this channel from messages.
 !drag/!d
 Drag users from a channel to your channel !drag CHANNELNAME.
+!gamemove/!g
+Enable or disable automatic moving depending on your game with !gamemove on/off.
 !help/!h
 Shows the help-message.
 !move/!m
