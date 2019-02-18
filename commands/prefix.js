@@ -35,15 +35,17 @@ exports.run = function (client, message, args) {
         message.channel.send("You already have that prefix set.");
         return;
     }
+    config = client.guild.config;
+    config.prefix = args[0]
+
+
 
     message.channel.send("Changed prefix to: " + args[0]);
     client.dbGuild.collection(message.guild.id).update({
         _id: "config"
     }, {
         $set: {
-            config: {
-                prefix: args[0]
-            }
+            config
         }
     }, {
         upsert: true,

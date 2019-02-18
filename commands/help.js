@@ -7,6 +7,6 @@ exports.run = function (client, message, args, alias) {
 
 exports.help = {
     name: "help",
-    detail: "Shows the help-message.",
+    detail: "Shows this help-message.",
     aliases: ["h"]
 }

@@ -13,6 +13,7 @@ exports.run = function (client, message, args, alias) {
       if (arrayKey.length > 0) {
         aliasMessage += "**" + channelName + "**" + " = "
         for (i in arrayKey) {
+          if (arrayKey[i].length >= 6) continue;
           aliasMessage += arrayKey[i] + (i < arrayKey.length - 1 ? ', ' : '')
           //console.log(channelName)
         }
