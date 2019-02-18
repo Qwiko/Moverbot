@@ -6,7 +6,7 @@ exports.run = function (client, message, args, alias) {
         message.channel.send("Usage: " + client.guild.config.prefix + "gamemove on/off");
         return;
     }
-    
+
     //If no data is found for this guild, create a temporary json array if the user wants to set to on.
     if (typeof users == "undefined") {
         users = {}
