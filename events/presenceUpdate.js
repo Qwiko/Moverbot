@@ -25,7 +25,7 @@ module.exports = async (client, oldMember, newMember) => {
             return;
         }
         //console.log(config);
-        if (users[newMember.id] == null || users[newMember.id] == false) {
+        if (users[newMember.id] == null || users[newMember.id].enabled == false) {
             //If we can't find information about the user in the database skip, or if they have opted out.
             return;
         }
@@ -48,9 +48,20 @@ module.exports = async (client, oldMember, newMember) => {
                 //Already in right channel
                 return;
             }
-            newChannel = newMember.guild.channels.find(val => val.id === newChannelId);
-            newMember.setVoiceChannel(newChannel.id);
-            tUM(client, 1);
+            counter = 0
+            if (users[newMember.id].drag) {
+                //Move all users
+                newMember.voiceChannel.members.forEach(member => {
+                    member.setVoiceChannel(newChannelId)
+                        .catch(console.error);
+                    counter++;
+                })
+            } else {
+                //Move one user.
+                newMember.setVoiceChannel(newChannelId);
+                counter = 1;
+            }
+            tUM(client, counter);
         });
     });
 }
