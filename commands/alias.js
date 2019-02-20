@@ -1,56 +1,25 @@
-const addToAlias = require('../lib/aliasTools.js');
+const displayAlias = require('../lib/alias/displayAlias.js');
+const deleteAlias = require('../lib/alias/deleteAlias.js');
+const addAlias = require('../lib/alias/addAlias.js');
 
 exports.run = function (client, message, args, alias) {
-
-  //If no args are given, display current aliases.
   if (args.length == 0) {
-    aliasMessage = "";
-
-    //Loop over json file with
-    //channel.id as key: [array of aliases] as value
-    for (key in alias) {
-      //Find channel
-      channel = message.guild.channels.find(val => val.id === key);
-
-      //Shift removes channelname which is the first element.
-      alias[key].shift()
-
-      //Show only those who have aliases
-      if (alias[key].length > 0) {
-        //Channelname =
-        aliasMessage += "**" + channel.name + "**" + " = "
-
-        //Dont display the really long aliases.
-        alias[key] = alias[key].filter(word => word.length < 7);
-
-        //Loop over array of aliases
-        alias[key].forEach(element => {
-          //Add 
-          aliasMessage += element + (alias[key].indexOf(element) < alias[key].length - 1 ? ', ' : '')
-          //console.log(channelName)
-        });
-        //Newline when switching to another channel
-        aliasMessage += "\n"
-      }
+    //If no args are given, display current aliases.
+    displayAlias(message, alias);
+  } else { //Arguments are given
+    //No second argument
+    if (typeof args[1] == "undefined") {
+      message.channel.send("Please specify a second argument.");
+      return;
     }
-    //Check if the guild have aliases configured.
-    if (aliasMessage.trim().length > 0) {
-      message.channel.send({
-        embed: {
-          title: "Aliases",
-          color: 0x43b581,
-          description: aliasMessage
-        }
-      });
+    if (args[0] == "del") {
+      deleteAlias(client, message, args, alias);
     } else {
-      //No aliasMessage = no aliases.
-      message.channel.send("You have no aliases configured.")
+      addAlias(client, message, args, alias);
     }
-  } else {
-    //If arguments do this
-    addToAlias(client, message, alias, args);
   }
 }
+
 exports.help = {
   name: "alias",
   detail: "See current aliases and create new ones with: ${PREFIX}alias CHANNELNAME alias.",
