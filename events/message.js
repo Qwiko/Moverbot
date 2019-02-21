@@ -1,5 +1,4 @@
 const log = require('../lib/log.js');
-const loadAlias = require('../lib/loadAlias.js');
 const loadConfig = require('../lib/loadConfig.js');
 
 //Waiting for messages
@@ -17,9 +16,9 @@ module.exports = async (client, message) => {
     //Ignores all messages without the prefix
     //Load async config from the mongoDB.
     loadConfig(message, client.dbGuild, function (config) {
+        alias = config.alias;
         client.guild = {}
         client.guild.config = config;
-        //console.log(client.config)
         if (!message.content.startsWith(client.guild.config.prefix)) return;
         //If message is only prefix = do nothing
         if (message.content == client.guild.config.prefix) {
@@ -32,10 +31,6 @@ module.exports = async (client, message) => {
         var newargs = [];
 
         //args cleanup
-
-
-        //Create a function for this and pass on "" or ''
-
         for (var i = 0; i < args.length; i++) {
             if (args[i].startsWith('"')) {
                 newargs[i] = args[i].slice(1); //slice removes "
@@ -62,24 +57,22 @@ module.exports = async (client, message) => {
             return el != null;
         });
 
-        //Load async alias from MongoDB.
-        loadAlias(message, client.dbGuild, function (alias) {
-            //Check if command is an alias for a channel.
-            for (var key in alias) {
-                if (alias[key].includes(command)) {
-                    args[0] = command;
-                    command = "move";
-                    break;
-                }
-            }
-            const cmd = client.commands.get(command);
-            if (!cmd) {
-                message.channel.send("Cannot handle that command, please try again");
-                return;
-            }
 
-            cmd.run(client, message, args, alias);
-        });
+        for (var key in alias) {
+            if (alias[key].includes(command)) {
+                args[0] = command;
+                command = "move";
+                break;
+            }
+        }
+        const cmd = client.commands.get(command);
+        if (!cmd) {
+            message.channel.send("Cannot handle that command, please try again");
+            return;
+        }
+
+        cmd.run(client, message, args, alias);
+
     });
     //Logging every command
     log(message, client.dbLogs);

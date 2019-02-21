@@ -17,12 +17,15 @@ Commands to use the bot:
 ```text
 !alias/!a
 See current aliases and create new ones with: !alias CHANNELNAME alias.
+Delete aliases with !alias del alias and hide aliases with !alias hide alias.
+Display hidden aliases with !alias displayall.
+!alias works aswell to move between channels.
 !clear/!c
 Clears this channel from messages.
 !drag/!d
-Drag users from a channel to your channel !drag CHANNELNAME.
+Drags users from a channel to your channel with: !drag CHANNELNAME.
 !gamemove/!g
-Enable or disable automatic moving depending on your game with !gamemove on/off.
+Enable or disable automatic moving depending on your game with !gamemove on/off, optional argument: 'drag', drags with all users from your channel when you switch game.
 !help/!h
 Shows this help-message.
 !move/!m

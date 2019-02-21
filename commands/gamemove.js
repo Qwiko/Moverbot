@@ -1,3 +1,5 @@
+const updateConfig = require("../lib/updateConfig.js");
+
 exports.run = function (client, message, args, alias) {
     //Check if arguments exists and contain what we want
     if (args.length == 0 || !["on", "off"].includes(args[0])) {
@@ -26,26 +28,17 @@ exports.run = function (client, message, args, alias) {
         }
         message.channel.send(m);
     } else if (args[0] == "off") {
-        config.users[message.author.id].enabled = false;
-        config.users[message.author.id].drag = false;
+        for (var v in config.users[message.author.id]) {
+            config.users[message.author.id][v] = false;
+        }
         message.channel.send("Turning off automatic moving for " + message.author.username + ".");
     }
 
-    config = client.guild.config;
-    client.dbGuild.collection(message.guild.id).update({
-        _id: "config"
-    }, {
-        $set: {
-            config
-        }
-    }, {
-        upsert: true,
-        w: 1
-    }, function () {})
+    updateConfig(client, message);
 };
 
 exports.help = {
     name: "gamemove",
-    detail: "Enable or disable automatic moving depending on your game with ${PREFIX}gamemove on/off.",
+    detail: "Enable or disable automatic moving depending on your game with ${PREFIX}gamemove on/off, optional argument: 'drag', drags with all users from your channel when you switch game.",
     aliases: ["g"]
 }

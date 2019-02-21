@@ -1,5 +1,4 @@
 const tUM = require('../lib/tUM.js');
-const loadAlias = require('../lib/loadAlias.js');
 const loadConfig = require('../lib/loadConfig.js');
 
 module.exports = async (client, oldMember, newMember) => {
@@ -15,53 +14,49 @@ module.exports = async (client, oldMember, newMember) => {
     //Load config
     data = {}
     data.guild = newMember.guild
-    //console.log(data)
     loadConfig(data, client.dbGuild, function (config) {
 
         users = config.users;
-
         if (typeof config.users == "undefined") {
             //No data means no users have activated presencemoving.
             return;
         }
-        //console.log(config);
         if (users[newMember.id] == null || users[newMember.id].enabled == false) {
             //If we can't find information about the user in the database skip, or if they have opted out.
             return;
         }
 
-        loadAlias(data, client.dbGuild, function (alias) {
-            gamename = newMember.presence.game.name.toLowerCase();
-            newChannelId = "";
 
-            for (var key in alias) {
-                if (alias[key].includes(gamename)) {
-                    newChannelId = key;
-                    break;
-                }
+        gamename = newMember.presence.game.name.toLowerCase();
+        newChannelId = "";
+
+        for (var key in client.guild.config.alias) {
+            if (client.guild.config.alias[key].includes(gamename)) {
+                newChannelId = key;
+                break;
             }
-            if (newChannelId == "") {
-                //No channel found.
-                return;
-            }
-            if (newMember.voiceChannelID == newChannelId) {
-                //Already in right channel
-                return;
-            }
-            counter = 0
-            if (users[newMember.id].drag) {
-                //Move all users
-                newMember.voiceChannel.members.forEach(member => {
-                    member.setVoiceChannel(newChannelId)
-                        .catch(console.error);
-                    counter++;
-                })
-            } else {
-                //Move one user.
-                newMember.setVoiceChannel(newChannelId);
-                counter = 1;
-            }
-            tUM(client, counter);
-        });
+        }
+        if (newChannelId == "") {
+            //No channel found.
+            return;
+        }
+        if (newMember.voiceChannelID == newChannelId) {
+            //Already in right channel
+            return;
+        }
+        counter = 0
+        if (users[newMember.id].drag) {
+            //Move all users
+            newMember.voiceChannel.members.forEach(member => {
+                member.setVoiceChannel(newChannelId)
+                    .catch(console.error);
+                counter++;
+            })
+        } else {
+            //Move one user.
+            newMember.setVoiceChannel(newChannelId);
+            counter = 1;
+        }
+        tUM(client, counter);
     });
 }
