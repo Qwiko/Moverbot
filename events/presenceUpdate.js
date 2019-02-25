@@ -10,6 +10,8 @@ module.exports = async (client, oldMember, newMember) => {
     if (newMember.voiceChannelID == null) return;
     //Does not move while the user changes status.
     if (oldMember.presence.status != newMember.presence.status) return;
+    //Only move if the user is online.
+    if (newMember.presence.status != "online") return;
 
     //Load config
     data = {}
@@ -30,8 +32,8 @@ module.exports = async (client, oldMember, newMember) => {
         gamename = newMember.presence.game.name.toLowerCase();
         newChannelId = "";
 
-        for (var key in client.guild.config.alias) {
-            if (client.guild.config.alias[key].includes(gamename)) {
+        for (var key in config.alias) {
+            if (config.alias[key].includes(gamename)) {
                 newChannelId = key;
                 break;
             }

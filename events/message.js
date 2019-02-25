@@ -13,12 +13,13 @@ module.exports = async (client, message) => {
     //Dont read bot messages.
     if (message.author.bot) return;
 
-    //Ignores all messages without the prefix
+    
     //Load async config from the mongoDB.
     loadConfig(message, client.dbGuild, function (config) {
         alias = config.alias;
         client.guild = {}
         client.guild.config = config;
+        //Ignores all messages without the prefix
         if (!message.content.startsWith(client.guild.config.prefix)) return;
         //If message is only prefix = do nothing
         if (message.content == client.guild.config.prefix) {
