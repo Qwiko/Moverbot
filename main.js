@@ -16,8 +16,8 @@ client.config = require("./files/config.json");
 const fs = require("fs");
 
 //Mongojs setup
-var mongojs = require('mongojs');
-var serverip = "mongodb://192.168.0.113:27017"
+var mongojs = require("mongojs");
+var serverip = "mongodb://192.168.0.113:27017";
 client.dbLogs = mongojs(serverip + "/logs");
 client.dbGuild = mongojs(serverip + "/guilds");
 client.dbConfig = mongojs(serverip + "/config");

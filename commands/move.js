@@ -1,5 +1,4 @@
-exports.run = function (client, message, args, alias) {
-
+exports.run = function(client, message, args, alias) {
   currentChannel = message.member.voiceChannel;
   newChannelId = "";
   newChannelName = args[0];
@@ -25,7 +24,7 @@ exports.run = function (client, message, args, alias) {
   }
 
   //Check if the user is part of a voicechannel.
-  if (typeof currentChannel === 'undefined') {
+  if (typeof currentChannel === "undefined") {
     message.channel.send("You are not part of a voicechannel.");
     return;
   }
@@ -39,17 +38,24 @@ exports.run = function (client, message, args, alias) {
   //Moving users
   counter = 0;
   currentChannel.members.forEach(member => {
-    member.setVoiceChannel(newChannelId)
-      .catch(console.error);
+    member.setVoiceChannel(newChannelId).catch(console.error);
     counter++;
-  })
-  message.channel.send("Moved " + counter + (counter == 1 ? ' user' : ' users') + ' to the channel: *' + message.guild.channels.find(val => val.id === newChannelId).name + '*.');
-  const tUM = require('../lib/tUM.js');
+  });
+  message.channel.send(
+    "Moved " +
+      counter +
+      (counter == 1 ? " user" : " users") +
+      " to the channel: *" +
+      message.guild.channels.find(val => val.id === newChannelId).name +
+      "*."
+  );
+  const tUM = require("../lib/tUM.js");
   tUM(client, counter);
 };
 
 exports.help = {
   name: "move",
-  detail: "Move users from your current channel to another with ${PREFIX}move CHANNELNAME.",
+  detail:
+    "Move users from your current channel to another with ${PREFIX}move CHANNELNAME.",
   aliases: ["m"]
-}
+};

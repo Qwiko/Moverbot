@@ -3,20 +3,23 @@
 Welcome and join my discord channel to try out the bot!
 
 [Moverbot Discord](https://discord.gg/nqwS7GD)
-___
+
+---
 
 If you would like to add this bot to your channel use this link:
 
 <a href="https://discordapp.com/oauth2/authorize?client_id=449878054203031562&scope=bot&permissions=16870400" target="_blank">Add Moverbot</a>
 
 ---
+
 After adding the bot to your channel create a textchannel named **moverbot**.\
 In which you can write commands for the bot.
 
 Commands to use the bot:
+
 ```text
 !alias/!a
-See current aliases and create new ones with: !alias CHANNELNAME alias.
+See current aliases and create new ones with: !alias CHANNELNAME alias. Use "CHANNEL NAME" if it includes whitespaces.
 Delete aliases with !alias del alias and hide aliases with !alias hide alias.
 Display hidden aliases with !alias displayall.
 !alias works aswell to move between channels.
@@ -33,5 +36,7 @@ Move users from your current channel to another with !move CHANNELNAME.
 !prefix
 Change prefix for moverbot with: !prefix NEW_PREFIX.
 ```
+
 ---
-If you have any suggestions or bug-reports please contact me using git-hub or in the discord-channel. 
+
+If you have any suggestions or bug-reports please contact me using git-hub or in the discord-channel.
