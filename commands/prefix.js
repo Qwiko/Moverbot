@@ -1,6 +1,12 @@
 exports.run = function(client, message, args) {
   good_prefixes = ["!", ".", ",", ":", ";", "!!", "..", "--", "-"];
 
+  //Check if administrator
+  if (!message.member.hasPermission("ADMINISTRATOR")) {
+    message.channel.send("You need to be a administrator to change prefix.");
+    return;
+  }
+
   if (typeof args[0] == "undefined") {
     message.channel.send("Please provide a prefix.");
     return;
@@ -21,10 +27,11 @@ exports.run = function(client, message, args) {
   }
 
   //Check if it is the same prefix.
-  if (client.config.prefix == args[0]) {
+  if (client.guild.config.prefix == args[0]) {
     message.channel.send("You already have that prefix set.");
     return;
   }
+
   config = client.guild.config;
   config.prefix = args[0];
 

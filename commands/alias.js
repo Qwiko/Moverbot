@@ -15,11 +15,22 @@ exports.run = function(client, message, args) {
     }
   } else {
     //Arguments are given
+
+    //Check if administrator
+    if (!message.member.hasPermission("ADMINISTRATOR")) {
+      message.channel.send(
+        "You need to be a administrator to add or delete aliases."
+      );
+      return;
+    }
+
     //No second argument
     if (typeof args[1] == "undefined") {
       message.channel.send("Please specify a second argument.");
       return;
     }
+
+    //Check the second argument
     if (args[0] == "del") {
       deleteAlias(client, message, args);
     } else if (args[0] == "hide") {
