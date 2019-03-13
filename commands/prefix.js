@@ -2,7 +2,7 @@ exports.run = function(client, message, args) {
   good_prefixes = ["!", ".", ",", ":", ";", "!!", "..", "--", "-"];
 
   //Check if administrator
-  if (!message.member.hasPermission("ADMINISTRATOR")) {
+  if (!message.member.has("ADMINISTRATOR")) {
     message.channel.send("You need to be a administrator to change prefix.");
     return;
   }
