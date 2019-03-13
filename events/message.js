@@ -30,7 +30,7 @@ module.exports = async (client, message) => {
       .slice(client.guild.config.prefix.length)
       .trim()
       .split(/ +/g);
-    var command = args.shift().toLowerCase();
+    var command = args.shift();
     var newargs = [];
 
     //args cleanup
@@ -42,17 +42,17 @@ module.exports = async (client, message) => {
           while (j < args.length) {
             newargs[i] = newargs[i] + " " + args[j];
             if (args[j].endsWith('"')) {
-              newargs[i] = newargs[i].slice(0, -1).toLowerCase();
+              newargs[i] = newargs[i].slice(0, -1);
               break;
             }
             j++;
           }
           i = j;
         } else {
-          newargs[i] = newargs[i].slice(0, -1).toLowerCase();
+          newargs[i] = newargs[i].slice(0, -1);
         }
       } else {
-        newargs[i] = args[i].toLowerCase();
+        newargs[i] = args[i];
       }
     }
     //Returning to original args remove null elements
