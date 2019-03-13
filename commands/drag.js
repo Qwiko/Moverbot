@@ -5,6 +5,12 @@ exports.run = function(client, message, args, alias) {
   newChannelId = "";
   newChannelName = args[0];
 
+  //Check if the user can move members
+  if (!message.member.hasPermission("MOVE_MEMBERS")) {
+    message.channel.send("You do not have the correct permissions.");
+    return;
+  }
+
   if (typeof newChannelName == "undefined") {
     message.channel.send("Please provide a channelname.");
     return;
