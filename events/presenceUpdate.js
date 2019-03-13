@@ -27,7 +27,7 @@ module.exports = async (client, oldMember, newMember) => {
       return;
     }
 
-    gamename = newMember.presence.game.name.toLowerCase();
+    gamename = newMember.presence.game.name;
     newChannelId = "";
 
     for (var key in config.alias) {
