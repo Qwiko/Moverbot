@@ -44,5 +44,5 @@ exports.help = {
   name: "gamemove",
   detail:
     "Enable or disable automatic moving depending on your game with ${PREFIX}gamemove on/off, optional argument: 'drag', drags with all users from your channel when you switch game.",
-  aliases: ["g"]
+  aliases: ["gm"]
 };

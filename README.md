@@ -27,7 +27,7 @@ Display hidden aliases with !alias displayall.
 Clears this channel from messages.
 !drag/!d
 Drags users from a channel to your channel with: !drag CHANNELNAME.
-!gamemove/!g
+!gamemove/!gm
 Enable or disable automatic moving depending on your game with !gamemove on/off, optional argument: 'drag', drags with all users from your channel when you switch game.
 !help/!h
 Shows this help-message.
