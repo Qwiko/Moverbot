@@ -1,6 +1,5 @@
 const log = require("../lib/log.js");
 const loadConfig = require("../lib/loadConfig.js");
-
 //Waiting for messages
 module.exports = async (client, message) => {
   /////////////////////////////////

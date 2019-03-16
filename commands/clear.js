@@ -37,7 +37,7 @@ exports.run = async function(client, message) {
       }
     });
   //After cleared print out the helpmessage again.
-  helpMessage(message, client);
+  helpMessage(client, message);
 };
 
 exports.help = {

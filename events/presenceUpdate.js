@@ -4,10 +4,10 @@ const loadConfig = require("../lib/loadConfig.js");
 module.exports = async (client, oldMember, newMember) => {
   //Do not read bot updates.
   if (newMember.user.bot) return;
-  //Update does not refer to a game change.
-  if (newMember.presence.game == null) return;
   //Not in a voiceChannel
   if (newMember.voiceChannelID == null) return;
+  //Update does not refer to a game change.
+  if (newMember.presence.game == null) return;
   //Does not move while the user changes status.
   if (oldMember.presence.status != newMember.presence.status) return;
   //Only move if the user is online.
