@@ -30,7 +30,7 @@ module.exports = async (client, message) => {
       .slice(client.guild.config.prefix.length)
       .trim()
       .split(/ +/g);
-    var command = args.shift().toLowerCase();
+    var command = args.shift();
     var newargs = [];
 
     //args cleanup
@@ -67,7 +67,7 @@ module.exports = async (client, message) => {
         break;
       }
     }
-    const cmd = client.commands.get(command);
+    const cmd = client.commands.get(command.toLowerCase());
     if (!cmd) {
       message.channel.send("Cannot handle that command, please try again");
       return;
