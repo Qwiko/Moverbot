@@ -59,6 +59,7 @@ module.exports = async (client, message) => {
       return el != null;
     });
 
+    //Check if !alias
     for (var key in alias) {
       if (alias[key].includes(command)) {
         args[0] = command;
@@ -75,5 +76,5 @@ module.exports = async (client, message) => {
     cmd.run(client, message, args, alias);
   });
   //Logging every command
-  log(message, client.dbLogs);
+  log(client, message);
 };

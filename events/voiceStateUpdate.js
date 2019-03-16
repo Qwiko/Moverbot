@@ -2,6 +2,7 @@ const tUM = require("../lib/tUM.js");
 const loadConfig = require("../lib/loadConfig.js");
 
 module.exports = async (client, oldMember, newMember) => {
+  //Created for Yogcast_Cyan and idle AFK-channel.
   //Disconnected
   if (newMember.voiceChannelID == null) return;
 
