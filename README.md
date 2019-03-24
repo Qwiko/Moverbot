@@ -29,6 +29,8 @@ Clears this channel from messages.
 Drags users from a channel to your channel with: !drag CHANNELNAME.
 !gamemove/!gm
 Enable or disable automatic moving depending on your game with !gamemove on/off, optional argument: 'drag', drags with all users from your channel when you switch game.
+!gather
+Gathers all users from all channels to your channel with: !gather.
 !help/!h
 Shows this help-message.
 !move/!m
