@@ -2,7 +2,7 @@ const helpMessage = require("../lib/helpMessage.js");
 
 exports.run = function(client, message, args, alias) {
   //Prints out the helpmessage for the user.
-  helpMessage(message, client);
+  helpMessage(client, message);
 };
 
 exports.help = {
