@@ -39,7 +39,7 @@ exports.run = function(client, message, args, alias) {
     "Gathered " +
       counter +
       (counter == 1 ? " user" : " users") +
-      "* to channel: *" +
+      " to channel: *" +
       currentChannel.name +
       "*."
   );
