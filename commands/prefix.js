@@ -3,7 +3,7 @@ exports.run = function(client, message, args) {
 
   //Check if administrator
   if (!message.member.hasPermission("ADMINISTRATOR")) {
-    message.channel.send("You need to be a administrator to change prefix.");
+    message.channel.send("You need to be an administrator to change prefix.");
     return;
   }
 

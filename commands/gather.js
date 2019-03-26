@@ -4,7 +4,9 @@ exports.run = function(client, message, args, alias) {
   currentChannel = message.member.voiceChannel;
 
   if (!message.member.hasPermission("ADMINISTRATOR")) {
-    message.channel.send("You need to be a administrator to use this command.");
+    message.channel.send(
+      "You need to be an administrator to use this command."
+    );
     return;
   }
 
