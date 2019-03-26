@@ -8,39 +8,34 @@ exports.run = async function(client, message) {
     );
     return;
   }
-
-  //Create a loop that checkes the channel for messages to delete more than 100 at a time.
-  messages = await message.channel.fetchMessages({
-    limit: 100
-  });
-
-  message.channel
-    .bulkDelete(messages, true)
-    .then(function(deletedMessages) {
-      //Should be able to change this using filter instead.
-      for (let [dsnowflake, dMessage] of deletedMessages) {
-        for (let [snowflake, Message] of messages) {
-          if (dMessage.id == Message.id) {
-            messages.delete(snowflake);
-          }
-        }
-      }
-      if (messages.size != 0) {
-        messages.forEach(mess => {
-          mess.delete().catch(console.error);
-        });
-      }
-    })
-    .catch(function(error) {
-      if (error.code == 50013) {
-        console.log(error.code);
-      } else if (error.code == 10008) {
-        //Unknown Message
-        console.log(error.code);
-      } else {
-        console.log(error);
-      }
+  var i = 1;
+  while (true) {
+    messages = await message.channel.fetchMessages({
+      limit: 100
     });
+    if (messages.size == 0) break;
+    await message.channel
+      .bulkDelete(messages, true)
+      .then(deletedMessages => {
+        //Filtering out messages that did not get deleted.
+        messages = messages.filter(val => {
+          !deletedMessages.array().includes(val);
+        });
+        if (messages.size > 0) {
+          //Deleting messages older than 14 days
+          messages.deleteAll();
+        }
+      })
+      .catch(function(error) {
+        if (error.code == 50013) {
+          console.log(error.code);
+        } else if (error.code == 10008) {
+          //Unknown Message
+          console.log(error.code);
+        } else {
+          console.log(error);
+        }
+      });
   //After cleared print out the helpmessage again.
   helpMessage(client, message);
 };
