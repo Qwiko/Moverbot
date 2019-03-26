@@ -8,7 +8,6 @@ exports.run = async function(client, message) {
     );
     return;
   }
-  var i = 1;
   while (true) {
     messages = await message.channel.fetchMessages({
       limit: 100
@@ -36,6 +35,7 @@ exports.run = async function(client, message) {
           console.log(error);
         }
       });
+  }
   //After cleared print out the helpmessage again.
   helpMessage(client, message);
 };

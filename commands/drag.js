@@ -1,9 +1,11 @@
+const moveMembers = require("../lib/moveMembers.js");
+
 exports.run = function(client, message, args, alias) {
   //Drag users from a channel to yours.
 
-  currentChannel = message.member.voiceChannel;
-  newChannelId = "";
-  newChannelName = args[0];
+  newChannel = message.member.voiceChannel;
+  oldChannelId = "";
+  oldChannelName = args[0];
 
   //Check if the user can move members
   if (!message.member.hasPermission("MOVE_MEMBERS")) {
@@ -11,58 +13,61 @@ exports.run = function(client, message, args, alias) {
     return;
   }
 
-  if (typeof newChannelName == "undefined") {
+  if (typeof oldChannelName == "undefined") {
     message.channel.send("Please provide a channelname.");
     return;
   }
 
+  //Search the alias for the argument
   for (var key in alias) {
-    if (alias[key].includes(newChannelName)) {
-      newChannelId = key;
+    if (alias[key].includes(oldChannelName)) {
+      oldChannelId = key;
       break;
     }
   }
 
-  newChannel = message.guild.channels.find(val => val.id === newChannelId);
-
-  if (newChannelId == "") {
-    message.channel.send("There is no such channel: *" + newChannelName + "*.");
+  if (oldChannelId == "") {
+    message.channel.send("There is no such channel: *" + oldChannelName + "*.");
     return;
   }
 
-  if (typeof currentChannel === "undefined") {
+  if (typeof newChannel === "undefined") {
     message.channel.send("You are not part of a voicechannel.");
     return;
   }
 
-  if (currentChannel.id == newChannelId) {
+  if (newChannel.id == oldChannelId) {
     message.channel.send("You cannot select your own channel.");
     return;
   }
 
-  if (newChannel.members.size == 0) {
-    message.channel.send("There is no users in: *" + newChannel.name + "*.");
+  oldChannel = message.guild.channels.find(val => val.id === oldChannelId);
+
+  if (oldChannel.members.size == 0) {
+    message.channel.send("There is no users in: *" + oldChannel.name + "*.");
     return;
   }
 
   //Moving users
-  counter = 0;
-  newChannel.members.forEach(member => {
-    member.setVoiceChannel(currentChannel.id).catch(console.error);
+  var counter = moveMembers(client, oldChannel, newChannel);
+
+  /*counter = 0;
+  oldChannel.members.forEach(member => {
+    member.setVoiceChannel(newChannel.id).catch(console.error);
     counter++;
-  });
+  });*/
   message.channel.send(
     "Dragged " +
       counter +
       (counter == 1 ? " user" : " users") +
       " from channel: *" +
-      newChannel.name +
+      oldChannel.name +
       "* to channel: *" +
-      currentChannel.name +
+      newChannel.name +
       "*."
-  );
+  ); /*
   const tUM = require("../lib/tUM.js");
-  tUM(client, counter);
+  tUM(client, counter);*/
 };
 
 exports.help = {

@@ -1,5 +1,6 @@
 const tUM = require("../lib/tUM.js");
 const log = require("../lib/log.js");
+const moveMembers = require("../lib/moveMembers.js");
 const loadConfig = require("../lib/loadConfig.js");
 
 module.exports = async (client, oldMember, newMember) => {
@@ -46,17 +47,14 @@ module.exports = async (client, oldMember, newMember) => {
       return;
     }
     counter = 0;
-    if (users[newMember.id].drag) {
-      //Move all users
-      newMember.voiceChannel.members.forEach(member => {
-        member.setVoiceChannel(newChannelId).catch(console.error);
-        counter++;
-      });
-    } else {
-      //Move one user.
-      newMember.setVoiceChannel(newChannelId);
-      counter = 1;
-    }
+    newChannel = newMember.guild.channels.find(val => val.id === newChannelId);
+    //Move all users
+    counter = moveMembers(
+      client,
+      users[newMember.id].drag ? newMember.voiceChannel : newMember,
+      newChannel
+    );
+
     log(
       client,
       newMember.user.username,

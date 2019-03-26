@@ -26,7 +26,9 @@ module.exports = async (client, oldMember, newMember) => {
       //No channel found.
       return;
     }
+
     newMember.setVoiceChannel(newChannelId);
+
     log(
       client,
       newMember.user.username,

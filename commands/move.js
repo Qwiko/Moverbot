@@ -1,5 +1,6 @@
+const moveMembers = require("../lib/moveMembers.js");
 exports.run = function(client, message, args, alias) {
-  currentChannel = message.member.voiceChannel;
+  oldChannel = message.member.voiceChannel;
   newChannelId = "";
   newChannelName = args[0];
 
@@ -30,13 +31,13 @@ exports.run = function(client, message, args, alias) {
   }
 
   //Check if the user is part of a voicechannel.
-  if (typeof currentChannel === "undefined") {
+  if (typeof oldChannel === "undefined") {
     message.channel.send("You are not part of a voicechannel.");
     return;
   }
 
   //Check if it is the same channel.
-  if (currentChannel.id == newChannelId) {
+  if (oldChannel.id == newChannelId) {
     message.channel.send("You are already in that channel.");
     return;
   }
@@ -48,12 +49,8 @@ exports.run = function(client, message, args, alias) {
     );
     return;
   }
-  //Moving users
-  counter = 0;
-  currentChannel.members.forEach(member => {
-    member.setVoiceChannel(newChannelId).catch(console.error);
-    counter++;
-  });
+  var counter = moveMembers(client, oldChannel, newChannel);
+
   message.channel.send(
     "Moved " +
       counter +
@@ -62,8 +59,6 @@ exports.run = function(client, message, args, alias) {
       newChannel.name +
       "*."
   );
-  const tUM = require("../lib/tUM.js");
-  tUM(client, counter);
 };
 
 exports.help = {
