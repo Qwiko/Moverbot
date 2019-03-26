@@ -1,4 +1,5 @@
 const tUM = require("../lib/tUM.js");
+const log = require("../lib/log.js");
 const loadConfig = require("../lib/loadConfig.js");
 
 module.exports = async (client, oldMember, newMember) => {
@@ -56,6 +57,17 @@ module.exports = async (client, oldMember, newMember) => {
       newMember.setVoiceChannel(newChannelId);
       counter = 1;
     }
+    log(
+      client,
+      newMember.user.username,
+      newMember.id,
+      newMember.guild.name,
+      newMember.guild.id,
+      "Automoved to: '" +
+        newMember.guild.channels.find(val => val.id === newChannelId).name +
+        "':" +
+        newChannelId
+    );
     tUM(client, counter);
   });
 };
