@@ -1,6 +1,15 @@
 const helpMessage = require("../lib/helpMessage.js");
 
 exports.run = async function(client, message) {
+  //Check if administrator
+  if (!message.member.hasPermission("ADMINISTRATOR")) {
+    message.channel.send(
+      "You need to be an administrator to clear this channel."
+    );
+    return;
+  }
+
+  //Create a loop that checkes the channel for messages to delete more than 100 at a time.
   messages = await message.channel.fetchMessages({
     limit: 100
   });
@@ -8,6 +17,7 @@ exports.run = async function(client, message) {
   message.channel
     .bulkDelete(messages, true)
     .then(function(deletedMessages) {
+      //Should be able to change this using filter instead.
       for (let [dsnowflake, dMessage] of deletedMessages) {
         for (let [snowflake, Message] of messages) {
           if (dMessage.id == Message.id) {
@@ -15,15 +25,10 @@ exports.run = async function(client, message) {
           }
         }
       }
-      //console.log(messages.size);
       if (messages.size != 0) {
         messages.forEach(mess => {
           mess.delete().catch(console.error);
         });
-        /*for (let [snowflake, Message] of messages) {
-          Message.delete()
-            .catch(console.error);
-        }*/
       }
     })
     .catch(function(error) {
