@@ -16,15 +16,19 @@ exports.run = async function(client, message) {
     await message.channel
       .bulkDelete(messages, true)
       .then(deletedMessages => {
-        //Filtering out messages that did not get deleted.
-        messages = messages.filter(val => {
-          !deletedMessages.array().includes(val);
-        });
-        if (messages.size > 0) {
-          //Deleting messages older than 14 days
-          messages.deleteAll();
+        //Check if filter is needed or if bulkdelete deleted all messages.
+        if (messages.size != deletedMessages.size) {
+          //Filtering out messages that did not get deleted.
+          messages = messages.filter(val => {
+            !deletedMessages.array().includes(val);
+          });
+          if (messages.size > 0) {
+            //Deleting messages older than 14 days
+            messages.deleteAll();
+          }
         }
       })
+      //}
       .catch(function(error) {
         if (error.code == 50013) {
           console.log(error.code);
