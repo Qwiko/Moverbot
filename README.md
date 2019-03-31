@@ -17,6 +17,8 @@ In which you can write commands for the bot.
 
 Commands to use the bot:
 
+Visit the wiki: [here.](https://github.com/JakobMellberg/Moverbot/wiki)
+
 ```text
 !alias/!a
 See current aliases and create new ones with: !alias CHANNELNAME alias. Use "CHANNEL NAME" if it includes whitespaces.
