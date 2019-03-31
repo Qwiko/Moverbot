@@ -17,7 +17,7 @@ In which you can write commands for the bot.
 
 Commands to use the bot:
 
-Visit the wiki: [here.](https://github.com/JakobMellberg/Moverbot/wiki)
+Visit the wiki: [here.](https://github.com/Qwiko/Moverbot/wiki)
 
 ```text
 !alias/!a
