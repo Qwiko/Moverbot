@@ -59,8 +59,6 @@ module.exports = async (client, oldMember, newMember) => {
       client,
       newMember.user.username,
       newMember.id,
-      newMember.guild.name,
-      newMember.guild.id,
       "Automoved to: '" +
         newMember.guild.channels.find(val => val.id === newChannelId).name +
         "':" +

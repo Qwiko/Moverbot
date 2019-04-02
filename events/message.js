@@ -75,13 +75,6 @@ module.exports = async (client, message) => {
 
     cmd.run(client, message, args, alias);
     //Logging every command
-    log(
-      client,
-      message.author.username,
-      message.author.id,
-      message.guild.name,
-      message.guild.id,
-      message.content
-    );
+    log(client, message.author.username, message.author.id, message.content);
   });
 };
