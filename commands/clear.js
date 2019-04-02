@@ -4,7 +4,7 @@ exports.run = async function(client, message) {
   //Check if administrator
   if (!message.member.hasPermission("ADMINISTRATOR")) {
     message.channel.send(
-      "You need to be an administrator to use this channel."
+      "You need to be an administrator to use this command."
     );
     return;
   }
