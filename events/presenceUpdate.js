@@ -3,7 +3,8 @@ const log = require("../lib/log.js");
 const moveMembers = require("../lib/moveMembers.js");
 const loadConfig = require("../lib/loadConfig.js");
 
-module.exports = async (client, oldMember, newMember) => {
+module.exports = (client, oldMember, newMember) => {
+  console.log("statechange " + newMember.user.username);
   //Do not read bot updates.
   if (newMember.user.bot) return;
   //Not in a voiceChannel
@@ -48,6 +49,7 @@ module.exports = async (client, oldMember, newMember) => {
     }
     counter = 0;
     newChannel = newMember.guild.channels.find(val => val.id === newChannelId);
+    console.log("moving " + newMember.user.username);
     //Move all users
     counter = moveMembers(
       client,
@@ -59,6 +61,7 @@ module.exports = async (client, oldMember, newMember) => {
       client,
       newMember.user.username,
       newMember.id,
+      newMember.guild.id,
       "Automoved to: '" +
         newMember.guild.channels.find(val => val.id === newChannelId).name +
         "':" +

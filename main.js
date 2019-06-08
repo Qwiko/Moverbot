@@ -8,10 +8,10 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 
 //lib setup and config
-client.config = require("./files/config.json");
+//client.config = require("./files/config.json");
 
 //For testing
-//client.config = require("./files/config_test.json");
+client.config = require("./files/config_test.json");
 
 const fs = require("fs");
 
@@ -28,6 +28,7 @@ fs.readdir("./events/", (err, files) => {
   files.forEach(file => {
     const event = require(`./events/${file}`);
     let eventName = file.split(".")[0];
+    console.log(eventName);
     client.on(eventName, event.bind(null, client));
   });
 });
