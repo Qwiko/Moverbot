@@ -1,4 +1,5 @@
 # Moverbot
+[![Discord Bots](https://discordbots.org/api/widget/status/449878054203031562.svg?noavatar=true)](https://discordbots.org/bot/449878054203031562)
 
 Welcome and join my discord channel to try out the bot!
 
