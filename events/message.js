@@ -7,8 +7,6 @@ module.exports = async (client, message) => {
   /////////////////////////////////
   //Only accept text channel.
   if (message.channel.type != "text") return;
-  //Only accept channel with name move
-  if (message.channel.name != "moverbot") return;
   //Dont read bot messages.
   if (message.author.bot) return;
 
@@ -19,6 +17,8 @@ module.exports = async (client, message) => {
     client.guild.config = config;
     //Ignores all messages without the prefix
     if (!message.content.startsWith(client.guild.config.prefix)) return;
+    //Only accept channel with name move
+    if (message.channel.name != client.guild.config.channel) return;
     //If message is only prefix = do nothing
     if (message.content == client.guild.config.prefix) {
       message.channel.send("Please enter a command");
@@ -63,7 +63,7 @@ module.exports = async (client, message) => {
     for (var key in alias) {
       if (alias[key].includes(command)) {
         args[0] = command;
-        command = "move";
+        command = client.guild.config.aliasCommand;
         break;
       }
     }
