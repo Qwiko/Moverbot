@@ -39,8 +39,6 @@ Gathers all users from all channels to your channel with: !gather.
 Shows this help-message.
 !move/!m
 Move users from your current channel to another with !move CHANNELNAME.
-!prefix
-Change prefix for moverbot with: !prefix NEW_PREFIX.
 ```
 
 ---
