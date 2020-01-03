@@ -1,6 +1,9 @@
 module.exports = (client, guild) => {
   console.log("Joined a new guild: " + guild.name);
 
+  //Add log.
+
+
   //console.log(guild.owner.user.username);
   guild.owner.send(
     "Hello " +
