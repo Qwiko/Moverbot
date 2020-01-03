@@ -4,7 +4,7 @@ const moveMembers = require("../lib/moveMembers.js");
 const loadConfig = require("../lib/loadConfig.js");
 
 module.exports = (client, oldMember, newMember) => {
-  console.log("statechange " + newMember.user.username);
+  //console.log("statechange " + newMember.user.username);
   //Do not read bot updates.
   if (newMember.user.bot) return;
   //Not in a voiceChannel
