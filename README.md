@@ -1,5 +1,6 @@
 # Moverbot
 [![Discord Bots](https://discordbots.org/api/widget/status/449878054203031562.svg?noavatar=true)](https://discordbots.org/bot/449878054203031562)
+[![BuyMeACoffee](https://img.shields.io/badge/BuyMeACoffee-Donate-ff813f.svg?logo=CoffeeScript&style=flat-square)](https://www.buymeacoffee.com/Moverbot)
 
 Welcome and join my discord channel to try out the bot!
 
