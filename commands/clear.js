@@ -20,7 +20,7 @@ exports.run = async function(client, message) {
   .catch(console.error);
 
   //After cleared print out the helpmessage again.
-  helpMessage(client, message);
+  //helpMessage(client, message);
 };
 
 exports.help = {
