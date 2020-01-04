@@ -49,7 +49,7 @@ module.exports = (client, oldMember, newMember) => {
     }
     counter = 0;
     newChannel = newMember.guild.channels.find(val => val.id === newChannelId);
-    console.log("moving " + newMember.user.username);
+    //console.log("moving " + newMember.user.username);
     //Move all users
     counter = moveMembers(
       client,
