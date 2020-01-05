@@ -8,15 +8,16 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 
 //lib setup and config
-client.config = require("./files/config.json");
+//client.config = require("./files/config.json");
 
 //For testing
-//client.config = require("./files/config_test.json");
+client.config = require("./files/config_test.json");
+
 
 const fs = require("fs");
 
 //Mongojs setup
-var mongojs = require("mongojs");
+const mongojs = require("mongojs");
 
 client.dbLogs = mongojs(client.config.serverip + "/logs" + client.config.options);
 client.dbGuild = mongojs(client.config.serverip + "/guilds" + client.config.options);
