@@ -23,8 +23,6 @@ exports.run = function(client, message, args) {
     return;
   }
 
-
-
   //Arguments are given
 
   //Check if administrator
@@ -35,30 +33,22 @@ exports.run = function(client, message, args) {
     return;
   }
 
-  //No second argument
-  if (typeof args[1] == "undefined") {
-    message.channel.send("Please specify a second argument.");
-    return;
-  }
-
   //Check the second argument
   if (args[0] == "aliascommand") {
     changeAliasCommand(client, message, args);
 
   } else if (args[0] == "channel") {
-
     changeChannel(client, message, args);
 
   } else if (args[0] == "prefix") {
-
     changePrefix(client, message, args);
+
   }
-  
 };
 
 exports.help = {
   name: "config",
   detail:
-    "Change config",
+    "Change config for your server.",
   aliases: ["con"]
 };
