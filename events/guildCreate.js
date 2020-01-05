@@ -12,8 +12,8 @@ module.exports = (client, guild) => {
 
   log(
     client,
-    guild.owner.user.username,
-    guild.owner.id,
+    guild.name,
+    guild.id,
     "log",
     "Joined a new guild: " + guild.name + " with id: " + guild.id,
     "dbConfig"
