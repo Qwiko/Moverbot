@@ -21,14 +21,13 @@ module.exports = (client, oldMember, newMember) => {
   data.guild = newMember.guild;
   loadConfig(data, client.dbGuild, function(config) {
     users = config.users;
-    if (typeof config.users == "undefined") {
-      //No data means no users have activated presencemoving.
-      return;
-    }
-    if (users[newMember.id] == null || users[newMember.id].enabled == false) {
-      //If we can't find information about the user in the database skip, or if they have opted out.
-      return;
-    }
+
+    //No data means no users have activated presencemoving.
+    if (typeof config.users == "undefined") return;
+    
+    //If we can't find information about the user in the database skip, or if they have opted out.
+    if (users[newMember.id] == null || users[newMember.id].enabled == false) return;
+
 
     gamename = newMember.presence.game.name;
     newChannelId = "";
@@ -39,18 +38,16 @@ module.exports = (client, oldMember, newMember) => {
         break;
       }
     }
-    if (newChannelId == "") {
-      //No channel found.
-      return;
-    }
-    if (newMember.voiceChannelID == newChannelId) {
-      //Already in right channel
-      return;
-    }
+
+    //No channel found.
+    if (newChannelId == "") return;
+
+    //Already in right channel
+    if (newMember.voiceChannelID == newChannelId) return;
+
+
     counter = 0;
     newChannel = newMember.guild.channels.find(val => val.id === newChannelId);
-    //console.log("moving " + newMember.user.username);
-    //Move all users
     counter = moveMembers(
       client,
       users[newMember.id].drag ? newMember.voiceChannel : newMember,

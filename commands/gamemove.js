@@ -13,10 +13,12 @@ exports.run = function(client, message, args, alias) {
   if (typeof client.guild.config.users == "undefined") {
     client.guild.config.users = {};
   }
+
   if (typeof client.guild.config.users[message.author.id] == "undefined") {
     client.guild.config.users[message.author.id] = {};
     client.guild.config.users[message.author.id].enabled = false;
   }
+  
   if (args[0] == "on") {
     config.users[message.author.id].enabled = true;
     m = "Turning on automatic moving for " + message.author.username;
