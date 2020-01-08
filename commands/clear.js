@@ -13,8 +13,8 @@ exports.run = async function(client, message) {
   await message.channel.bulkDelete(messages, true).catch(function(error) {
     /* Handle error here for browser new page and return
        expected value for page if things fail */
-    console.log("bulk");
-    console.log(error);
+    //console.log("bulk");
+    //console.log(error);
   });
 
   // Get messages
@@ -22,8 +22,8 @@ exports.run = async function(client, message) {
     .fetchMessages({ limit: 100 })
     .then(messages => messages.deleteAll())
     .catch(error => {
-      console.log("single");
-      console.log(error);
+      //console.log("single");
+      //console.log(error);
     });
 
   //After cleared print out the helpmessage again.
