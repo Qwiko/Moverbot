@@ -1,5 +1,5 @@
 {
-  "name": "Moverbot",
+  "name": "moverbot",
   "version": "1.0.0",
   "description": "A discord bot that can move users between channels.",
   "main": "main.js",
