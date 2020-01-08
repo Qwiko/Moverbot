@@ -1,4 +1,4 @@
-const moveMembers = require("../lib/moveMembers.js");
+const tools = require("../lib/tools.js");
 
 exports.run = function(client, message, args, alias) {
   //Gathers all users to your voicechannel.
@@ -34,7 +34,7 @@ exports.run = function(client, message, args, alias) {
   allVoice.forEach(channel => {
     //Only move the channels with members inside.
     if (channel.members.size != 0) {
-      counter += moveMembers(client, channel, newChannel);
+      counter += tools.moveMembers(client, channel, newChannel);
     }
   });
   message.channel.send(

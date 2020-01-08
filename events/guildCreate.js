@@ -1,7 +1,6 @@
-const log = require("../lib/log.js");
+const tools = require("../lib/tools.js");
 
 module.exports = (client, guild) => {
-
   guild.owner.send(
     "Hello " +
       guild.owner.user.username +
@@ -10,7 +9,7 @@ module.exports = (client, guild) => {
       ".\nPlease create a textchannel named moverbot and write !help to start using Moverbot!\nAutomation of this process is being developed."
   );
 
-  log(
+  tools.log(
     client,
     guild.name,
     guild.id,
@@ -18,5 +17,4 @@ module.exports = (client, guild) => {
     "Joined a new guild: " + guild.name + " with id: " + guild.id,
     "dbConfig"
   );
-
 };

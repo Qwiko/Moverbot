@@ -8,20 +8,25 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 
 //lib setup and config
-//client.config = require("./files/config.json");
+client.config = require("./files/config.json");
 
 //For testing
-client.config = require("./files/config_test.json");
-
+//client.config = require("./files/config_test.json");
 
 const fs = require("fs");
 
 //Mongojs setup
 const mongojs = require("mongojs");
 
-client.dbLogs = mongojs(client.config.serverip + "/logs" + client.config.options);
-client.dbGuild = mongojs(client.config.serverip + "/guilds" + client.config.options);
-client.dbConfig = mongojs(client.config.serverip + "/serverconfig" + client.config.options);
+client.dbLogs = mongojs(
+  client.config.serverip + "/logs" + client.config.options
+);
+client.dbGuild = mongojs(
+  client.config.serverip + "/guilds" + client.config.options
+);
+client.dbConfig = mongojs(
+  client.config.serverip + "/serverconfig" + client.config.options
+);
 
 //Loading events
 fs.readdir("./events/", (err, files) => {
@@ -30,7 +35,8 @@ fs.readdir("./events/", (err, files) => {
     const event = require(`./events/${file}`);
     let eventName = file.split(".")[0];
     //console.log(eventName);
-    if(eventName != "voiceStateUpdate") client.on(eventName, event.bind(null, client));
+    if (eventName != "voiceStateUpdate")
+      client.on(eventName, event.bind(null, client));
   });
 });
 

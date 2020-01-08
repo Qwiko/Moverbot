@@ -1,6 +1,6 @@
-const tUM = require("../lib/tUM.js");
+const tools = require("../lib/tools.js");
 
 module.exports = client => {
-  tUM(client, 0);
+  tools.totalUsersMoved(client, 0);
   console.log("Moverbot ready");
 };

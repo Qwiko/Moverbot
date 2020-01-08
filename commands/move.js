@@ -1,4 +1,5 @@
-const moveMembers = require("../lib/moveMembers.js");
+const tools = require("../lib/tools.js");
+
 exports.run = function(client, message, args, alias) {
   oldChannel = message.member.voiceChannel;
   newChannelId = "";
@@ -49,7 +50,7 @@ exports.run = function(client, message, args, alias) {
     );
     return;
   }
-  var counter = moveMembers(client, oldChannel, newChannel);
+  var counter = tools.moveMembers(client, oldChannel, newChannel);
 
   message.channel.send(
     "Moved " +

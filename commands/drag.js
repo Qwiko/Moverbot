@@ -1,4 +1,4 @@
-const moveMembers = require("../lib/moveMembers.js");
+const tools = require("../lib/tools.js");
 
 exports.run = function(client, message, args, alias) {
   //Drag users from a channel to yours.
@@ -49,7 +49,7 @@ exports.run = function(client, message, args, alias) {
   }
 
   //Moving users
-  var counter = moveMembers(client, oldChannel, newChannel);
+  var counter = tools.moveMembers(client, oldChannel, newChannel);
 
   /*counter = 0;
   oldChannel.members.forEach(member => {

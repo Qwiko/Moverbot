@@ -1,6 +1,4 @@
-const tUM = require("../lib/tUM.js");
-const log = require("../lib/log.js");
-const loadConfig = require("../lib/loadConfig.js");
+const tools = require("../lib/tools.js");
 
 module.exports = async (client, oldMember, newMember) => {
   //Created for Yogcast_Cyan and idle AFK-channel.
@@ -13,7 +11,7 @@ module.exports = async (client, oldMember, newMember) => {
   //Load config
   data = {};
   data.guild = newMember.guild;
-  loadConfig(data, client.dbGuild, function(config) {
+  tools.loadConfig(data, client.dbGuild, function(config) {
     newChannelId = "";
 
     for (var key in config.alias) {
@@ -29,7 +27,7 @@ module.exports = async (client, oldMember, newMember) => {
 
     newMember.setVoiceChannel(newChannelId);
 
-    log(
+    tools.log(
       client,
       newMember.user.username,
       newMember.id,
@@ -39,6 +37,6 @@ module.exports = async (client, oldMember, newMember) => {
         "':" +
         newChannelId
     );
-    tUM(client, 1);
+    tools.totalUsersMoved(client, 1);
   });
 };

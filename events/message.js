@@ -1,5 +1,5 @@
-const log = require("../lib/log.js");
-const loadConfig = require("../lib/loadConfig.js");
+const tools = require("../lib/tools.js");
+
 //Waiting for messages
 module.exports = async (client, message) => {
   /////////////////////////////////
@@ -11,7 +11,7 @@ module.exports = async (client, message) => {
   if (message.author.bot) return;
 
   //Load async config from the mongoDB.
-  loadConfig(message, client.dbGuild, function(config) {
+  tools.loadConfig(message, client.dbGuild, function(config) {
     alias = config.alias;
     client.guild = {};
     client.guild.config = config;
@@ -75,7 +75,7 @@ module.exports = async (client, message) => {
 
     cmd.run(client, message, args, alias);
     //Logging every command
-    log(
+    tools.log(
       client,
       message.author.username,
       message.author.id,

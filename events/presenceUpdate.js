@@ -1,7 +1,4 @@
-const tUM = require("../lib/tUM.js");
-const log = require("../lib/log.js");
-const moveMembers = require("../lib/moveMembers.js");
-const loadConfig = require("../lib/loadConfig.js");
+const tools = require("../lib/tools.js");
 
 module.exports = (client, oldMember, newMember) => {
   //console.log("statechange " + newMember.user.username);
@@ -19,15 +16,15 @@ module.exports = (client, oldMember, newMember) => {
   //Load config
   data = {};
   data.guild = newMember.guild;
-  loadConfig(data, client.dbGuild, function(config) {
+  tools.loadConfig(data, client.dbGuild, function(config) {
     users = config.users;
 
     //No data means no users have activated presencemoving.
     if (typeof config.users == "undefined") return;
-    
-    //If we can't find information about the user in the database skip, or if they have opted out.
-    if (users[newMember.id] == null || users[newMember.id].enabled == false) return;
 
+    //If we can't find information about the user in the database skip, or if they have opted out.
+    if (users[newMember.id] == null || users[newMember.id].enabled == false)
+      return;
 
     gamename = newMember.presence.game.name;
     newChannelId = "";
@@ -45,16 +42,15 @@ module.exports = (client, oldMember, newMember) => {
     //Already in right channel
     if (newMember.voiceChannelID == newChannelId) return;
 
-
     counter = 0;
     newChannel = newMember.guild.channels.find(val => val.id === newChannelId);
-    counter = moveMembers(
+    counter = tools.moveMembers(
       client,
       users[newMember.id].drag ? newMember.voiceChannel : newMember,
       newChannel
     );
 
-    log(
+    tools.log(
       client,
       newMember.user.username,
       newMember.id,
@@ -64,6 +60,6 @@ module.exports = (client, oldMember, newMember) => {
         "':" +
         newChannelId
     );
-    tUM(client, counter);
+    tools.totalUsersMoved(client, counter);
   });
 };

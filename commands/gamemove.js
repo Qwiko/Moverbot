@@ -1,4 +1,4 @@
-const updateConfig = require("../lib/updateConfig.js");
+const tools = require("../lib/tools.js");
 
 exports.run = function(client, message, args, alias) {
   //Check if arguments exists and contain what we want
@@ -18,7 +18,7 @@ exports.run = function(client, message, args, alias) {
     client.guild.config.users[message.author.id] = {};
     client.guild.config.users[message.author.id].enabled = false;
   }
-  
+
   if (args[0] == "on") {
     config.users[message.author.id].enabled = true;
     m = "Turning on automatic moving for " + message.author.username;
@@ -39,7 +39,7 @@ exports.run = function(client, message, args, alias) {
     );
   }
 
-  updateConfig(client, message);
+  tools.updateConfig(client, message);
 };
 
 exports.help = {
