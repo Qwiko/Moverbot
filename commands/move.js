@@ -52,6 +52,11 @@ exports.run = function(client, message, args, alias) {
   }
   var counter = tools.moveMembers(client, oldChannel, newChannel);
 
+  if (!counter) {
+    message.channel.send("Channel " + newChannel.name + " is full");
+    return;
+  }
+
   message.channel.send(
     "Moved " +
       counter +

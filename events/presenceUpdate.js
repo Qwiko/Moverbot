@@ -50,6 +50,10 @@ module.exports = (client, oldMember, newMember) => {
       newChannel
     );
 
+    if (!counter) {
+      //Channel full, cannot join.
+      return;
+    }
     tools.log(
       client,
       newMember.user.username,
@@ -60,6 +64,5 @@ module.exports = (client, oldMember, newMember) => {
         "':" +
         newChannelId
     );
-    tools.totalUsersMoved(client, counter);
   });
 };
