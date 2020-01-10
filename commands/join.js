@@ -2,26 +2,11 @@ const tools = require("../lib/tools.js");
 
 exports.run = function(client, message, args, alias) {
   oldChannel = message.member.voiceChannel;
-  newChannelId = "";
-  newChannelName = args[0];
+  var newChannel;
 
   //Check if no argument is passed
-  if (typeof newChannelName == "undefined") {
+  if (typeof args[0] == "undefined") {
     message.channel.send("Please provide a channelname.");
-    return;
-  }
-
-  //Tried to find the channelID from the name
-  for (var key in alias) {
-    if (alias[key].includes(newChannelName)) {
-      newChannelId = key;
-      break;
-    }
-  }
-
-  //Check if no key is found
-  if (newChannelId == "") {
-    message.channel.send("There is no such channel: *" + newChannelName + "*.");
     return;
   }
 
@@ -31,12 +16,27 @@ exports.run = function(client, message, args, alias) {
     return;
   }
 
+  //Tried to find the channelID from the name
+  for (var key in alias) {
+    if (alias[key].includes(args[0])) {
+      //newChannelId = key;
+      newChannel = message.guild.channels.find(val => val.id === key);
+      break;
+    }
+  }
+
+  //Check if no key is found
+  if (typeof newChannel === "undefined") {
+    message.channel.send("There is no such channel: *" + args[0] + "*.");
+    return;
+  }
+
   //Check if it is the same channel.
-  if (oldChannel.id == newChannelId) {
+  if (oldChannel.id == newChannel.id) {
     message.channel.send("You are already in that channel.");
     return;
   }
-  newChannel = message.guild.channels.find(val => val.id === newChannelId);
+
   //Check if the user have permission for the channel.
   if (!newChannel.memberPermissions(message.member).has("CONNECT")) {
     message.channel.send(
@@ -48,7 +48,9 @@ exports.run = function(client, message, args, alias) {
   counter = tools.moveMembers(client, message.member, newChannel);
 
   if (!counter) {
-    message.channel.send("Channel " + newChannel.name + " is full");
+    message.channel.send(
+      "Could not move to " + newChannel.name + ", is it full?"
+    );
     return;
   }
 
