@@ -17,8 +17,13 @@ module.exports = async (client, message) => {
     client.guild.config = config;
     //Ignores all messages without the prefix
     if (!message.content.startsWith(client.guild.config.prefix)) return;
-    //Only accept channel with name move
-    if (message.channel.name != client.guild.config.channel) return;
+    //Only accept right channel that the bot works in
+    if (
+      message.channel.id != client.guild.config.channel &&
+      message.channel.name != "moverbot"
+    )
+      return;
+
     //If message is only prefix = do nothing
     if (message.content == client.guild.config.prefix) {
       message.channel.send("Please enter a command");
