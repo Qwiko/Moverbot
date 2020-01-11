@@ -2,7 +2,6 @@ const tools = require("../lib/tools.js");
 
 exports.run = function(client, message, args, alias) {
   //Drag users from a channel to yours.
-
   newChannel = message.member.voiceChannel;
   oldChannelId = "";
   oldChannelName = args[0];
@@ -51,11 +50,13 @@ exports.run = function(client, message, args, alias) {
   //Moving users
   var counter = tools.moveMembers(client, oldChannel, newChannel);
 
-  /*counter = 0;
-  oldChannel.members.forEach(member => {
-    member.setVoiceChannel(newChannel.id).catch(console.error);
-    counter++;
-  });*/
+  if (!counter) {
+    message.channel.send(
+      "Could not move to " + newChannel.name + ", is it full?"
+    );
+    return;
+  }
+
   message.channel.send(
     "Dragged " +
       counter +
@@ -65,9 +66,7 @@ exports.run = function(client, message, args, alias) {
       "* to channel: *" +
       newChannel.name +
       "*."
-  ); /*
-  const tUM = require("../lib/tUM.js");
-  tUM(client, counter);*/
+  );
 };
 
 exports.help = {
