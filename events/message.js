@@ -11,7 +11,7 @@ module.exports = async (client, message) => {
   if (message.author.bot) return;
 
   //Load async config from the mongoDB.
-  tools.loadConfig(message, client.dbGuild, function(config) {
+  tools.loadConfig(client, message, function (config) {
     alias = config.alias;
     client.guild = {};
     client.guild.config = config;
@@ -60,7 +60,7 @@ module.exports = async (client, message) => {
       }
     }
     //Returning to original args remove null elements
-    args = newargs.filter(function(el) {
+    args = newargs.filter(function (el) {
       return el != null;
     });
 

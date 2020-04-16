@@ -15,6 +15,6 @@ module.exports = (client, guild) => {
     guild.id,
     "log",
     "Joined a new guild: " + guild.name + " with id: " + guild.id,
-    "dbConfig"
+    (server = true)
   );
 };

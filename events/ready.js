@@ -1,6 +1,5 @@
 const tools = require("../lib/tools.js");
 
-module.exports = client => {
-  tools.totalUsersMoved(client, 0);
+module.exports = (client) => {
   console.log("Moverbot ready");
 };

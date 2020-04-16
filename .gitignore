@@ -6,3 +6,6 @@ Dockerfile
 files/config_test.json
 test.js
 console.js
+todo.md
+newdb.js
+testdb.js

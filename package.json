@@ -7,8 +7,9 @@
     "lib": "lib"
   },
   "dependencies": {
-    "mongojs": "^2.6.0",
-    "discord.js": "^11.5.1"
+    "discord.js": "^11.5.1",
+    "mongojs": "^3.1.0",
+    "node-cron": "^2.0.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
