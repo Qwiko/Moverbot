@@ -31,10 +31,7 @@ exports.run = function (client, message, args, alias) {
     return (
       val.type == "voice" &&
       val.id != newChannel.id &&
-      message.guild.members
-        .get(client.user.id)
-        .permissionsIn(val)
-        .has("MOVE_MEMBERS")
+      tools.checkPermissions(client, val)
     );
   });
   //Check if there are any members that can be moved. If the guild are empty exept for you.
@@ -67,6 +64,6 @@ exports.run = function (client, message, args, alias) {
 exports.help = {
   name: "gather",
   detail:
-    "Gathers all users from all channels to your channel with: ${PREFIX}gather.",
+    "Gathers all users from all channels to your channel with: ${PREFIX}gather. Optional you can send with ${PREFIX}gather CHANNELNAME",
   aliases: [],
 };
