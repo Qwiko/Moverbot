@@ -1,8 +1,9 @@
 # Moverbot
-[![Discord Bots](https://discordbots.org/api/widget/status/449878054203031562.svg?noavatar=true)](https://discordbots.org/bot/449878054203031562)
+
+[![Discord Bots](https://top.gg/api/widget/status/449878054203031562.svg?noavatar=True)](https://top.gg/bot/449878054203031562)
 [![BuyMeACoffee](https://img.shields.io/badge/BuyMeACoffee-Donate-ff813f.svg?logo=CoffeeScript&style=flat-square)](https://www.buymeacoffee.com/Moverbot)
 
-Welcome and join my discord channel to try out the bot!
+Welcome and join the Discord channel to try out the bot!
 
 [Moverbot Discord](https://discord.gg/nqwS7GD)
 
@@ -17,30 +18,8 @@ If you would like to add this bot to your channel use this link:
 After adding the bot to your channel create a textchannel named **moverbot**.\
 In which you can write commands for the bot.
 
-Commands to use the bot:
-
-Visit the wiki: [here.](https://github.com/Qwiko/Moverbot/wiki)
-
-```text
-!alias/!a
-See current aliases and create new ones with: !alias CHANNELNAME alias. Use "CHANNEL NAME" if it includes whitespaces.
-Delete aliases with !alias del alias and hide aliases with !alias hide alias.
-Display hidden aliases with !alias displayall.
-!alias works aswell to move between channels.
-!clear/!c
-Clears this channel from messages.
-!drag/!d
-Drags users from a channel to your channel with: !drag CHANNELNAME.
-!gamemove/!gm
-Enable or disable automatic moving depending on your game with !gamemove on/off, optional argument: 'drag', drags with all users from your channel when you switch game.
-!gather
-Gathers all users from all channels to your channel with: !gather.
-!help/!h
-Shows this help-message.
-!move/!m
-Move users from your current channel to another with !move CHANNELNAME.
-```
+Visit the wiki for a more detailed guide: [here.](https://github.com/Qwiko/Moverbot/wiki)
 
 ---
 
-If you have any suggestions or bug-reports please contact me using git-hub or in the discord-channel.
+If you have any suggestions or bug-reports please contact us in the Discord-channel.
