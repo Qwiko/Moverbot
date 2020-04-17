@@ -9,9 +9,7 @@ module.exports = async (client, oldMember, newMember) => {
     return;
   }
   //Load config
-  data = {};
-  data.guild = newMember.guild;
-  tools.loadConfig(client, data, function (config) {
+  tools.loadConfig(client, newMember.guild, function (config) {
     newChannelId = "";
 
     for (var key in config.alias) {

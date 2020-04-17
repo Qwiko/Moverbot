@@ -14,9 +14,7 @@ module.exports = (client, oldMember, newMember) => {
   if (newMember.presence.status != "online") return;
 
   //Load config
-  data = {};
-  data.guild = newMember.guild;
-  tools.loadConfig(client, data, function (config) {
+  tools.loadConfig(client, newMember.guild, function (config) {
     //No data means no users have activated presencemoving.
     if (typeof config.users == "undefined") return;
 

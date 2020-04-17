@@ -11,7 +11,7 @@ module.exports = async (client, message) => {
   if (message.author.bot) return;
 
   //Load async config from the mongoDB.
-  tools.loadConfig(client, message, function (config) {
+  tools.loadConfig(client, message.guild, function (config) {
     alias = config.alias;
     client.guild = {};
     client.guild.config = config;
