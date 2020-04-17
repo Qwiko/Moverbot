@@ -16,11 +16,11 @@ module.exports = (client, oldMember, newMember) => {
   //Load config
   data = {};
   data.guild = newMember.guild;
-  tools.loadConfig(data, client.dbGuild, function(config) {
-    users = config.users;
-
+  tools.loadConfig(client, data, function (config) {
     //No data means no users have activated presencemoving.
     if (typeof config.users == "undefined") return;
+
+    users = config.users;
 
     //If we can't find information about the user in the database skip, or if they have opted out.
     if (users[newMember.id] == null || users[newMember.id].enabled == false)
@@ -43,7 +43,9 @@ module.exports = (client, oldMember, newMember) => {
     if (newMember.voiceChannelID == newChannelId) return;
 
     counter = 0;
-    newChannel = newMember.guild.channels.find(val => val.id === newChannelId);
+    newChannel = newMember.guild.channels.find(
+      (val) => val.id === newChannelId
+    );
     counter = tools.moveMembers(
       client,
       users[newMember.id].drag ? newMember.voiceChannel : newMember,
@@ -60,7 +62,7 @@ module.exports = (client, oldMember, newMember) => {
       newMember.id,
       newMember.guild.id,
       "Automoved to: '" +
-        newMember.guild.channels.find(val => val.id === newChannelId).name +
+        newMember.guild.channels.find((val) => val.id === newChannelId).name +
         "':" +
         newChannelId
     );

@@ -11,7 +11,7 @@ module.exports = async (client, oldMember, newMember) => {
   //Load config
   data = {};
   data.guild = newMember.guild;
-  tools.loadConfig(data, client.dbGuild, function(config) {
+  tools.loadConfig(client, data, function (config) {
     newChannelId = "";
 
     for (var key in config.alias) {
@@ -33,7 +33,7 @@ module.exports = async (client, oldMember, newMember) => {
       newMember.id,
       newMember.guild.id,
       "AFK-moved to: '" +
-        newMember.guild.channels.find(val => val.id === newChannelId).name +
+        newMember.guild.channels.find((val) => val.id === newChannelId).name +
         "':" +
         newChannelId
     );
