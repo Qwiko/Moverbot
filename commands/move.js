@@ -1,7 +1,7 @@
 const tools = require("../lib/tools.js");
 
-exports.run = function(client, message, args, alias) {
-  oldChannel = message.member.voiceChannel;
+exports.run = function (client, message, args, alias) {
+  var oldChannel;
   var newChannel;
 
   //Check if the user can move members
@@ -16,30 +16,57 @@ exports.run = function(client, message, args, alias) {
     return;
   }
 
+  //Trying to find the channelID from the name
+  if (args.length >= 2) {
+    //Directional move
+    for (var key in alias) {
+      if (alias[key].includes(args[0])) {
+        //newChannelId = key;
+        oldChannel = message.guild.channels.find((val) => val.id === key);
+      }
+      if (alias[key].includes(args[1])) {
+        //newChannelId = key;
+        newChannel = message.guild.channels.find((val) => val.id === key);
+      }
+    }
+  } else {
+    oldChannel = message.member.voiceChannel;
+    //Standard move
+    for (var key in alias) {
+      if (alias[key].includes(args[0])) {
+        //newChannelId = key;
+        newChannel = message.guild.channels.find((val) => val.id === key);
+        break;
+      }
+    }
+  }
   //Check if the user is part of a voicechannel.
-  if (typeof oldChannel === "undefined") {
+  if (typeof oldChannel === "undefined" && args.length == 1) {
     message.channel.send("You are not part of a voicechannel.");
     return;
   }
 
-  //Tried to find the channelID from the name
-  for (var key in alias) {
-    if (alias[key].includes(args[0])) {
-      //newChannelId = key;
-      newChannel = message.guild.channels.find(val => val.id === key);
-      break;
-    }
+  //Check if no key is found
+  if (typeof oldChannel === "undefined") {
+    message.channel.send("There is no such channel: *" + args[0] + "*.");
+    return;
   }
 
   //Check if no key is found
   if (typeof newChannel === "undefined") {
-    message.channel.send("There is no such channel: *" + args[0] + "*.");
+    message.channel.send(
+      "There is no such channel: *" + args[args.length >= 2 ? 1 : 0] + "*."
+    );
     return;
   }
 
   //Check if it is the same channel.
   if (oldChannel.id == newChannel.id) {
-    message.channel.send("You are already in that channel.");
+    if (args.length == 1) {
+      message.channel.send("You are already in that channel.");
+    } else {
+      message.channel.send("Cannot move to the same channel");
+    }
     return;
   }
 
@@ -47,6 +74,16 @@ exports.run = function(client, message, args, alias) {
   if (!newChannel.memberPermissions(message.member).has("CONNECT")) {
     message.channel.send(
       "You do not have permission to move to channel: " + newChannel.name + "."
+    );
+    return;
+  }
+
+  //Cannot move from that channel
+  if (!tools.checkPermissions(client, oldChannel)) {
+    message.channel.send(
+      "Cannot move from " +
+        oldChannel.name +
+        ", I do not have permissions for that."
     );
     return;
   }
@@ -74,5 +111,5 @@ exports.help = {
   name: "move",
   detail:
     "Move users from your current channel to another with ${PREFIX}move CHANNELNAME.",
-  aliases: ["m"]
+  aliases: ["m"],
 };
