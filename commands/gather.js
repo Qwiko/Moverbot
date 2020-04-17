@@ -1,9 +1,18 @@
 const tools = require("../lib/tools.js");
 
-exports.run = function(client, message, args, alias) {
+exports.run = function (client, message, args, alias) {
   //Gathers all users to your voicechannel.
-  newChannel = message.member.voiceChannel;
-
+  if (args) {
+    //Try and find the channelID from the arg
+    for (var key in alias) {
+      if (alias[key].includes(args[0])) {
+        newChannel = message.guild.channels.find((val) => val.id === key);
+        break;
+      }
+    }
+  } else {
+    newChannel = message.member.voiceChannel;
+  }
   if (!message.member.hasPermission("ADMINISTRATOR")) {
     message.channel.send(
       "You need to be an administrator to use this command."
@@ -17,12 +26,20 @@ exports.run = function(client, message, args, alias) {
   }
 
   //Find all voicechannels without the one we are in.
-  allVoice = message.guild.channels.filter(
-    val => val.type == "voice" && val.id != newChannel.id
-  );
+  allVoice = message.guild.channels.filter((val) => {
+    //message.channel
+    return (
+      val.type == "voice" &&
+      val.id != newChannel.id &&
+      message.guild.members
+        .get(client.user.id)
+        .permissionsIn(val)
+        .has("MOVE_MEMBERS")
+    );
+  });
   //Check if there are any members that can be moved. If the guild are empty exept for you.
   guildActive = 0;
-  allVoice.forEach(channel => {
+  allVoice.forEach((channel) => {
     guildActive += channel.members.size;
   });
   if (guildActive == 0) {
@@ -31,7 +48,7 @@ exports.run = function(client, message, args, alias) {
   }
 
   counter = 0;
-  allVoice.forEach(channel => {
+  allVoice.forEach((channel) => {
     //Only move the channels with members inside.
     if (channel.members.size != 0) {
       counter += tools.moveMembers(client, channel, newChannel);
@@ -51,5 +68,5 @@ exports.help = {
   name: "gather",
   detail:
     "Gathers all users from all channels to your channel with: ${PREFIX}gather.",
-  aliases: []
+  aliases: [],
 };
