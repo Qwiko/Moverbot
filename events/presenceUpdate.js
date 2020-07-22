@@ -11,7 +11,7 @@ module.exports = (client, oldMember, newMember) => {
   //Does not move while the user changes status.
   if (oldMember.presence.status != newMember.presence.status) return;
   //Only move if the user is online.
-  if (newMember.presence.status != "online") return;
+  //if (newMember.presence.status != "online") return;
 
   //Load config
   tools.loadConfig(client, newMember.guild, function (config) {
