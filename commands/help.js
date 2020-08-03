@@ -1,14 +1,14 @@
-exports.run = function(client, message, args, alias) {
+exports.run = function (client, message, args, alias) {
   //Prints out the helpmessage for the user.
   m = [];
 
-  client.commands.forEach(cmd => {
+  client.commands.forEach((cmd) => {
     bool = false;
     //console.log(cmd.help);
     a = cmd.help.aliases;
     name = client.guild.config.prefix + cmd.help.name;
     if (a.length >= 0) {
-      a.forEach(alias => {
+      a.forEach((alias) => {
         name = name + "/" + client.guild.config.prefix + alias;
       });
     }
@@ -17,7 +17,7 @@ exports.run = function(client, message, args, alias) {
       .join(client.guild.config.prefix);
     n = {
       name: name,
-      value: cmd.help.detail
+      value: cmd.help.detail,
     };
     for (i = 0; i < m.length; i++) {
       if (m[i].name == n.name) {
@@ -28,22 +28,21 @@ exports.run = function(client, message, args, alias) {
       m.push(n);
     }
   });
-  m.push({
-    name: "Wiki page",
-    value:
-      "Visit https://github.com/Qwiko/Moverbot/wiki for more detailed information about the commands."
-  });
   message.channel.send({
     embed: {
+      footer: {
+        text: "Wiki page: https://github.com/Qwiko/Moverbot/wiki",
+      },
       title: "Commands to use the bot:",
       color: 0x43b581,
-      fields: m
-    }
+      fields: m,
+    },
   });
 };
 
 exports.help = {
   name: "help",
+  enabled: true,
   detail: "Shows this help-message.",
-  aliases: ["h"]
+  aliases: ["h"],
 };
