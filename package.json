@@ -8,10 +8,10 @@
   },
   "dependencies": {
     "discord.js": "^11.6.4",
-    "mongojs": "^3.1.0",
-    "node-cron": "^2.0.3"
+    "mongojs": "^3.1.0"
   },
   "scripts": {
+    "start": "node main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
