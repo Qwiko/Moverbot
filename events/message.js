@@ -7,14 +7,16 @@ module.exports = async (client, message) => {
   /////////////////////////////////
   //Only accept text channel.
   if (message.channel.type != "text") return;
-  //Dont read bot messages.
-  if (message.author.bot) return;
 
   //Load async config from the mongoDB.
   tools.loadConfig(client, message.guild, function (config) {
     alias = config.alias;
     client.guild = {};
     client.guild.config = config;
+
+    //Dont read bot messages. Only if enabled
+    if (message.author.bot && !client.guild.config.botMessages) return;
+
     //Ignores all messages without the prefix
     if (!message.content.startsWith(client.guild.config.prefix)) return;
     //Only accept right channel that the bot works in
