@@ -1,8 +1,9 @@
 const changeAliasCommand = require("../lib/config/changeAliasCommand.js");
 const changeChannel = require("../lib/config/changeChannel.js");
 const changePrefix = require("../lib/config/changePrefix.js");
+const changeBotEnabled = require("../lib/config/changeBotEnabled.js");
 
-validArgs = ["aliascommand", "channel", "prefix"];
+validArgs = ["aliascommand", "channel", "prefix", "bot"];
 
 exports.run = function (client, message, args) {
   if (args.length === 0) {
@@ -21,8 +22,8 @@ exports.run = function (client, message, args) {
             (val) =>
               val.id === client.guild.config[key] ||
               val.name === client.guild.config[key]
-          ).name;
-        +"\n";
+          ).name +
+          "\n";
         continue;
       }
       mes += "**" + key + "**: " + client.guild.config[key] + "\n";
@@ -69,6 +70,8 @@ exports.run = function (client, message, args) {
     changeChannel(client, message, args);
   } else if (args[0] == "prefix") {
     changePrefix(client, message, args);
+  } else if (args[0] == "bot") {
+    changeBotEnabled(client, message, args);
   }
 };
 
