@@ -41,7 +41,6 @@ exports.run = function (client, message, args, alias) {
           description: msg,
         },
       });
-      //message.channel.send(msg);
     }
 
     return;

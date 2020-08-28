@@ -13,7 +13,7 @@ module.exports = (client, guild) => {
     client,
     guild.name,
     guild.id,
-    "log",
+    "server",
     "Joined a new guild: " + guild.name + " with id: " + guild.id,
     (server = true)
   );
