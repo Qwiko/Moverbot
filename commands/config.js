@@ -9,7 +9,14 @@ exports.run = function (client, message, args) {
   if (args.length === 0) {
     //Display current settings:
     mes = "";
-    noDisplay = ["alias", "users", "last_updated", "language", "hidden"];
+    noDisplay = [
+      "alias",
+      "gamemove",
+      "last_updated",
+      "language",
+      "hidden",
+      "guild",
+    ];
 
     for (key in client.guild.config) {
       if (noDisplay.includes(key)) continue;
