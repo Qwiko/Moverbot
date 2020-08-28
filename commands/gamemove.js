@@ -12,7 +12,7 @@ exports.run = function (client, message, args, alias) {
     ) {
       message.channel.send("No gamemove settings found.");
     } else {
-      msg = "**Gamemove settings:**\n";
+      msg = "";
       Object.keys(client.guild.config.gamemove.users).forEach((user) => {
         //console.log(message.guild.members);
         msg += message.guild.members.find((val) => val.id === user).user
@@ -34,8 +34,14 @@ exports.run = function (client, message, args, alias) {
         });
         msg += "\n";
       });
-
-      message.channel.send(msg);
+      message.channel.send({
+        embed: {
+          title: "Gamemove settings",
+          color: 0x43b581,
+          description: msg,
+        },
+      });
+      //message.channel.send(msg);
     }
 
     return;
