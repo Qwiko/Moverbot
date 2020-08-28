@@ -6,7 +6,9 @@ exports.run = function (client, message, args, alias) {
 
   //Check if the user can move members
   if (!message.member.hasPermission("MOVE_MEMBERS")) {
-    message.channel.send("You do not have the correct permissions.");
+    message.channel.send(
+      "You do not have the correct permissions, you need to be able to move users between channels."
+    );
     return;
   }
 

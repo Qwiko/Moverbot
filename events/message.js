@@ -35,8 +35,9 @@ module.exports = async (client, message) => {
     var args = message.content
       .slice(client.guild.config.prefix.length)
       .trim()
-      .split(/ +/g);
+      .split(" ");
     var command = args.shift();
+
     var newargs = [];
 
     //args cleanup
