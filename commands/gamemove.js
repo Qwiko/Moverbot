@@ -139,7 +139,7 @@ exports.run = function (client, message, args, alias) {
   } else if (args[0] == "off") {
     enabled = false;
   }
-  if (args.includes("drag")) {
+  if (args.includes("drag") && enabled) {
     drag = true;
   } else {
     drag = false;
