@@ -3,7 +3,7 @@ const deleteAlias = require("../lib/alias/deleteAlias.js");
 const hideAlias = require("../lib/alias/hideAlias.js");
 const addAlias = require("../lib/alias/addAlias.js");
 
-exports.run = function(client, message, args) {
+exports.run = function (client, message, args) {
   if (args.length == 0 || args[0] == "displayall") {
     //If no args are given, display current aliases.
     if (args[0] == "displayall") {
@@ -45,5 +45,6 @@ exports.help = {
   name: "alias",
   detail:
     "See current aliases and create new ones with: ${PREFIX}alias CHANNELNAME alias.\nDelete aliases with ${PREFIX}alias del alias and hide aliases with ${PREFIX}alias hide alias.\nDisplay hidden aliases with ${PREFIX}alias displayall.\n${PREFIX}alias works aswell to move between channels.",
-  aliases: ["a"]
+  enabled: true,
+  aliases: ["a"],
 };

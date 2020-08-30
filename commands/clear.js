@@ -23,13 +23,11 @@ exports.run = async function (client, message) {
       //console.log("single");
       //console.log(error);
     });
-
-  //After cleared print out the helpmessage again.
-  //helpMessage(client, message);
 };
 
 exports.help = {
   name: "clear",
   detail: "Clears this channel from messages.",
+  enabled: false,
   aliases: ["c"],
 };

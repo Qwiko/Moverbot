@@ -19,7 +19,7 @@ const fs = require("fs");
 const mongojs = require("mongojs");
 
 client.db = mongojs(
-  client.config.serverip + "/moverbot" + client.config.options
+  client.config.serverip + "/moverbot_new" + client.config.options
 );
 
 //Loading events
@@ -44,11 +44,14 @@ fs.readdir("./commands/", (err, files) => {
     let props = require(`./commands/${file}`);
     let commandName = file.split(".")[0];
     //console.log(`Attempting to load command ${commandName}`);
-    client.commands.set(commandName, props);
-    //Setting aliases
-    props.help.aliases.forEach((alias) => {
-      client.commands.set(alias, props);
-    });
+    if (props.help.enabled) {
+      //Load only enabled commands
+      client.commands.set(commandName, props);
+      //Setting aliases
+      props.help.aliases.forEach((alias) => {
+        client.commands.set(alias, props);
+      });
+    }
   });
 });
 

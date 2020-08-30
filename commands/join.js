@@ -1,6 +1,6 @@
 const tools = require("../lib/tools.js");
 
-exports.run = function(client, message, args, alias) {
+exports.run = function (client, message, args, alias) {
   oldChannel = message.member.voiceChannel;
   var newChannel;
 
@@ -20,7 +20,7 @@ exports.run = function(client, message, args, alias) {
   for (var key in alias) {
     if (alias[key].includes(args[0])) {
       //newChannelId = key;
-      newChannel = message.guild.channels.find(val => val.id === key);
+      newChannel = message.guild.channels.find((val) => val.id === key);
       break;
     }
   }
@@ -63,5 +63,6 @@ exports.help = {
   name: "join",
   detail:
     "Moved you from your current channel to another with ${PREFIX}join CHANNELNAME.",
-  aliases: ["j"]
+  enabled: true,
+  aliases: ["j"],
 };

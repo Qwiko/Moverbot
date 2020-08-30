@@ -1,6 +1,6 @@
 const tools = require("../lib/tools.js");
 
-exports.run = function(client, message, args, alias) {
+exports.run = function (client, message, args, alias) {
   //Drag users from a channel to yours.
   newChannel = message.member.voiceChannel;
   oldChannelId = "";
@@ -40,7 +40,7 @@ exports.run = function(client, message, args, alias) {
     return;
   }
 
-  oldChannel = message.guild.channels.find(val => val.id === oldChannelId);
+  oldChannel = message.guild.channels.find((val) => val.id === oldChannelId);
 
   if (oldChannel.members.size == 0) {
     message.channel.send("There is no users in: *" + oldChannel.name + "*.");
@@ -73,5 +73,6 @@ exports.help = {
   name: "drag",
   detail:
     "Drags users from a channel to your channel with: ${PREFIX}drag CHANNELNAME.",
-  aliases: ["d"]
+  enabled: true,
+  aliases: ["d"],
 };

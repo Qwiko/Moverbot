@@ -42,7 +42,7 @@ exports.run = function (client, message, args, alias) {
 
 exports.help = {
   name: "help",
-  enabled: true,
   detail: "Shows this help-message.",
+  enabled: true,
   aliases: ["h"],
 };

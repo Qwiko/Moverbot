@@ -85,5 +85,6 @@ exports.run = function (client, message, args) {
 exports.help = {
   name: "config",
   detail: "Change config for your server.",
+  enabled: true,
   aliases: ["con"],
 };

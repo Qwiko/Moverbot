@@ -113,5 +113,6 @@ exports.help = {
   name: "move",
   detail:
     "Move users from your current channel to another with ${PREFIX}move CHANNELNAME.",
+  enabled: true,
   aliases: ["m"],
 };
