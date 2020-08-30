@@ -8,6 +8,7 @@ exports.run = function (client, message, args, alias) {
       if (alias[key].includes(args[0])) {
         newChannel = message.guild.channels.find((val) => val.id === key);
         break;
+        //&& val.type == "voice"
       }
     }
   } else {
@@ -19,9 +20,12 @@ exports.run = function (client, message, args, alias) {
     );
     return;
   }
+
   //You need to be a part of a channel.
   if (typeof newChannel === "undefined") {
-    message.channel.send("You are not part of a voicechannel.");
+    message.channel.send(
+      "You are not part of a voicechannel or supplied a valid destination."
+    );
     return;
   }
 
@@ -51,6 +55,11 @@ exports.run = function (client, message, args, alias) {
       counter += tools.moveMembers(client, channel, newChannel);
     }
   });
+  if (counter == 0) {
+    message.channel.send("Something went wrong, could not move anyone.");
+    return;
+  }
+
   message.channel.send(
     "Gathered " +
       counter +
@@ -65,5 +74,6 @@ exports.help = {
   name: "gather",
   detail:
     "Gathers all users from all channels to your channel with: ${PREFIX}gather. Optional you can send with ${PREFIX}gather CHANNELNAME",
+  enabled: true,
   aliases: [],
 };
