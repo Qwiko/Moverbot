@@ -14,13 +14,15 @@ exports.run = function (client, message, args, alias) {
   } else {
     newChannel = message.member.voiceChannel;
   }
-  if (!message.member.hasPermission("ADMINISTRATOR")) {
-    message.channel.send(
-      "You need to be an administrator to use this command."
-    );
-    return;
+  if (!message.webhookID) {
+    //Todo fix for webhooks
+    if (!message.member.hasPermission("ADMINISTRATOR")) {
+      message.channel.send(
+        "You need to be an administrator to use this command."
+      );
+      return;
+    }
   }
-
   //You need to be a part of a channel.
   if (typeof newChannel === "undefined") {
     message.channel.send(

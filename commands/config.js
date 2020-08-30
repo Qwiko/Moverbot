@@ -6,6 +6,11 @@ const changeBotEnabled = require("../lib/config/changeBotEnabled.js");
 validArgs = ["aliascommand", "channel", "prefix", "bot"];
 
 exports.run = function (client, message, args) {
+  if (message.webhookID) {
+    message.channel.send("Webhooks cannot be used with that command.");
+    return;
+  }
+
   if (args.length === 0) {
     //Display current settings:
     mes = "";

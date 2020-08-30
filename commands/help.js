@@ -1,4 +1,9 @@
 exports.run = function (client, message, args, alias) {
+  if (message.webhookID) {
+    message.channel.send("Webhooks cannot be used with that command.");
+    return;
+  }
+
   //Prints out the helpmessage for the user.
   m = [];
 

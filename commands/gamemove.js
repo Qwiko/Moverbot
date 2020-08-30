@@ -1,6 +1,11 @@
 const tools = require("../lib/tools.js");
 
 exports.run = function (client, message, args, alias) {
+  if (message.webhookID) {
+    message.channel.send("Webhooks cannot be used with that command.");
+    return;
+  }
+
   //If only !gamemove is sent, display current settings
   if (args[0] == "display") {
     //console.log(client.guild.config.users);

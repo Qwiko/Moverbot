@@ -2,6 +2,12 @@ const tools = require("../lib/tools.js");
 
 exports.run = function (client, message, args, alias) {
   //Drag users from a channel to yours.
+
+  if (message.webhookID) {
+    message.channel.send("Webhooks cannot be used with that command.");
+    return;
+  }
+
   newChannel = message.member.voiceChannel;
   oldChannelId = "";
   oldChannelName = args[0];

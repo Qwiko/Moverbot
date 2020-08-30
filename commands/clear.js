@@ -1,4 +1,9 @@
 exports.run = async function (client, message) {
+  if (message.webhookID) {
+    message.channel.send("Webhooks cannot be used with that command.");
+    return;
+  }
+
   //Check if administrator
   if (!message.member.hasPermission("ADMINISTRATOR")) {
     message.channel.send(

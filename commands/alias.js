@@ -4,6 +4,11 @@ const hideAlias = require("../lib/alias/hideAlias.js");
 const addAlias = require("../lib/alias/addAlias.js");
 
 exports.run = function (client, message, args) {
+  if (message.webhookID) {
+    message.channel.send("Webhooks cannot be used with that command.");
+    return;
+  }
+
   if (args.length == 0 || args[0] == "displayall") {
     //If no args are given, display current aliases.
     if (args[0] == "displayall") {

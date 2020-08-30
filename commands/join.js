@@ -1,6 +1,11 @@
 const tools = require("../lib/tools.js");
 
 exports.run = function (client, message, args, alias) {
+  if (message.webhookID) {
+    message.channel.send("Webhooks cannot be used with that command.");
+    return;
+  }
+
   oldChannel = message.member.voiceChannel;
   var newChannel;
 

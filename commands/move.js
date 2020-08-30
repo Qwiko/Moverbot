@@ -5,13 +5,14 @@ exports.run = function (client, message, args, alias) {
   var newChannel;
 
   //Check if the user can move members
-  if (!message.member.hasPermission("MOVE_MEMBERS")) {
-    message.channel.send(
-      "You do not have the correct permissions, you need to be able to move users between channels."
-    );
-    return;
+  if (!message.webhookID) {
+    if (!message.member.hasPermission("MOVE_MEMBERS")) {
+      message.channel.send(
+        "You do not have the correct permissions, you need to be able to move users between channels."
+      );
+      return;
+    }
   }
-
   //Check if no argument is passed
   if (typeof args[0] == "undefined") {
     message.channel.send("Please provide a channelname.");
@@ -73,12 +74,12 @@ exports.run = function (client, message, args, alias) {
   }
 
   //Check if the user have permission for the channel.
-  if (!newChannel.memberPermissions(message.member).has("CONNECT")) {
-    message.channel.send(
-      "You do not have permission to move to channel: " + newChannel.name + "."
-    );
-    return;
-  }
+  // if (!newChannel.memberPermissions(message.member).has("CONNECT")) {
+  //   message.channel.send(
+  //     "You do not have permission to move to channel: " + newChannel.name + "."
+  //   );
+  //   return;
+  // }
 
   //Cannot move from that channel
   if (!tools.checkPermissions(client, oldChannel)) {
@@ -93,9 +94,7 @@ exports.run = function (client, message, args, alias) {
   var counter = tools.moveMembers(client, oldChannel, newChannel);
 
   if (!counter) {
-    message.channel.send(
-      "Could not move to " + newChannel.name + ", is it full?"
-    );
+    message.channel.send("Could not move to " + newChannel.name + ".");
     return;
   }
 
