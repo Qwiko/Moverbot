@@ -19,6 +19,15 @@ exports.run = function (client, message, args, alias) {
     return;
   }
 
+  if (message.webhookID && args.length < 2) {
+    message.channel.send(
+      "Using webhooks with this command requires 2 arguments, " +
+        client.guild.config.prefix +
+        "move FROMCHANNEL TOCHANNEL."
+    );
+    return;
+  }
+
   //Trying to find the channelID from the name
   if (args.length >= 2) {
     //Directional move
