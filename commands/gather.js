@@ -1,8 +1,11 @@
 const tools = require("../lib/tools.js");
 
-exports.run = function (client, message, args, alias) {
+exports.run = function (client, message, args) {
+  alias = client.guild.config.alias;
+  newChannel = "";
+
   //Gathers all users to your voicechannel.
-  if (args) {
+  if (args.length > 0) {
     //Try and find the channelID from the arg
     for (var key in alias) {
       if (alias[key].includes(args[0])) {
@@ -40,6 +43,7 @@ exports.run = function (client, message, args, alias) {
       tools.checkPermissions(client, val)
     );
   });
+
   //Check if there are any members that can be moved. If the guild are empty exept for you.
   guildActive = 0;
   allVoice.forEach((channel) => {
@@ -54,10 +58,14 @@ exports.run = function (client, message, args, alias) {
   allVoice.forEach((channel) => {
     //Only move the channels with members inside.
     if (channel.members.size != 0) {
-      counter += tools.moveMembers(client, channel, newChannel);
+      value = tools.moveMembers(client, channel, newChannel);
+      if (value) {
+        counter += value;
+      }
     }
   });
-  if (counter == 0) {
+
+  if (!counter) {
     message.channel.send("Something went wrong, could not move anyone.");
     return;
   }
