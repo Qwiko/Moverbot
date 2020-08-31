@@ -1,6 +1,8 @@
 const tools = require("../lib/tools.js");
 
-exports.run = function (client, message, args, alias) {
+exports.run = function (client, message, args) {
+  alias = client.guild.config.alias;
+
   var oldChannel;
   var newChannel;
 

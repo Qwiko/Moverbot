@@ -1,6 +1,8 @@
 const tools = require("../lib/tools.js");
 
-exports.run = function (client, message, args, alias) {
+exports.run = function (client, message, args) {
+  alias = client.guild.config.alias;
+
   if (message.webhookID) {
     message.channel.send("Webhooks cannot be used with that command.");
     return;

@@ -81,7 +81,7 @@ module.exports = async (client, message) => {
       return;
     }
 
-    cmd.run(client, message, args, alias);
+    cmd.run(client, message, args);
     //Logging every command
     tools.log(
       client,

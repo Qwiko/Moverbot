@@ -1,4 +1,4 @@
-exports.run = function (client, message, args, alias) {
+exports.run = function (client, message, args) {
   if (message.webhookID) {
     message.channel.send("Webhooks cannot be used with that command.");
     return;
