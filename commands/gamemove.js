@@ -22,7 +22,7 @@ exports.run = function (client, message, args) {
       msg = "";
       Object.keys(client.guild.config.gamemove.users).forEach((user) => {
         //console.log(message.guild.members);
-        msg += message.guild.members.find((val) => val.id === user).user
+        msg += message.guild.members.cache.find((val) => val.id === user).user
           .username;
         msg += ": ";
         Object.keys(client.guild.config.gamemove.users[user]).forEach((key) => {
@@ -33,7 +33,7 @@ exports.run = function (client, message, args) {
       });
       Object.keys(client.guild.config.gamemove.roles).forEach((role) => {
         //console.log(message.guild.members);
-        msg += message.guild.roles.find((val) => val.id === role).name;
+        msg += message.guild.roles.cache.find((val) => val.id === role).name;
         msg += ": ";
         Object.keys(client.guild.config.gamemove.roles[role]).forEach((key) => {
           msg += key + ": " + client.guild.config.gamemove.roles[role][key];
@@ -94,6 +94,18 @@ exports.run = function (client, message, args) {
         return;
       }
     }
+  }
+
+  messageBot = false;
+  message.mentions.users.each((user) => {
+    if (user.bot) {
+      messageBot = true;
+    }
+  });
+
+  if (messageBot) {
+    message.channel.send("You cannot mention a bot.");
+    return;
   }
 
   if (message.mentions.users.array().length) {

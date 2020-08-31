@@ -36,20 +36,20 @@ exports.run = function (client, message, args) {
     for (var key in alias) {
       if (alias[key].includes(args[0])) {
         //newChannelId = key;
-        oldChannel = message.guild.channels.find((val) => val.id === key);
+        oldChannel = message.guild.channels.cache.find((val) => val.id === key);
       }
       if (alias[key].includes(args[1])) {
         //newChannelId = key;
-        newChannel = message.guild.channels.find((val) => val.id === key);
+        newChannel = message.guild.channels.cache.find((val) => val.id === key);
       }
     }
   } else {
-    oldChannel = message.member.voiceChannel;
+    oldChannel = message.member.voice.channel;
     //Standard move
     for (var key in alias) {
       if (alias[key].includes(args[0])) {
         //newChannelId = key;
-        newChannel = message.guild.channels.find((val) => val.id === key);
+        newChannel = message.guild.channels.cache.find((val) => val.id === key);
         break;
       }
     }

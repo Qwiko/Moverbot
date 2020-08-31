@@ -31,7 +31,8 @@ module.exports = async (client, oldMember, newMember) => {
       newMember.id,
       newMember.guild.id,
       "AFK-moved to: '" +
-        newMember.guild.channels.find((val) => val.id === newChannelId).name +
+        newMember.guild.channels.cache.find((val) => val.id === newChannelId)
+          .name +
         "':" +
         newChannelId
     );

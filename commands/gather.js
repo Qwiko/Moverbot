@@ -9,13 +9,13 @@ exports.run = function (client, message, args) {
     //Try and find the channelID from the arg
     for (var key in alias) {
       if (alias[key].includes(args[0])) {
-        newChannel = message.guild.channels.find((val) => val.id === key);
+        newChannel = message.guild.channels.cache.find((val) => val.id === key);
         break;
         //&& val.type == "voice"
       }
     }
   } else {
-    newChannel = message.member.voiceChannel;
+    newChannel = message.member.voice.channel;
   }
   if (!message.webhookID) {
     //Todo fix for webhooks
@@ -35,7 +35,7 @@ exports.run = function (client, message, args) {
   }
 
   //Find all voicechannels without the one we are in.
-  allVoice = message.guild.channels.filter((val) => {
+  allVoice = message.guild.channels.cache.filter((val) => {
     //message.channel
     return (
       val.type == "voice" &&
@@ -46,7 +46,7 @@ exports.run = function (client, message, args) {
 
   //Check if there are any members that can be moved. If the guild are empty exept for you.
   guildActive = 0;
-  allVoice.forEach((channel) => {
+  allVoice.each((channel) => {
     guildActive += channel.members.size;
   });
   if (guildActive == 0) {
@@ -55,7 +55,7 @@ exports.run = function (client, message, args) {
   }
 
   counter = 0;
-  allVoice.forEach((channel) => {
+  allVoice.each((channel) => {
     //Only move the channels with members inside.
     if (channel.members.size != 0) {
       value = tools.moveMembers(client, channel, newChannel);

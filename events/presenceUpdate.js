@@ -1,18 +1,18 @@
 const tools = require("../lib/tools.js");
 
-module.exports = (client, oldMember, newMember) => {
-  //console.log("statechange " + newMember.user.username);
+module.exports = (client, oldPresence, newPresence) => {
   //Do not read bot updates.
-  if (newMember.user.bot) return;
+  if (newPresence.user.bot) return;
   //Not in a voiceChannel
-  if (newMember.voiceChannelID == null) return;
+  if (typeof newPresence.member.voice == "undefined") return;
   //Update does not refer to a game change.
-  if (newMember.presence.game == null) return;
+  if (typeof newPresence.activities[0] == "undefined") return;
+  //Only type playing
+  if (newPresence.activities[0].type != "PLAYING") return;
   //Does not move while the user changes status.
-  if (oldMember.presence.status != newMember.presence.status) return;
-
+  if (oldPresence.status != newPresence.status) return;
   //Load config
-  tools.loadConfig(client, newMember.guild, function (config) {
+  tools.loadConfig(client, newPresence.guild, function (config) {
     //No data means no users have activated presencemoving.
     if (
       !(
@@ -28,14 +28,15 @@ module.exports = (client, oldMember, newMember) => {
     drag = false;
 
     //If we can't find information about the user in the database skip, or if they have opted out.
-    if (users[newMember.id] != null) {
-      if (users[newMember.id].enabled == false) {
+    if (users[newPresence.userID] != null) {
+      if (users[newPresence.userID].enabled == false) {
         return;
       }
-      drag = users[newMember.id].drag;
+      userEnabled = users[newPresence.userID].enabled;
+      drag = users[newPresence.userID].drag;
     }
 
-    gamename = newMember.presence.game.name;
+    gamename = newPresence.activities[0].name;
     newChannelId = "";
 
     for (var key in config.alias) {
@@ -48,13 +49,13 @@ module.exports = (client, oldMember, newMember) => {
     //No channel found.
     if (newChannelId == "") return;
     //Already in right channel
-    if (newMember.voiceChannelID == newChannelId) return;
+    if (newPresence.member.voice.channelID == newChannelId) return;
     //Grabbing guild
-    guild = newMember.guild;
+    guild = newPresence.guild;
     includedInRole = false;
     for (var id in roles) {
-      role = guild.roles.find((role) => role.id === id);
-      member = role.members.find((member) => member.id == newMember.id);
+      role = guild.roles.cache.find((role) => role.id === id);
+      member = role.members.get(newPresence.userID);
       if (member) {
         includedInRole = true;
         if (!drag) {
@@ -64,13 +65,13 @@ module.exports = (client, oldMember, newMember) => {
     }
 
     //Not found in a role, no move.
-    if (!includedInRole) return;
+    if (!includedInRole && !userEnabled) return;
 
     counter = 0;
-    newChannel = guild.channels.find((val) => val.id === newChannelId);
+    newChannel = guild.channels.cache.find((val) => val.id === newChannelId);
     counter = tools.moveMembers(
       client,
-      drag ? newMember.voiceChannel : newMember,
+      drag ? newPresence.member.voice.channelID : newPresence.member,
       newChannel
     );
 
@@ -80,11 +81,12 @@ module.exports = (client, oldMember, newMember) => {
     }
     tools.log(
       client,
-      newMember.user.username,
-      newMember.id,
-      newMember.guild.id,
+      newPresence.user.username,
+      newPresence.userID,
+      newPresence.guild.id,
       "Automoved to: '" +
-        newMember.guild.channels.find((val) => val.id === newChannelId).name +
+        newPresence.guild.channels.cache.find((val) => val.id === newChannelId)
+          .name +
         "':" +
         newChannelId
     );

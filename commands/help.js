@@ -7,7 +7,7 @@ exports.run = function (client, message, args) {
   //Prints out the helpmessage for the user.
   m = [];
 
-  client.commands.forEach((cmd) => {
+  client.commands.each((cmd) => {
     bool = false;
     //console.log(cmd.help);
     a = cmd.help.aliases;

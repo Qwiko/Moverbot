@@ -30,7 +30,7 @@ exports.run = function (client, message, args) {
           "**" +
           key +
           "**: " +
-          message.guild.channels.find(
+          message.guild.channels.cache.find(
             (val) =>
               val.id === client.guild.config[key] ||
               val.name === client.guild.config[key]

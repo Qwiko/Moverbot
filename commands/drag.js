@@ -8,7 +8,7 @@ exports.run = function (client, message, args) {
     return;
   }
 
-  newChannel = message.member.voiceChannel;
+  newChannel = message.member.voice.channel;
   oldChannelId = "";
   oldChannelName = args[0];
 
@@ -46,7 +46,9 @@ exports.run = function (client, message, args) {
     return;
   }
 
-  oldChannel = message.guild.channels.find((val) => val.id === oldChannelId);
+  oldChannel = message.guild.channels.cache.find(
+    (val) => val.id === oldChannelId
+  );
 
   if (oldChannel.members.size == 0) {
     message.channel.send("There is no users in: *" + oldChannel.name + "*.");

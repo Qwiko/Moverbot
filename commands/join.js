@@ -8,7 +8,7 @@ exports.run = function (client, message, args) {
     return;
   }
 
-  oldChannel = message.member.voiceChannel;
+  oldChannel = message.member.voice.channel;
   var newChannel;
 
   //Check if no argument is passed
@@ -27,7 +27,7 @@ exports.run = function (client, message, args) {
   for (var key in alias) {
     if (alias[key].includes(args[0])) {
       //newChannelId = key;
-      newChannel = message.guild.channels.find((val) => val.id === key);
+      newChannel = message.guild.channels.cache.find((val) => val.id === key);
       break;
     }
   }
