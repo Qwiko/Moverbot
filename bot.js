@@ -10,16 +10,13 @@ const client = new Discord.Client();
 //lib setup and config
 client.config = require("./files/config.json");
 
-//For testing
-//client.config = require("./files/config_test.json");
-
 const fs = require("fs");
 
 //Mongojs setup
 const mongojs = require("mongojs");
 
 client.db = mongojs(
-  client.config.serverip + "/moverbot_new" + client.config.options
+  client.config.serverip + client.config.db + client.config.options
 );
 
 //Loading events
