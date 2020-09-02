@@ -76,7 +76,7 @@ module.exports = (client, oldPresence, newPresence) => {
       newChannel
     );
 
-    message = {
+    msg = {
       author: { username: newPresence.user.username, id: newPresence.userID },
       content:
         "Automoved to: '" +
@@ -89,16 +89,16 @@ module.exports = (client, oldPresence, newPresence) => {
 
     if (!counter) {
       //Channel full, cannot join.
-      tools.log(client, message, {
+      tools.log(client, msg, {
         success: false,
         message: "Channel full",
       });
       return;
     }
 
-    tools.log(client, message, {
+    tools.log(client, msg, {
       success: true,
-      message: message.content,
+      message: msg.content,
       usersmoved: counter,
     });
   });

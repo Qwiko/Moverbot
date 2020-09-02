@@ -9,7 +9,7 @@ module.exports = (client, guild) => {
       ".\nPlease create a textchannel named moverbot and write !help to start using Moverbot!"
   );
 
-  message = {
+  msg = {
     author: { username: guild.name, id: guild.id },
     content: "Joined a new guild: " + guild.name + " with id: " + guild.id,
     guild: { id: guild.id },
@@ -19,5 +19,5 @@ module.exports = (client, guild) => {
     message: "Joined a new guild: " + guild.name + " with id: " + guild.id,
   };
 
-  tools.log(client, message, response, (server = true));
+  tools.log(client, msg, response, (server = true));
 };

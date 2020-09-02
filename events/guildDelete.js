@@ -1,7 +1,7 @@
 const tools = require("../lib/tools.js");
 
 module.exports = (client, guild) => {
-  message = {
+  msg = {
     author: { username: guild.name, id: guild.id },
     content: "Leaved guild: " + guild.name + " with id: " + guild.id,
     guild: { id: guild.id },
@@ -11,5 +11,5 @@ module.exports = (client, guild) => {
     message: "Leaved guild: " + guild.name + " with id: " + guild.id,
   };
 
-  tools.log(client, message, response, (server = true));
+  tools.log(client, msg, response, (server = true));
 };

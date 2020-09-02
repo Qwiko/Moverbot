@@ -2,7 +2,7 @@ const tools = require("../lib/tools.js");
 
 exports.run = function (client, message, args) {
   alias = client.guild.config.alias;
-  newChannel = "";
+  newChannel = undefined;
 
   //Gathers all users to your voicechannel.
   if (args.length > 0) {
@@ -50,6 +50,7 @@ exports.run = function (client, message, args) {
       tools.checkPermissions(client, val)
     );
   });
+  //console.log(allVoice);
 
   //Check if there are any members that can be moved. If the guild are empty exept for you.
   guildActive = 0;

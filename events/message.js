@@ -77,11 +77,14 @@ module.exports = async (client, message) => {
     }
     const cmd = client.commands.get(command.toLowerCase());
     if (!cmd) {
-      message.channel.send("Cannot handle that command, please try again");
-      return;
+      message.channel.send("Cannot handle that command, please try again.");
+      response = {
+        success: false,
+        message: "Cannot handle that command, please try again.",
+      };
+    } else {
+      response = cmd.run(client, message, args);
     }
-
-    const response = cmd.run(client, message, args);
 
     //Logging every command
     tools.log(client, message, response);

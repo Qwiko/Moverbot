@@ -21,10 +21,7 @@ exports.run = function (client, message, args) {
       //Don't display hidden aliases
       response = displayAlias(client, message, false);
     }
-    return {
-      success: true,
-      message: "Displayed aliases",
-    };
+    return response;
   } else {
     //Arguments are given
 

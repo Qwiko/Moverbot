@@ -5,7 +5,10 @@ exports.run = function (client, message, args) {
   alias = client.guild.config.alias;
   if (message.webhookID) {
     message.channel.send("Webhooks cannot be used with that command.");
-    return;
+    return {
+      success: false,
+      message: "Webhooks cannot be used with that command.",
+    };
   }
 
   newChannel = message.member.voice.channel;
@@ -15,12 +18,18 @@ exports.run = function (client, message, args) {
   //Check if the user can move members
   if (!message.member.hasPermission("MOVE_MEMBERS")) {
     message.channel.send("You do not have the correct permissions.");
-    return;
+    return {
+      success: false,
+      message: "You do not have the correct permissions.",
+    };
   }
 
   if (typeof oldChannelName == "undefined") {
     message.channel.send("Please provide a channelname.");
-    return;
+    return {
+      success: false,
+      message: "Please provide a channelname.",
+    };
   }
 
   //Search the alias for the argument
@@ -33,17 +42,26 @@ exports.run = function (client, message, args) {
 
   if (oldChannelId == "") {
     message.channel.send("There is no such channel: *" + oldChannelName + "*.");
-    return;
+    return {
+      success: false,
+      message: "There is no such channel: *" + oldChannelName + "*.",
+    };
   }
 
   if (typeof newChannel === "undefined") {
     message.channel.send("You are not part of a voicechannel.");
-    return;
+    return {
+      success: false,
+      message: "You are not part of a voicechannel.",
+    };
   }
 
   if (newChannel.id == oldChannelId) {
     message.channel.send("You cannot select your own channel.");
-    return;
+    return {
+      success: false,
+      message: "You cannot select your own channel.",
+    };
   }
 
   oldChannel = message.guild.channels.cache.find(
