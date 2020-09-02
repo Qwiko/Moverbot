@@ -6,15 +6,18 @@ module.exports = (client, guild) => {
       guild.owner.user.username +
       ", owner of " +
       guild.name +
-      ".\nPlease create a textchannel named moverbot and write !help to start using Moverbot!\nAutomation of this process is being developed."
+      ".\nPlease create a textchannel named moverbot and write !help to start using Moverbot!"
   );
 
-  tools.log(
-    client,
-    guild.name,
-    guild.id,
-    "server",
-    "Joined a new guild: " + guild.name + " with id: " + guild.id,
-    (server = true)
-  );
+  message = {
+    author: { username: guild.name, id: guild.id },
+    content: "Joined a new guild: " + guild.name + " with id: " + guild.id,
+    guild: { id: guild.id },
+  };
+  response = {
+    success: true,
+    message: "Joined a new guild: " + guild.name + " with id: " + guild.id,
+  };
+
+  tools.log(client, message, response, (server = true));
 };

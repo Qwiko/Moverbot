@@ -23,7 +23,10 @@ exports.run = function (client, message, args) {
       message.channel.send(
         "You need to be an administrator to use this command."
       );
-      return;
+      return {
+        success: false,
+        message: "You need to be an administrator to use this command.",
+      };
     }
   }
   //You need to be a part of a channel.
@@ -31,7 +34,11 @@ exports.run = function (client, message, args) {
     message.channel.send(
       "You are not part of a voicechannel or supplied a valid destination."
     );
-    return;
+    return {
+      success: false,
+      message:
+        "You are not part of a voicechannel or supplied a valid destination.",
+    };
   }
 
   //Find all voicechannels without the one we are in.
@@ -51,7 +58,10 @@ exports.run = function (client, message, args) {
   });
   if (guildActive == 0) {
     message.channel.send("There are no users that can be moved.");
-    return;
+    return {
+      success: false,
+      message: "There are no users that can be moved.",
+    };
   }
 
   counter = 0;
@@ -67,7 +77,10 @@ exports.run = function (client, message, args) {
 
   if (!counter) {
     message.channel.send("Something went wrong, could not move anyone.");
-    return;
+    return {
+      success: false,
+      message: "Something went wrong, could not move anyone.",
+    };
   }
 
   message.channel.send(
@@ -78,6 +91,17 @@ exports.run = function (client, message, args) {
       newChannel.name +
       "*."
   );
+  return {
+    success: true,
+    message:
+      "Gathered " +
+      counter +
+      (counter == 1 ? " user" : " users") +
+      " to channel: *" +
+      newChannel.name +
+      "*.",
+    usersmoved: counter,
+  };
 };
 
 exports.help = {

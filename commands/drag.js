@@ -52,7 +52,10 @@ exports.run = function (client, message, args) {
 
   if (oldChannel.members.size == 0) {
     message.channel.send("There is no users in: *" + oldChannel.name + "*.");
-    return;
+    return {
+      success: false,
+      message: "There is no users in: *" + oldChannel.name + "*.",
+    };
   }
 
   //Moving users
@@ -62,7 +65,10 @@ exports.run = function (client, message, args) {
     message.channel.send(
       "Could not move to " + newChannel.name + ", is it full?"
     );
-    return;
+    return {
+      success: false,
+      message: "Could not move to " + newChannel.name + ", is it full?",
+    };
   }
 
   message.channel.send(
@@ -75,6 +81,19 @@ exports.run = function (client, message, args) {
       newChannel.name +
       "*."
   );
+  return {
+    success: true,
+    message:
+      "Dragged " +
+      counter +
+      (counter == 1 ? " user" : " users") +
+      " from channel: *" +
+      oldChannel.name +
+      "* to channel: *" +
+      newChannel.name +
+      "*.",
+    usersmoved: counter,
+  };
 };
 
 exports.help = {

@@ -1,4 +1,5 @@
 const tools = require("../lib/tools.js");
+const message = require("./message.js");
 
 module.exports = (client, oldPresence, newPresence) => {
   //Do not read bot updates.
@@ -75,20 +76,30 @@ module.exports = (client, oldPresence, newPresence) => {
       newChannel
     );
 
-    if (!counter) {
-      //Channel full, cannot join.
-      return;
-    }
-    tools.log(
-      client,
-      newPresence.user.username,
-      newPresence.userID,
-      newPresence.guild.id,
-      "Automoved to: '" +
+    message = {
+      author: { username: newPresence.user.username, id: newPresence.userID },
+      content:
+        "Automoved to: '" +
         newPresence.guild.channels.cache.find((val) => val.id === newChannelId)
           .name +
         "':" +
-        newChannelId
-    );
+        newChannelId,
+      guild: { id: newPresence.guild.id },
+    };
+
+    if (!counter) {
+      //Channel full, cannot join.
+      tools.log(client, message, {
+        success: false,
+        message: "Channel full",
+      });
+      return;
+    }
+
+    tools.log(client, message, {
+      success: true,
+      message: message.content,
+      usersmoved: counter,
+    });
   });
 };

@@ -5,7 +5,10 @@ exports.run = function (client, message, args) {
 
   if (message.webhookID) {
     message.channel.send("Webhooks cannot be used with that command.");
-    return;
+    return {
+      success: false,
+      message: "Webhooks cannot be used with that command.",
+    };
   }
 
   oldChannel = message.member.voice.channel;
@@ -14,13 +17,19 @@ exports.run = function (client, message, args) {
   //Check if no argument is passed
   if (typeof args[0] == "undefined") {
     message.channel.send("Please provide a channelname.");
-    return;
+    return {
+      success: false,
+      message: "Please provide a channelname.",
+    };
   }
 
   //Check if the user is part of a voicechannel.
   if (typeof oldChannel === "undefined") {
     message.channel.send("You are not part of a voicechannel.");
-    return;
+    return {
+      success: false,
+      message: "You are not part of a voicechannel.",
+    };
   }
 
   //Tried to find the channelID from the name
@@ -35,13 +44,19 @@ exports.run = function (client, message, args) {
   //Check if no key is found
   if (typeof newChannel === "undefined") {
     message.channel.send("There is no such channel: *" + args[0] + "*.");
-    return;
+    return {
+      success: false,
+      message: "There is no such channel: *" + args[0] + "*.",
+    };
   }
 
   //Check if it is the same channel.
   if (oldChannel.id == newChannel.id) {
     message.channel.send("You are already in that channel.");
-    return;
+    return {
+      success: false,
+      message: "You are already in that channel.",
+    };
   }
 
   //Check if the user have permission for the channel.
@@ -49,7 +64,13 @@ exports.run = function (client, message, args) {
     message.channel.send(
       "You do not have permission to move to channel: " + newChannel.name + "."
     );
-    return;
+    return {
+      success: false,
+      message:
+        "You do not have permission to move to channel: " +
+        newChannel.name +
+        ".",
+    };
   }
 
   counter = tools.moveMembers(client, message.member, newChannel);
@@ -58,12 +79,24 @@ exports.run = function (client, message, args) {
     message.channel.send(
       "Could not move to " + newChannel.name + ", is it full?"
     );
-    return;
+    return {
+      success: false,
+      message: "Could not move to " + newChannel.name + ", is it full?",
+    };
   }
 
   message.channel.send(
     message.member.displayName + " moved to channel: *" + newChannel.name + "*."
   );
+  return {
+    success: true,
+    message:
+      message.member.displayName +
+      " moved to channel: *" +
+      newChannel.name +
+      "*.",
+    usersmoved: 1,
+  };
 };
 
 exports.help = {

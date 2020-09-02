@@ -6,18 +6,25 @@ const addAlias = require("../lib/alias/addAlias.js");
 exports.run = function (client, message, args) {
   if (message.webhookID) {
     message.channel.send("Webhooks cannot be used with that command.");
-    return;
+    return {
+      success: false,
+      message: "Webhooks cannot be used with that command.",
+    };
   }
 
   if (args.length == 0 || args[0] == "displayall") {
     //If no args are given, display current aliases.
     if (args[0] == "displayall") {
       //Display alias + hidden
-      displayAlias(client, message, true);
+      response = displayAlias(client, message, true);
     } else {
       //Don't display hidden aliases
-      displayAlias(client, message, false);
+      response = displayAlias(client, message, false);
     }
+    return {
+      success: true,
+      message: "Displayed aliases",
+    };
   } else {
     //Arguments are given
 
@@ -26,23 +33,30 @@ exports.run = function (client, message, args) {
       message.channel.send(
         "You need to be an administrator to add or delete aliases."
       );
-      return;
+      return {
+        success: false,
+        message: "You need to be an administrator to add or delete aliases.",
+      };
     }
 
     //No second argument
     if (typeof args[1] == "undefined") {
       message.channel.send("Please specify a second argument.");
-      return;
+      return {
+        success: false,
+        message: "Please specify a second argument.",
+      };
     }
 
     //Check the second argument
     if (args[0] == "del") {
-      deleteAlias(client, message, args);
+      response = deleteAlias(client, message, args);
     } else if (args[0] == "hide") {
-      hideAlias(client, message, args);
+      response = hideAlias(client, message, args);
     } else {
-      addAlias(client, message, args);
+      response = addAlias(client, message, args);
     }
+    return response;
   }
 };
 

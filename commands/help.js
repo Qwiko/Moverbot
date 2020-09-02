@@ -1,7 +1,10 @@
 exports.run = function (client, message, args) {
   if (message.webhookID) {
     message.channel.send("Webhooks cannot be used with that command.");
-    return;
+    return {
+      success: false,
+      message: "Webhooks cannot be used with that command.",
+    };
   }
 
   //Prints out the helpmessage for the user.
@@ -43,6 +46,8 @@ exports.run = function (client, message, args) {
       fields: m,
     },
   });
+  console.log("Returning from help");
+  return { success: true, message: "Printed help-message successfully." };
 };
 
 exports.help = {

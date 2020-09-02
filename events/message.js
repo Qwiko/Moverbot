@@ -81,14 +81,9 @@ module.exports = async (client, message) => {
       return;
     }
 
-    cmd.run(client, message, args);
+    const response = cmd.run(client, message, args);
+
     //Logging every command
-    tools.log(
-      client,
-      message.author.username,
-      message.author.id,
-      message.guild.id,
-      message.content
-    );
+    tools.log(client, message, response);
   });
 };

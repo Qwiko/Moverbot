@@ -1,7 +1,10 @@
 exports.run = async function (client, message) {
   if (message.webhookID) {
     message.channel.send("Webhooks cannot be used with that command.");
-    return;
+    return {
+      success: false,
+      message: "Webhooks cannot be used with that command.",
+    };
   }
 
   //Check if administrator
@@ -9,7 +12,10 @@ exports.run = async function (client, message) {
     message.channel.send(
       "You need to be an administrator to use this command."
     );
-    return;
+    return {
+      success: false,
+      message: "You need to be an administrator to use this command.",
+    };
   }
 
   messages = await message.channel.fetchMessages({ limit: 100 });
@@ -28,6 +34,10 @@ exports.run = async function (client, message) {
       //console.log("single");
       //console.log(error);
     });
+  return {
+    success: true,
+    message: "Cleared textchannel of messages",
+  };
 };
 
 exports.help = {

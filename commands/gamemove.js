@@ -5,7 +5,10 @@ exports.run = function (client, message, args) {
 
   if (message.webhookID) {
     message.channel.send("Webhooks cannot be used with that command.");
-    return;
+    return {
+      success: false,
+      message: "Webhooks cannot be used with that command.",
+    };
   }
 
   //If only !gamemove is sent, display current settings
@@ -50,7 +53,10 @@ exports.run = function (client, message, args) {
       });
     }
 
-    return;
+    return {
+      success: true,
+      message: "Displayed gamemove settings.",
+    };
   }
 
   //Check if arguments exists and contain what we want
@@ -70,7 +76,10 @@ exports.run = function (client, message, args) {
         client.guild.config.prefix +
         "gamemove display."
     );
-    return;
+    return {
+      success: false,
+      message: "Wrong usage.",
+    };
   }
   if (message.mentions.roles.array().length) {
     if (!message.member.hasPermission("ADMINISTRATOR")) {
@@ -79,22 +88,25 @@ exports.run = function (client, message, args) {
           message.author.id +
           ">, you need to be an administrator to mention roles."
       );
-      return;
+      return {
+        success: false,
+        message: "Not an admin and mentioned a role.",
+      };
     }
   }
 
-  if (message.mentions.users.array().length) {
-    if (message.mentions.users.array().length > 1) {
-      if (!message.member.hasPermission("ADMINISTRATOR")) {
-        message.channel.send(
-          "<@" +
-            message.author.id +
-            ">, you need to be an administrator to mention other users."
-        );
-        return;
-      }
-    }
-  }
+  // if (message.mentions.users.array().length) {
+  //   if (message.mentions.users.array().length > 1) {
+  //     if (!message.member.hasPermission("ADMINISTRATOR")) {
+  //       message.channel.send(
+  //         "<@" +
+  //           message.author.id +
+  //           ">, you need to be an administrator to mention other users."
+  //       );
+
+  //     }
+  //   }
+  // }
 
   messageBot = false;
   message.mentions.users.each((user) => {
@@ -104,8 +116,11 @@ exports.run = function (client, message, args) {
   });
 
   if (messageBot) {
-    message.channel.send("You cannot mention a bot.");
-    return;
+    message.channel.send("You cannot mention bots.");
+    return {
+      success: false,
+      message: "Mentioned bot account.",
+    };
   }
 
   if (message.mentions.users.array().length) {
@@ -117,7 +132,10 @@ exports.run = function (client, message, args) {
             message.author.id +
             ">, you need to be an administrator to mention other users."
         );
-        return;
+        return {
+          success: false,
+          message: "Not an admin and mentioned other users.",
+        };
       }
     }
   }
@@ -135,7 +153,10 @@ exports.run = function (client, message, args) {
           message.author.id +
           ">, you need to be an administrator to run this command."
       );
-      return;
+      return {
+        success: false,
+        message: "Mentioned everyone without being an admin.",
+      };
     }
 
     if (args[0] == "on") {
@@ -145,7 +166,10 @@ exports.run = function (client, message, args) {
           ">, it is not possible to enable gamemove for everyone."
       );
 
-      return;
+      return {
+        success: false,
+        message: "Mentioned on with everyone mention.",
+      };
     } else if (args[0] == "off") {
       message.channel.send(
         "<@" + message.author.id + ">, disabled gamemove for everyone."
@@ -154,7 +178,10 @@ exports.run = function (client, message, args) {
       client.guild.config.gamemove.roles = {};
       //console.log(client.guild.gamemove.config);
       tools.updateConfig(client, message);
-      return;
+      return {
+        success: true,
+        message: "Mentioned off with everyone mention.",
+      };
     }
   }
 
@@ -208,6 +235,10 @@ exports.run = function (client, message, args) {
 
   //Updating config
   tools.updateConfig(client, message);
+  return {
+    success: true,
+    message: m,
+  };
 };
 
 exports.help = {

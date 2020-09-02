@@ -8,7 +8,10 @@ validArgs = ["aliascommand", "channel", "prefix", "bot"];
 exports.run = function (client, message, args) {
   if (message.webhookID) {
     message.channel.send("Webhooks cannot be used with that command.");
-    return;
+    return {
+      success: false,
+      message: "Webhooks cannot be used with that command.",
+    };
   }
 
   if (args.length === 0) {
@@ -48,7 +51,10 @@ exports.run = function (client, message, args) {
         description: mes,
       },
     });
-    return;
+    return {
+      success: true,
+      message: "Displayed current config",
+    };
   }
 
   //No valid args are given
@@ -64,7 +70,10 @@ exports.run = function (client, message, args) {
       }
     });
     message.channel.send(mes);
-    return;
+    return {
+      success: false,
+      message: mes,
+    };
   }
 
   //Arguments are given
@@ -72,19 +81,23 @@ exports.run = function (client, message, args) {
   //Check if administrator
   if (!message.member.hasPermission("ADMINISTRATOR")) {
     message.channel.send("You need to be an administrator to change config.");
-    return;
+    return {
+      success: false,
+      message: "You need to be an administrator to change config.",
+    };
   }
 
   //Check the second argument
   if (args[0] == "aliascommand") {
-    changeAliasCommand(client, message, args);
+    response = changeAliasCommand(client, message, args);
   } else if (args[0] == "channel") {
-    changeChannel(client, message, args);
+    response = changeChannel(client, message, args);
   } else if (args[0] == "prefix") {
-    changePrefix(client, message, args);
+    response = changePrefix(client, message, args);
   } else if (args[0] == "bot") {
-    changeBotEnabled(client, message, args);
+    response = changeBotEnabled(client, message, args);
   }
+  return response;
 };
 
 exports.help = {
