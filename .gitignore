@@ -1,11 +1,5 @@
 files/config.json
 node_modules
-package-lock.json
 docker-compose.yml
 Dockerfile
-files/config_test.json
-test.js
-console.js
 todo.md
-newdb.js
-testdb.js
