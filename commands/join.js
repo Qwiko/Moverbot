@@ -59,6 +59,22 @@ exports.run = function (client, message, args) {
     };
   }
 
+  //Check bot permissions for the channel
+  if (!tools.checkPermissions(client, oldChannel)) {
+    message.channel.send(
+      "Cannot move from " +
+        oldChannel.name +
+        ", I do not have permissions for that."
+    );
+    return {
+      success: false,
+      message:
+        "Cannot move from " +
+        oldChannel.name +
+        ", I do not have permissions for that.",
+    };
+  }
+
   //Check if the user have permission for the channel.
   if (!newChannel.memberPermissions(message.member).has("CONNECT")) {
     message.channel.send(

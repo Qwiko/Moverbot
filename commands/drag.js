@@ -40,7 +40,11 @@ exports.run = function (client, message, args) {
     }
   }
 
-  if (oldChannelId == "") {
+  oldChannel = message.guild.channels.cache.find(
+    (val) => val.id === oldChannelId
+  );
+
+  if (typeof oldChannel == "undefined") {
     message.channel.send("There is no such channel: *" + oldChannelName + "*.");
     return {
       success: false,
@@ -56,7 +60,7 @@ exports.run = function (client, message, args) {
     };
   }
 
-  if (newChannel.id == oldChannelId) {
+  if (newChannel.id == oldChannel.id) {
     message.channel.send("You cannot select your own channel.");
     return {
       success: false,
@@ -64,9 +68,20 @@ exports.run = function (client, message, args) {
     };
   }
 
-  oldChannel = message.guild.channels.cache.find(
-    (val) => val.id === oldChannelId
-  );
+  if (!tools.checkPermissions(client, oldChannel)) {
+    message.channel.send(
+      "Cannot move from " +
+        oldChannel.name +
+        ", I do not have permissions for that."
+    );
+    return {
+      success: false,
+      message:
+        "Cannot move from " +
+        oldChannel.name +
+        ", I do not have permissions for that.",
+    };
+  }
 
   if (oldChannel.members.size == 0) {
     message.channel.send("There is no users in: *" + oldChannel.name + "*.");
