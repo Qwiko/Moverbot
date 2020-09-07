@@ -12,6 +12,8 @@ client.config = require("./files/config.json");
 
 const fs = require("fs");
 
+client.lib = require("./lib");
+
 //Mongojs setup
 const mongojs = require("mongojs");
 
@@ -25,9 +27,7 @@ fs.readdir("./events/", (err, files) => {
   files.forEach((file) => {
     const event = require(`./events/${file}`);
     let eventName = file.split(".")[0];
-    //console.log(eventName);
-    if (eventName != "voiceStateUpdate")
-      client.on(eventName, event.bind(null, client));
+    client.on(eventName, event.bind(null, client));
   });
 });
 

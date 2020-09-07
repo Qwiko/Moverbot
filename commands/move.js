@@ -1,5 +1,3 @@
-const tools = require("../lib/tools.js");
-
 exports.run = function (client, message, args) {
   alias = client.guild.config.alias;
 
@@ -109,15 +107,15 @@ exports.run = function (client, message, args) {
   }
 
   //Check if the user have permission for the channel.
-  // if (!newChannel.memberPermissions(message.member).has("CONNECT")) {
-  //   message.channel.send(
-  //     "You do not have permission to move to channel: " + newChannel.name + "."
-  //   );
-  //   return;
-  // }
+  if (!newChannel.memberPermissions(message.member).has("CONNECT")) {
+    message.channel.send(
+      "You do not have permission to move to channel: " + newChannel.name + "."
+    );
+    return;
+  }
 
   //Cannot move from that channel
-  if (!tools.checkPermissions(client, oldChannel)) {
+  if (!client.lib.checkPermissions(client, oldChannel)) {
     message.channel.send(
       "Cannot move from " +
         oldChannel.name +
@@ -132,7 +130,7 @@ exports.run = function (client, message, args) {
     };
   }
 
-  var counter = tools.moveMembers(client, oldChannel, newChannel);
+  var counter = client.lib.moveMembers(client, oldChannel, newChannel);
 
   if (!counter) {
     message.channel.send("Could not move to " + newChannel.name + ".");

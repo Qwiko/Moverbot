@@ -1,5 +1,3 @@
-const tools = require("../lib/tools.js");
-
 exports.run = function (client, message, args) {
   alias = client.guild.config.alias;
 
@@ -60,7 +58,7 @@ exports.run = function (client, message, args) {
   }
 
   //Check bot permissions for the channel
-  if (!tools.checkPermissions(client, oldChannel)) {
+  if (!client.lib.checkPermissions(client, oldChannel)) {
     message.channel.send(
       "Cannot move from " +
         oldChannel.name +
@@ -89,7 +87,7 @@ exports.run = function (client, message, args) {
     };
   }
 
-  counter = tools.moveMembers(client, message.member, newChannel);
+  counter = client.lib.moveMembers(client, message.member, newChannel);
 
   if (!counter) {
     message.channel.send(

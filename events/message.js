@@ -1,5 +1,3 @@
-const tools = require("../lib/tools.js");
-
 //Waiting for messages
 module.exports = async (client, message) => {
   /////////////////////////////////
@@ -9,7 +7,7 @@ module.exports = async (client, message) => {
   if (message.channel.type != "text") return;
 
   //Load async config from the mongoDB.
-  tools.loadConfig(client, message.guild, function (config) {
+  client.lib.loadConfig(client, message.guild, function (config) {
     alias = config.alias;
     client.guild = {};
     client.guild.config = config;
@@ -87,6 +85,6 @@ module.exports = async (client, message) => {
     }
 
     //Logging every command
-    tools.log(client, message, response);
+    client.lib.log(client, message, response);
   });
 };

@@ -1,5 +1,3 @@
-const tools = require("../lib/tools.js");
-
 exports.run = function (client, message, args) {
   alias = client.guild.config.alias;
   newChannel = undefined;
@@ -47,7 +45,7 @@ exports.run = function (client, message, args) {
     return (
       val.type == "voice" &&
       val.id != newChannel.id &&
-      tools.checkPermissions(client, val)
+      client.lib.checkPermissions(client, val)
     );
   });
   //console.log(allVoice);
@@ -69,7 +67,7 @@ exports.run = function (client, message, args) {
   allVoice.each((channel) => {
     //Only move the channels with members inside.
     if (channel.members.size != 0) {
-      value = tools.moveMembers(client, channel, newChannel);
+      value = client.lib.moveMembers(client, channel, newChannel);
       if (value) {
         counter += value;
       }

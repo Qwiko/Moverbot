@@ -46,7 +46,6 @@ exports.run = function (client, message, args) {
       fields: m,
     },
   });
-  console.log("Returning from help");
   return { success: true, message: "Printed help-message successfully." };
 };
 

@@ -1,8 +1,3 @@
-const changeAliasCommand = require("../lib/config/changeAliasCommand.js");
-const changeChannel = require("../lib/config/changeChannel.js");
-const changePrefix = require("../lib/config/changePrefix.js");
-const changeBotEnabled = require("../lib/config/changeBotEnabled.js");
-
 validArgs = ["aliascommand", "channel", "prefix", "bot"];
 
 exports.run = function (client, message, args) {
@@ -89,13 +84,13 @@ exports.run = function (client, message, args) {
 
   //Check the second argument
   if (args[0] == "aliascommand") {
-    response = changeAliasCommand(client, message, args);
+    response = client.lib.config.changeAliasCommand(client, message, args);
   } else if (args[0] == "channel") {
-    response = changeChannel(client, message, args);
+    response = client.lib.config.changeChannel(client, message, args);
   } else if (args[0] == "prefix") {
-    response = changePrefix(client, message, args);
+    response = client.lib.config.changePrefix(client, message, args);
   } else if (args[0] == "bot") {
-    response = changeBotEnabled(client, message, args);
+    response = client.lib.config.changeBotEnabled(client, message, args);
   }
   return response;
 };

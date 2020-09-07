@@ -1,5 +1,3 @@
-const tools = require("../lib/tools.js");
-
 exports.run = function (client, message, args) {
   //Drag users from a channel to yours.
   alias = client.guild.config.alias;
@@ -68,7 +66,7 @@ exports.run = function (client, message, args) {
     };
   }
 
-  if (!tools.checkPermissions(client, oldChannel)) {
+  if (!client.lib.checkPermissions(client, oldChannel)) {
     message.channel.send(
       "Cannot move from " +
         oldChannel.name +
@@ -92,7 +90,7 @@ exports.run = function (client, message, args) {
   }
 
   //Moving users
-  var counter = tools.moveMembers(client, oldChannel, newChannel);
+  var counter = client.lib.moveMembers(client, oldChannel, newChannel);
 
   if (!counter) {
     message.channel.send(

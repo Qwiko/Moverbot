@@ -1,5 +1,3 @@
-const tools = require("../lib/tools.js");
-
 exports.run = function (client, message, args) {
   alias = client.guild.config.alias;
 
@@ -177,7 +175,7 @@ exports.run = function (client, message, args) {
       client.guild.config.gamemove.users = {};
       client.guild.config.gamemove.roles = {};
       //console.log(client.guild.gamemove.config);
-      tools.updateConfig(client, message);
+      client.lib.updateConfig(client, message);
       return {
         success: true,
         message: "Mentioned off with everyone mention.",
@@ -234,7 +232,7 @@ exports.run = function (client, message, args) {
   message.channel.send(m);
 
   //Updating config
-  tools.updateConfig(client, message);
+  client.lib.updateConfig(client, message);
   return {
     success: true,
     message: m,

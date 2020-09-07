@@ -13,7 +13,7 @@ module.exports = (client, oldPresence, newPresence) => {
   //Does not move while the user changes status.
   if (oldPresence.status != newPresence.status) return;
   //Load config
-  tools.loadConfig(client, newPresence.guild, function (config) {
+  client.lib.loadConfig(client, newPresence.guild, function (config) {
     //No data means no users have activated presencemoving.
     if (
       !(
@@ -89,14 +89,14 @@ module.exports = (client, oldPresence, newPresence) => {
 
     if (!counter) {
       //Channel full, cannot join.
-      tools.log(client, msg, {
+      client.lib.log(client, msg, {
         success: false,
         message: "Channel full",
       });
       return;
     }
 
-    tools.log(client, msg, {
+    client.lib.log(client, msg, {
       success: true,
       message: msg.content,
       usersmoved: counter,

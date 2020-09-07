@@ -1,8 +1,3 @@
-const displayAlias = require("../lib/alias/displayAlias.js");
-const deleteAlias = require("../lib/alias/deleteAlias.js");
-const hideAlias = require("../lib/alias/hideAlias.js");
-const addAlias = require("../lib/alias/addAlias.js");
-
 exports.run = function (client, message, args) {
   if (message.webhookID) {
     message.channel.send("Webhooks cannot be used with that command.");
@@ -16,10 +11,10 @@ exports.run = function (client, message, args) {
     //If no args are given, display current aliases.
     if (args[0] == "displayall") {
       //Display alias + hidden
-      response = displayAlias(client, message, true);
+      response = client.lib.alias.displayAlias(client, message, true);
     } else {
       //Don't display hidden aliases
-      response = displayAlias(client, message, false);
+      response = client.lib.alias.displayAlias(client, message, false);
     }
     return response;
   } else {
@@ -47,11 +42,11 @@ exports.run = function (client, message, args) {
 
     //Check the second argument
     if (args[0] == "del") {
-      response = deleteAlias(client, message, args);
+      response = client.lib.alias.deleteAlias(client, message, args);
     } else if (args[0] == "hide") {
-      response = hideAlias(client, message, args);
+      response = client.lib.alias.hideAlias(client, message, args);
     } else {
-      response = addAlias(client, message, args);
+      response = client.lib.alias.addAlias(client, message, args);
     }
     return response;
   }
