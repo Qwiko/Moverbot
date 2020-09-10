@@ -1,12 +1,8 @@
-exports.run = function (client, message, args) {
+exports.run = async (client, message, args) => {
   //Drag users from a channel to yours.
   alias = client.guild.config.alias;
   if (message.webhookID) {
-    message.channel.send("Webhooks cannot be used with that command.");
-    return {
-      success: false,
-      message: "Webhooks cannot be used with that command.",
-    };
+    return client.lib.message.send(client, message.channel, "CANNOT_WEBHOOK");
   }
 
   newChannel = message.member.voice.channel;
@@ -90,7 +86,7 @@ exports.run = function (client, message, args) {
   }
 
   //Moving users
-  var counter = client.lib.moveMembers(client, oldChannel, newChannel);
+  var counter = await client.lib.move.channel(client, oldChannel, newChannel);
 
   if (!counter) {
     message.channel.send(

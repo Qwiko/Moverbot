@@ -1,4 +1,4 @@
-exports.run = function (client, message, args) {
+exports.run = async (client, message, args) => {
   alias = client.guild.config.alias;
   newChannel = undefined;
 
@@ -42,20 +42,17 @@ exports.run = function (client, message, args) {
   //Find all voicechannels without the one we are in.
   allVoice = message.guild.channels.cache.filter((val) => {
     //message.channel
+    //console.log(val);
     return (
       val.type == "voice" &&
       val.id != newChannel.id &&
-      client.lib.checkPermissions(client, val)
+      client.lib.checkPermissions(client, val) &&
+      val.members.size != 0
     );
   });
-  //console.log(allVoice);
-
   //Check if there are any members that can be moved. If the guild are empty exept for you.
-  guildActive = 0;
-  allVoice.each((channel) => {
-    guildActive += channel.members.size;
-  });
-  if (guildActive == 0) {
+
+  if (!allVoice.size) {
     message.channel.send("There are no users that can be moved.");
     return {
       success: false,
@@ -63,16 +60,12 @@ exports.run = function (client, message, args) {
     };
   }
 
-  counter = 0;
+  promises = [];
   allVoice.each((channel) => {
-    //Only move the channels with members inside.
-    if (channel.members.size != 0) {
-      value = client.lib.moveMembers(client, channel, newChannel);
-      if (value) {
-        counter += value;
-      }
-    }
+    promises.push(client.lib.move.channel(client, channel, newChannel));
   });
+
+  counter = (await Promise.all(promises)).reduce((acc, cur) => acc + cur);
 
   if (!counter) {
     message.channel.send("Something went wrong, could not move anyone.");

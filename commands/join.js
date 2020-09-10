@@ -1,12 +1,8 @@
-exports.run = function (client, message, args) {
+exports.run = async (client, message, args) => {
   alias = client.guild.config.alias;
 
   if (message.webhookID) {
-    message.channel.send("Webhooks cannot be used with that command.");
-    return {
-      success: false,
-      message: "Webhooks cannot be used with that command.",
-    };
+    return client.lib.message.send(client, message.channel, "CANNOT_WEBHOOK");
   }
 
   oldChannel = message.member.voice.channel;
@@ -14,20 +10,20 @@ exports.run = function (client, message, args) {
 
   //Check if no argument is passed
   if (typeof args[0] == "undefined") {
-    message.channel.send("Please provide a channelname.");
-    return {
-      success: false,
-      message: "Please provide a channelname.",
-    };
+    return client.lib.message.send(
+      client,
+      message.channel,
+      "PROVIDE_CHANNELNAME"
+    );
   }
 
   //Check if the user is part of a voicechannel.
   if (typeof oldChannel === "undefined") {
-    message.channel.send("You are not part of a voicechannel.");
-    return {
-      success: false,
-      message: "You are not part of a voicechannel.",
-    };
+    return client.lib.message.send(
+      client,
+      message.channel,
+      "NOT_IN_VOICECHANNEL"
+    );
   }
 
   //Tried to find the channelID from the name
@@ -41,53 +37,45 @@ exports.run = function (client, message, args) {
 
   //Check if no key is found
   if (typeof newChannel === "undefined") {
-    message.channel.send("There is no such channel: *" + args[0] + "*.");
-    return {
-      success: false,
-      message: "There is no such channel: *" + args[0] + "*.",
-    };
+    return client.lib.message.send(client, message.channel, "NO_SUCH_CHANNEL", {
+      newChannelName: args[0],
+    });
   }
 
   //Check if it is the same channel.
   if (oldChannel.id == newChannel.id) {
-    message.channel.send("You are already in that channel.");
-    return {
-      success: false,
-      message: "You are already in that channel.",
-    };
+    return client.lib.message.send(
+      client,
+      message.channel,
+      "ALREADY_IN_CHANNEL"
+    );
   }
 
   //Check bot permissions for the channel
   if (!client.lib.checkPermissions(client, oldChannel)) {
-    message.channel.send(
-      "Cannot move from " +
-        oldChannel.name +
-        ", I do not have permissions for that."
+    return client.lib.message.send(
+      client,
+      message.channel,
+      "BOT_NO_PERMISSION",
+      { oldChannelName: oldChannel.name }
     );
-    return {
-      success: false,
-      message:
-        "Cannot move from " +
-        oldChannel.name +
-        ", I do not have permissions for that.",
-    };
   }
 
   //Check if the user have permission for the channel.
   if (!newChannel.memberPermissions(message.member).has("CONNECT")) {
-    message.channel.send(
-      "You do not have permission to move to channel: " + newChannel.name + "."
+    return client.lib.message.send(
+      client,
+      message.channel,
+      "USER_NO_PERMISSION",
+      { newChannelName: newChannel.name }
     );
-    return {
-      success: false,
-      message:
-        "You do not have permission to move to channel: " +
-        newChannel.name +
-        ".",
-    };
   }
 
-  counter = client.lib.moveMembers(client, message.member, newChannel);
+  var counter = await client.lib.move.channel(
+    client,
+    message.member,
+    newChannel
+  );
 
   if (!counter) {
     message.channel.send(
@@ -99,18 +87,23 @@ exports.run = function (client, message, args) {
     };
   }
 
-  message.channel.send(
-    message.member.displayName + " moved to channel: *" + newChannel.name + "*."
-  );
-  return {
-    success: true,
-    message:
-      message.member.displayName +
-      " moved to channel: *" +
-      newChannel.name +
-      "*.",
-    usersmoved: 1,
-  };
+  return client.lib.message.send(client, message.channel, "JOIN_SUCCESS", {
+    user: message.member.displayName,
+    newChannelName: newChannel.name,
+  });
+
+  // message.channel.send(
+  //   message.member.displayName + " moved to channel: *" + newChannel.name + "*."
+  // );
+  // return {
+  //   success: true,
+  //   message:
+  //     message.member.displayName +
+  //     " moved to channel: *" +
+  //     newChannel.name +
+  //     "*.",
+  //   usersmoved: 1,
+  // };
 };
 
 exports.help = {

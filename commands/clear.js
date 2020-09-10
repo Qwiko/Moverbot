@@ -1,10 +1,6 @@
-exports.run = async function (client, message) {
+exports.run = async (client, message) => {
   if (message.webhookID) {
-    message.channel.send("Webhooks cannot be used with that command.");
-    return {
-      success: false,
-      message: "Webhooks cannot be used with that command.",
-    };
+    return client.lib.message.send(client, message.channel, "CANNOT_WEBHOOK");
   }
 
   //Check if administrator

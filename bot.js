@@ -14,12 +14,8 @@ const fs = require("fs");
 
 client.lib = require("./lib");
 
-//Mongojs setup
-const mongojs = require("mongojs");
-
-client.db = mongojs(
-  client.config.serverip + client.config.db + client.config.options
-);
+//db setup
+client.lib.db.create(client);
 
 //Loading events
 fs.readdir("./events/", (err, files) => {

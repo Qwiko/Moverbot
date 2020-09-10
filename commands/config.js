@@ -1,12 +1,8 @@
 validArgs = ["aliascommand", "channel", "prefix", "bot"];
 
-exports.run = function (client, message, args) {
+exports.run = async (client, message, args) => {
   if (message.webhookID) {
-    message.channel.send("Webhooks cannot be used with that command.");
-    return {
-      success: false,
-      message: "Webhooks cannot be used with that command.",
-    };
+    return client.lib.message.send(client, message.channel, "CANNOT_WEBHOOK");
   }
 
   if (args.length === 0) {
@@ -74,7 +70,7 @@ exports.run = function (client, message, args) {
   //Arguments are given
 
   //Check if administrator
-  if (!message.member.hasPermission("ADMINISTRATOR")) {
+  if (!client.lib.permissions.isAdmin(message.member)) {
     message.channel.send("You need to be an administrator to change config.");
     return {
       success: false,

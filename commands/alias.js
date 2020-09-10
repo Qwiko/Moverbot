@@ -1,10 +1,6 @@
-exports.run = function (client, message, args) {
+exports.run = async (client, message, args) => {
   if (message.webhookID) {
-    message.channel.send("Webhooks cannot be used with that command.");
-    return {
-      success: false,
-      message: "Webhooks cannot be used with that command.",
-    };
+    return client.lib.message.send(client, message.channel, "CANNOT_WEBHOOK");
   }
 
   if (args.length == 0 || args[0] == "displayall") {

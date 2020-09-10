@@ -6,8 +6,8 @@ module.exports = (client, guild) => {
   };
   response = {
     success: true,
-    message: "Left guild: " + guild.name + " with id: " + guild.id,
+    message: msg.content,
   };
 
-  client.lib.log(client, msg, response, (server = true));
+  client.lib.log(client, msg, response, true);
 };

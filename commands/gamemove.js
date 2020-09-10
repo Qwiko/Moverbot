@@ -1,12 +1,8 @@
-exports.run = function (client, message, args) {
+exports.run = async (client, message, args) => {
   alias = client.guild.config.alias;
 
   if (message.webhookID) {
-    message.channel.send("Webhooks cannot be used with that command.");
-    return {
-      success: false,
-      message: "Webhooks cannot be used with that command.",
-    };
+    return client.lib.message.send(client, message.channel, "CANNOT_WEBHOOK");
   }
 
   //If only !gamemove is sent, display current settings

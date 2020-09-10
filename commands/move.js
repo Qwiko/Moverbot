@@ -1,4 +1,4 @@
-exports.run = function (client, message, args) {
+exports.run = async (client, message, args) => {
   alias = client.guild.config.alias;
 
   var oldChannel;
@@ -7,35 +7,26 @@ exports.run = function (client, message, args) {
   //Check if the user can move members
   if (!message.webhookID) {
     if (!message.member.hasPermission("MOVE_MEMBERS")) {
-      message.channel.send(
-        "You do not have the correct permissions, you need to be able to move users between channels."
+      return client.lib.message.send(
+        client,
+        message.channel,
+        "PERMISSION_MOVE_MEMBERS"
       );
-      return {
-        success: false,
-        message:
-          "You do not have the correct permissions, you need to be able to move users between channels.",
-      };
     }
   }
   //Check if no argument is passed
   if (typeof args[0] == "undefined") {
-    message.channel.send("Please provide a channelname.");
-    return {
-      success: false,
-      message: "Please provide a channelname.",
-    };
+    return client.lib.message.send(
+      client,
+      message.channel,
+      "PROVIDE_CHANNELNAME"
+    );
   }
 
   if (message.webhookID && args.length < 2) {
-    message.channel.send(
-      "Using webhooks with this command requires 2 arguments, " +
-        client.guild.config.prefix +
-        "move FROMCHANNEL TOCHANNEL."
-    );
-    return {
-      success: false,
-      message: "Using webhooks with this command requires 2 arguments",
-    };
+    return client.lib.message.send(client, message.channel, "WEBHOOK_MOVE", {
+      prefix: client.guild.config.prefix,
+    });
   }
 
   //Trying to find the channelID from the name
@@ -63,102 +54,79 @@ exports.run = function (client, message, args) {
     }
   }
   //Check if the user is part of a voicechannel.
-  if (typeof oldChannel === "undefined" && args.length == 1) {
-    message.channel.send("You are not part of a voicechannel.");
-    return {
-      success: false,
-      message: "You are not part of a voicechannel.",
-    };
+  if (oldChannel == null && args.length == 1) {
+    return client.lib.message.send(
+      client,
+      message.channel,
+      "NOT_IN_VOICECHANNEL"
+    );
   }
 
   //Check if no key is found
   if (typeof oldChannel === "undefined") {
-    message.channel.send("There is no such channel: *" + args[0] + "*.");
-    return {
-      success: false,
-      message: "There is no such channel: *" + args[0] + "*.",
-    };
+    return client.lib.message.send(client, message.channel, "NO_SUCH_CHANNEL", {
+      newChannelName: args[0],
+    });
   }
 
   //Check if no key is found
   if (typeof newChannel === "undefined") {
-    message.channel.send(
-      "There is no such channel: *" + args[args.length >= 2 ? 1 : 0] + "*."
-    );
-    return {
-      success: false,
-      message:
-        "There is no such channel: *" + args[args.length >= 2 ? 1 : 0] + "*.",
-    };
+    return client.lib.message.send(client, message.channel, "NO_SUCH_CHANNEL", {
+      newChannelName: args[args.length >= 2 ? 1 : 0],
+    });
   }
 
   //Check if it is the same channel.
   if (oldChannel.id == newChannel.id) {
     if (args.length == 1) {
-      msg = "You are already in that channel.";
+      return client.lib.message.send(
+        client,
+        message.channel,
+        "ALREADY_IN_CHANNEL"
+      );
     } else {
-      msg = "Cannot move to the same channel";
+      return client.lib.message.send(client, message.channel, "SAME_CHANNEL");
     }
-    message.channel.send(msg);
-    return {
-      success: false,
-      message: msg,
-    };
   }
 
   //Check if the user have permission for the channel.
-  if (!newChannel.memberPermissions(message.member).has("CONNECT")) {
-    message.channel.send(
-      "You do not have permission to move to channel: " + newChannel.name + "."
+  if (
+    message.webhookID
+      ? false
+      : !newChannel.memberPermissions(message.member).has("CONNECT") //Ugly fix
+  ) {
+    return client.lib.message.send(
+      client,
+      message.channel,
+      "USER_NO_PERMISSION",
+      { newChannelName: newChannel.name }
     );
-    return;
   }
 
   //Cannot move from that channel
   if (!client.lib.checkPermissions(client, oldChannel)) {
-    message.channel.send(
-      "Cannot move from " +
-        oldChannel.name +
-        ", I do not have permissions for that."
+    return client.lib.message.send(
+      client,
+      message.channel,
+      "BOT_NO_PERMISSION",
+      { oldChannelName: oldChannel.name }
     );
-    return {
-      success: false,
-      message:
-        "Cannot move from " +
-        oldChannel.name +
-        ", I do not have permissions for that.",
-    };
   }
 
-  var counter = client.lib.moveMembers(client, oldChannel, newChannel);
+  //var counter = client.lib.moveMembers(client, oldChannel, newChannel);
+
+  var counter = await client.lib.move.channel(client, oldChannel, newChannel);
 
   if (!counter) {
-    message.channel.send("Could not move to " + newChannel.name + ".");
-    return {
-      success: false,
-      message: "Could not move to " + newChannel.name + ".",
-    };
+    return client.lib.message.send(client, message.channel, "COULD_NOT_MOVE", {
+      newChannelName: newChannel.name,
+    });
   }
 
-  message.channel.send(
-    "Moved " +
-      counter +
-      (counter == 1 ? " user" : " users") +
-      " to the channel: *" +
-      newChannel.name +
-      "*."
-  );
-  return {
-    success: true,
-    message:
-      "Moved " +
-      counter +
-      (counter == 1 ? " user" : " users") +
-      " to the channel: *" +
-      newChannel.name +
-      "*.",
-    usersmoved: counter,
-  };
+  return client.lib.message.send(client, message.channel, "MOVE_SUCCESS", {
+    counter: counter,
+    newChannelName: newChannel.name,
+  });
 };
 
 exports.help = {

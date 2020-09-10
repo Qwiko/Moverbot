@@ -16,7 +16,7 @@ module.exports = (client, guild) => {
   };
   response = {
     success: true,
-    message: "Joined a new guild: " + guild.name + " with id: " + guild.id,
+    message: msg.content,
   };
 
   client.lib.log(client, msg, response, (server = true));
