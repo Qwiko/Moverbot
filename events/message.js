@@ -73,16 +73,17 @@ module.exports = async (client, message) => {
       break;
     }
   }
-  const cmd = client.commands.get(command.toLowerCase());
-  if (!cmd) {
-    message.channel.send("Cannot handle that command, please try again.");
-    response = {
-      success: false,
-      message: "Cannot handle that command, please try again.",
-    };
+  client.cmd = null;
+  client.cmd = client.commands.get(command.toLowerCase());
+  if (!client.cmd) {
+    response = client.lib.message.send(
+      client,
+      message.channel,
+      "CANNOT_HANDLE_COMMAND"
+    );
   } else {
-    response = await cmd.run(client, message, args);
+    response = client.cmd.run(client, message, args);
   }
   //Logging every command
-  client.lib.log(client, message, response);
+  client.lib.log(client, message, await response);
 };
