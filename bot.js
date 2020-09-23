@@ -37,7 +37,7 @@ fs.readdir("./commands/", (err, files) => {
     let props = require(`./commands/${file}`);
     let commandName = file.split(".")[0];
     //console.log(`Attempting to load command ${commandName}`);
-    if (props.help.enabled) {
+    if (props && props.help && props.help.enabled) {
       //Load only enabled commands
       client.commands.set(commandName, props);
       //Setting aliases
