@@ -1,4 +1,7 @@
 module.exports = (client, guild) => {
+  //Updating stats
+  client.lib.stats(client);
+
   msg = {
     author: { username: guild.name, id: guild.id },
     content: "Left guild: " + guild.name + " with id: " + guild.id,

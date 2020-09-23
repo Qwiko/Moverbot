@@ -9,6 +9,9 @@ module.exports = (client, guild) => {
   //     ".\nPlease create a textchannel named moverbot and write !help to start using Moverbot!"
   // );
 
+  //Updating stats
+  client.lib.stats(client);
+
   msg = {
     author: { username: guild.name, id: guild.id },
     content: "Joined a new guild: " + guild.name + " with id: " + guild.id,
