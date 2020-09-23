@@ -75,7 +75,9 @@ module.exports = async (client, message) => {
   }
   client.cmd = null;
   client.cmd = client.commands.get(command.toLowerCase());
+
   if (!client.cmd) {
+    client.cmd = { help: { name: command } };
     response = client.lib.message.send(
       client,
       message.channel,
