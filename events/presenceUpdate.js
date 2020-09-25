@@ -3,9 +3,6 @@ module.exports = async (client, oldPresence, newPresence) => {
   if (newPresence.user.bot) return;
   //Not in a voiceChannel
   if (typeof newPresence.member.voice.channelID == "undefined") return;
-  //Same voicechannel, return
-  if (oldPresence.member.voice.channel == newPresence.member.voice.channel)
-    return;
   //Update does not refer to a game change.
   if (typeof newPresence.activities[0] == "undefined") return;
   //Only type playing
