@@ -28,7 +28,6 @@ module.exports = async (client, oldPresence, newPresence) => {
 
   users = config.gamemove.users;
   roles = config.gamemove.roles;
-  userEnabled = false;
   drag = false;
 
   //If we can't find information about the user in the database skip, or if they have opted out.
@@ -39,9 +38,6 @@ module.exports = async (client, oldPresence, newPresence) => {
     userEnabled = users[newPresence.userID].enabled;
     drag = users[newPresence.userID].drag;
   }
-
-  //User have disabled
-  if (userEnabled == false) return;
 
   gamename = newPresence.activities[0].name;
   newChannelId = "";
@@ -97,7 +93,6 @@ module.exports = async (client, oldPresence, newPresence) => {
       newChannelId,
     guild: { id: newPresence.guild.id },
   };
-
   if (!counter) {
     //Channel full, cannot join.
     client.lib.log(client, msg, {
