@@ -28,6 +28,7 @@ module.exports = async (client, oldPresence, newPresence) => {
 
   users = config.gamemove.users;
   roles = config.gamemove.roles;
+  userEnabled = false;
   drag = false;
 
   //If we can't find information about the user in the database skip, or if they have opted out.
