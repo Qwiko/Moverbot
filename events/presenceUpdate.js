@@ -2,7 +2,7 @@ module.exports = async (client, oldPresence, newPresence) => {
   //Do not read bot updates.
   if (newPresence.user.bot) return;
   //Not in a voiceChannel
-  if (typeof newPresence.member.voice == "undefined") return;
+  if (typeof newPresence.member.voice.channelID == "undefined") return;
   //Update does not refer to a game change.
   if (typeof newPresence.activities[0] == "undefined") return;
   //Only type playing
@@ -51,7 +51,7 @@ module.exports = async (client, oldPresence, newPresence) => {
   }
 
   //No channel found.
-  if (newChannelId == "") return;
+  if (!newChannelId) return;
   //Already in right channel
   if (newPresence.member.voice.channelID == newChannelId) return;
   //Grabbing guild
@@ -78,7 +78,6 @@ module.exports = async (client, oldPresence, newPresence) => {
   //   drag ? newPresence.member.voice.channelID : newPresence.member,
   //   newChannel
   // );
-
   var counter = await client.lib.move.channel(
     client,
     drag ? newPresence.member.voice.channelID : newPresence.member,
