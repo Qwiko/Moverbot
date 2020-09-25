@@ -158,7 +158,7 @@ exports.run = async (client, message, args) => {
       client.guild.config.gamemove.users = {};
       client.guild.config.gamemove.roles = {};
       //console.log(client.guild.gamemove.config);
-      client.lib.updateConfig(client, message);
+      client.lib.db.updateConfig(client, message);
       return {
         success: true,
         message: "Mentioned off with everyone mention.",
@@ -215,7 +215,7 @@ exports.run = async (client, message, args) => {
   message.channel.send(m);
 
   //Updating config
-  client.lib.updateConfig(client, message);
+  client.lib.db.updateConfig(client, message);
   return {
     success: true,
     message: m,
