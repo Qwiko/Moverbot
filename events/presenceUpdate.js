@@ -80,7 +80,7 @@ module.exports = async (client, oldPresence, newPresence) => {
   // );
   var counter = await client.lib.move.channel(
     client,
-    drag ? newPresence.member.voice.channelID : newPresence.member,
+    drag ? newPresence.member.voice.channel : newPresence.member,
     newChannel
   );
 
