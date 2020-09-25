@@ -40,6 +40,9 @@ module.exports = async (client, oldPresence, newPresence) => {
     drag = users[newPresence.userID].drag;
   }
 
+  //User have disabled
+  if (userEnabled == false) return;
+
   gamename = newPresence.activities[0].name;
   newChannelId = "";
 
