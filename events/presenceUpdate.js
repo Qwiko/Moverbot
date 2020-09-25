@@ -7,6 +7,10 @@ module.exports = async (client, oldPresence, newPresence) => {
   if (typeof newPresence.activities[0] == "undefined") return;
   //Only type playing
   if (newPresence.activities[0].type != "PLAYING") return;
+
+  if (!oldPresence) return;
+  if (!newPresence) return;
+
   //Does not move while the user changes status.
   if (oldPresence.status != newPresence.status) return;
   //Load config
