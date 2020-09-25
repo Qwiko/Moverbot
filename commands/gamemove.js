@@ -53,7 +53,7 @@ exports.run = async (client, message, args) => {
     };
   }
 
-  //Check if arguments exists and contain what we want
+  //If only gamemove is sent with no mentions
   if (
     args.length == 0 ||
     !(
@@ -88,19 +88,6 @@ exports.run = async (client, message, args) => {
       };
     }
   }
-
-  // if (message.mentions.users.array().length) {
-  //   if (message.mentions.users.array().length > 1) {
-  //     if (!message.member.hasPermission("ADMINISTRATOR")) {
-  //       message.channel.send(
-  //         "<@" +
-  //           message.author.id +
-  //           ">, you need to be an administrator to mention other users."
-  //       );
-
-  //     }
-  //   }
-  // }
 
   messageBot = false;
   message.mentions.users.each((user) => {

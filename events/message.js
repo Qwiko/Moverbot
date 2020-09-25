@@ -68,7 +68,7 @@ module.exports = async (client, message) => {
   //Check if !alias
   for (var key in alias) {
     if (alias[key].includes(command)) {
-      args[0] = command;
+      args.unshift(command); //Including back alias arg
       command = client.guild.config.aliasCommand;
       break;
     }
