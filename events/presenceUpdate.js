@@ -3,6 +3,9 @@ module.exports = async (client, oldPresence, newPresence) => {
   if (newPresence.user.bot) return;
   //Not in a voiceChannel
   if (typeof newPresence.member.voice.channelID == "undefined") return;
+  //Same voicechannel, return
+  if (oldPresence.member.voice.channel == newPresence.member.voice.channel)
+    return;
   //Update does not refer to a game change.
   if (typeof newPresence.activities[0] == "undefined") return;
   //Only type playing
@@ -72,11 +75,13 @@ module.exports = async (client, oldPresence, newPresence) => {
 
   //counter = 0;
   newChannel = guild.channels.cache.find((val) => val.id === newChannelId);
-  // counter = tools.moveMembers(
-  //   client,
-  //   drag ? newPresence.member.voice.channelID : newPresence.member,
-  //   newChannel
-  // );
+
+  //Check if no channel is found
+  if (typeof newChannel === "undefined") {
+    console.log("Cannot find newChannel, presenceUpdate, id: " + newChannelId);
+    return;
+  }
+
   var counter = await client.lib.move.channel(
     client,
     drag ? newPresence.member.voice.channel : newPresence.member,
@@ -93,7 +98,7 @@ module.exports = async (client, oldPresence, newPresence) => {
       newChannelId,
     guild: { id: newPresence.guild.id },
   };
-  if (!counter) {
+  if (counter == 0) {
     //Channel full, cannot join.
     client.lib.log(client, msg, {
       success: false,
