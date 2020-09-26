@@ -28,13 +28,14 @@ module.exports = async (client, oldPresence, newPresence) => {
 
   users = config.gamemove.users;
   roles = config.gamemove.roles;
+  var userEnabled;
   drag = false;
 
   //If we can't find information about the user in the database skip, or if they have opted out.
   if (users[newPresence.userID] != null) {
-    if (users[newPresence.userID].enabled == false) {
-      return;
-    }
+    // if (users[newPresence.userID].enabled == false) {
+    //   return;
+    // }
     userEnabled = users[newPresence.userID].enabled;
     drag = users[newPresence.userID].drag;
   }
@@ -55,20 +56,29 @@ module.exports = async (client, oldPresence, newPresence) => {
   if (newPresence.member.voice.channelID == newChannelId) return;
   //Grabbing guild
   guild = newPresence.guild;
-  includedInRole = false;
+  var roleEnabled;
   for (var id in roles) {
     role = guild.roles.cache.find((role) => role.id === id);
     member = role.members.get(newPresence.userID);
     if (member) {
-      includedInRole = true;
+      roleEnabled = roles[role.id].enabled;
       if (!drag) {
         drag = roles[role.id].drag;
       }
     }
   }
 
+  // console.log("roleEnabled: " + roleEnabled);
+  // console.log("userEnabled: " + userEnabled);
+  //false - null
   //Not found in a role, no move.
-  if (!includedInRole && !userEnabled) return;
+  if (
+    userEnabled == false ||
+    (typeof roleEnabled == "undefined" && typeof userEnabled == "undefined")
+  ) {
+    // console.log("Returning");
+    return;
+  }
 
   //counter = 0;
   newChannel = guild.channels.cache.find((val) => val.id === newChannelId);
@@ -95,6 +105,7 @@ module.exports = async (client, oldPresence, newPresence) => {
       newChannelId,
     guild: { id: newPresence.guild.id },
   };
+
   if (counter == 0) {
     //Channel full, cannot join.
     client.lib.log(client, msg, {
