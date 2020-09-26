@@ -10,7 +10,6 @@
 
 ## Moverbot
 
-[![Discord Bots](https://top.gg/api/widget/status/449878054203031562.svg?noavatar=True)](https://top.gg/bot/449878054203031562)
 
 Welcome and join the Discord channel to try out the bot!
 
