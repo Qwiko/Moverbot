@@ -11,7 +11,7 @@ exports.run = async (bot, message, interaction, args) => {
 
   var mentions = message ? message.mentions : interaction.data.options; //?
 
-  console.log("JOIN command issued", args);
+  //console.log("JOIN command issued", args);
   //console.log(!!message, !!interaction, args);
   var author_id = message ? message.author.id : interaction.member.user.id;
   var guild_id = message ? message.guild_id : interaction.guild_id;

@@ -9,7 +9,7 @@ exports.run = async (bot, message, interaction, args) => {
     return;
   }
 
-  console.log("MOVE command issued", args);
+  //console.log("MOVE command issued", args);
   //console.log(!!message, !!interaction, args);
   var author_id = message ? message.author.id : interaction.member.user.id;
   var guild_id = message ? message.guild_id : interaction.guild_id;
@@ -101,9 +101,8 @@ exports.run = async (bot, message, interaction, args) => {
   if (count == 0) {
     var msg = "Could not move any users.";
   } else {
-    var msg = `Moved ${count} user${count > 1 ? "s" : ""} from: **${
-      from_channel.name
-    }** to: **${to_channel.name}**.`;
+    var msg = `Moved ${count} user${count > 1 ? "s" : ""} from: **${from_channel.name
+      }** to: **${to_channel.name}**.`;
   }
 
   await bot.lib.message.send(bot, message, interaction, msg);

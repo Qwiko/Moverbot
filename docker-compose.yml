@@ -1,4 +1,4 @@
-version: "3.2"
+version: "3.4"
 services:
   redis:
     image: redis
@@ -6,13 +6,19 @@ services:
     ports:
       - 6379:6379
     restart: always
+
   rabbitmq:
     image: rabbitmq:3-management
-    container_name: "rabbitmq"
     ports:
-      - 5672:5672
-      - 15672:15672
+      - 5672:5672 #amqp
+      - 15672:15672 #http
+      - 15692:15692 #http/prometheus
     restart: always
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 3s
+      retries: 30
 
   gateway:
     build: ./gateway
@@ -25,6 +31,13 @@ services:
   cache:
     build: ./cache
     restart: always
+    deploy:
+      mode: replicated
+      replicas: 3
+      update_config:
+        parallelism: 1
+        delay: 5s
+        order: start-first
     depends_on:
       - "redis"
       - "rabbitmq"
@@ -34,8 +47,14 @@ services:
   worker:
     build: ./worker
     restart: always
+    deploy:
+      mode: replicated
+      replicas: 3
+      update_config:
+        parallelism: 1
+        delay: 5s
+        order: start-first
     depends_on:
-      - "rabbitmq"
+      - "cache"
     env_file:
       - .env
-

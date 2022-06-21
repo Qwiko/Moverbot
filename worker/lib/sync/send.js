@@ -16,6 +16,7 @@ module.exports = (bot, con) => {
       routeKey: routeKey,
       headers: request.headers,
     });
+    //console.log(str);
     //console.log("PUBLISHING FANOUT RATELIMIT SYNC");
     await ch.publish("WORKER_SYNC", "", Buffer.from(str));
     ch.close();

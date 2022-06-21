@@ -35,7 +35,7 @@ fs.readdir("./commands/", (err, files) => {
     if (!file.endsWith(".js")) return;
     let props = require(`./commands/${file}`);
     let commandName = file.split(".")[0];
-    //console.log(`Attempting to load command ${commandName}`);
+    //bot.lib.debug(`Attempting to load command ${commandName}`);
     if (props) {
       //Load only enabled commands
       bot.commands[commandName] = props;
@@ -66,7 +66,7 @@ const init = async () => {
   //   },
   //   { noAck: true }
   // );
-  console.log("Moverbot Worker Started");
+  bot.lib.debug("Moverbot Worker Started");
 };
 
 // Declare an asynchronous init method
@@ -74,24 +74,24 @@ const init = async () => {
 const do_init = () => {
   init()
     .then(() => {
-      console.log("Connected to Cache and AMQP");
-      //console.log(con.client);
+      bot.lib.debug("Connected to Cache and AMQP");
+      //bot.lib.debug(con.client);
 
       con.client.on("close", () => {
-        console.log("Lost connection to AMQP, reinitializing...");
-        //console.log("CLOSE", event);
+        bot.lib.debug("Lost connection to AMQP, reinitializing...");
+        //bot.lib.debug("CLOSE", event);
         do_init();
       });
       con.client.on("error", () => {
-        console.log("Error on connection to AMQP, reinitializing...");
-        //console.log("CLOSE", event);
+        bot.lib.debug("Error on connection to AMQP, reinitializing...");
+        //bot.lib.debug("CLOSE", event);
         do_init();
       });
     })
     .catch((e) => {
-      console.log(e);
+      //bot.lib.debug(e);
       if (e.code == "ENOTFOUND") {
-        console.log("Cound not connect to hostname:", e.hostname);
+        bot.lib.debug("Cound not connect to hostname: " + e.hostname);
       } else {
         console.error(e);
         process.exit(1);
@@ -101,7 +101,7 @@ const do_init = () => {
 do_init();
 //Event triggered from AMQP queue
 con.on("event", (event) => {
-  if (event.t == "MESSAGE_CREATE") {
+  if (event.t == "MESSAGE_CREATE" || event.t == "MESSAGE_UPDATE") {
     bot.lib.handlers.message(bot, event.d);
   } else if (event.t == "INTERACTION_CREATE") {
     bot.lib.handlers.interaction(bot, event.d);

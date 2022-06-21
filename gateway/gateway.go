@@ -2,14 +2,12 @@ package main
 
 import (
 	"encoding/json"
-	"log"
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
-
-	rabbitmq "rabbitmq"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
@@ -20,8 +18,8 @@ var (
 	amqp_url string
 	mode string
 	debug bool
-	conn *rabbitmq.Connection
-	ch *rabbitmq.Channel
+	conn *amqp.Connection
+	ch *amqp.Channel
 )
 
 func init() {
@@ -35,12 +33,13 @@ func init() {
 
 func failOnError(err error, msg string) {
 	if err != nil {
-		log.Panicf("%s: %s", msg, err)
+		fmt.Printf("%s: %s", msg, err)
+		panic(err)
 	}
 }
 
-func init_amqp() (*rabbitmq.Channel) {
-	conn, err := rabbitmq.Dial(amqp_url)
+func init_amqp() (*amqp.Channel) {
+	conn, err := amqp.Dial(amqp_url)
 	failOnError(err, "Failed to connect to RabbitMQ")
 	
 
@@ -74,7 +73,12 @@ func sendToQueue(e *discordgo.Event) {
 			Body:        []byte(body),
 		})
 	failOnError(err, "Failed to publish a message")
-	log.Printf("%s\n",e.Type)
+	fmt.Printf("%s\n",e.Type)
+	// eventJSON, err := json.Marshal(e)
+    // if err != nil {
+    //     failOnError(err, "Failed to unmarshal event")
+    // }
+	// fmt.Printf("%s\n", string(eventJSON))
 }
 
 
@@ -83,7 +87,7 @@ func main() {
 	// Create a new Discord session using the provided bot token.
 	dg, err := discordgo.New("Bot " + Token)
 	if err != nil {
-		log.Println("error creating Discord session,", err)
+		fmt.Println("error creating Discord session,", err)
 		return
 	}
 	//defer conn.Close()
@@ -99,12 +103,12 @@ func main() {
 	// Open a websocket connection to Discord and begin listening.
 	err = dg.Open()
 	if err != nil {
-		log.Println("error opening connection,", err)
+		fmt.Println("Error opening connection,", err)
 		return
 	}
 
 	// Wait here until CTRL-C or other term signal is received.
-	log.Println("Bot is now running.  Press CTRL-C to exit.")
+	fmt.Println("Bot is now running.  Press CTRL-C to exit.")
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
 	<-sc
