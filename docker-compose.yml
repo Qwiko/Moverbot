@@ -1,0 +1,41 @@
+version: "3.2"
+services:
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - 6379:6379
+    restart: always
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: "rabbitmq"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    restart: always
+
+  gateway:
+    build: ./gateway
+    depends_on:
+      - "rabbitmq"
+    env_file:
+      - .env
+    restart: always
+
+  cache:
+    build: ./cache
+    restart: always
+    depends_on:
+      - "redis"
+      - "rabbitmq"
+    env_file:
+      - .env
+
+  worker:
+    build: ./worker
+    restart: always
+    depends_on:
+      - "rabbitmq"
+    env_file:
+      - .env
+
