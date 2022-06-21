@@ -2,3 +2,4 @@
 */env
 cache/data
 nomad-moverbot.hcl
+.env
