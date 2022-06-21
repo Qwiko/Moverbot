@@ -32,7 +32,7 @@ services:
     build: ./cache
     restart: always
     volumes:
-      - cache/VoiceStateCache.js:node_modules/raincache/dist/cache/VoiceStateCache.js
+      - ./cache/VoiceStateCache.js:/usr/src/bot/node_modules/raincache/dist/cache/VoiceStateCache.js
     deploy:
       mode: replicated
       replicas: 3
