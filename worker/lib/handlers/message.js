@@ -19,7 +19,7 @@ module.exports = async (bot, message) => {
 
   const cmd = bot.commands[command.toLowerCase()];
   if (cmd) {
-    bot.lib.debug({ message: message, args: args })
+    bot.lib.debug({ ...message, args: args })
     cmd.run(bot, message, false, args);
   } else {
     bot.lib.message.send(bot, message, false, "No such command");

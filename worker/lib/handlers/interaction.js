@@ -10,7 +10,7 @@ module.exports = async (bot, interaction) => {
   var command = interaction.data.name;
   const cmd = bot.commands[command.toLowerCase()];
   if (cmd) {
-    bot.lib.debug({ interaction: interaction })
+    bot.lib.debug(interaction)
     cmd.run(
       bot,
       false,
