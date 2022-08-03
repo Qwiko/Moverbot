@@ -92,6 +92,7 @@ const do_init = () => {
       //bot.lib.debug(e);
       if (e.code == "ENOTFOUND") {
         bot.lib.debug("Cound not connect to hostname: " + e.hostname);
+        do_init();
       } else {
         console.error(e);
         process.exit(1);
