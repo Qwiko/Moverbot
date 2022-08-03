@@ -5,7 +5,7 @@ module.exports = (debug) => {
             break;
 
         default:
-            console.log({ debug: debug })
+            console.log(JSON.stringify({ debug: debug }))
             break;
     }
 };
