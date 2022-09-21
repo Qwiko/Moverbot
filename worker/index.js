@@ -52,20 +52,20 @@ const init = async () => {
   await con.initialize();
   await bot.cache.initialize();
 
-  // //Worker sync channel, fanout rabbitmq exchange
-  // const channel = await con.client.createChannel();
-  // await channel.assertExchange("WORKER_SYNC", "fanout", {
-  //   durable: false,
-  // });
-  // const queue = await channel.assertQueue("", { exclusive: true });
-  // await channel.bindQueue(queue.queue, "WORKER_SYNC", "");
-  // channel.consume(
-  //   queue.queue,
-  //   (data) => {
-  //     bot.lib.sync.set(bot, data);
-  //   },
-  //   { noAck: true }
-  // );
+  //Worker sync channel, fanout rabbitmq exchange
+  const channel = await con.client.createChannel();
+  await channel.assertExchange("WORKER_SYNC", "fanout", {
+    durable: false,
+  });
+  const queue = await channel.assertQueue("", { exclusive: true });
+  await channel.bindQueue(queue.queue, "WORKER_SYNC", "");
+  channel.consume(
+    queue.queue,
+    (data) => {
+      bot.lib.sync.set(bot, data);
+    },
+    { noAck: true }
+  );
   bot.lib.debug("Moverbot Worker Started");
 };
 
