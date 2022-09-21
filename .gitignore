@@ -2,4 +2,3 @@
 cache/data
 nomad-moverbot.hcl
 .env
-rollingupdate.sh
