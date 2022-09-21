@@ -112,7 +112,7 @@ con.on("event", (event) => {
 function getEnv(env) {
   if (typeof process.env[env] == "undefined") {
     console.error(`Enviroment variable '${env}' not found, exiting!`);
-    process.exit(1);
+    process.exit(0);
   }
   return process.env[env];
 }
