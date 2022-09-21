@@ -1,5 +1,9 @@
 recreate_service() {
 
+    echo "Building new images for $1"
+
+    docker compose build worker
+
     echo "Rolling update for $1"
     PREVIOUS_CONTAINER=$(docker ps --format "table {{.ID}}  {{.Names}}  {{.CreatedAt}}" | grep $1 | awk -F  "  " '{print $1}')
     CURRENT_COUNT=$(echo $PREVIOUS_CONTAINER | wc -w)
