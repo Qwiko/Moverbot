@@ -24,7 +24,7 @@ exports.run = async (bot, message, interaction, args) => {
         bot,
         message,
         interaction,
-        "Not connected to voice. Test"
+        "Not connected to voice."
       );
       return;
     }
