@@ -9,8 +9,6 @@ exports.run = async (bot, message, interaction, args) => {
   //   return;
   // }
 
-  //console.log("GATHER command issued", args);
-  //console.log(!!message, !!interaction, args);
   var author_id = message ? message.author.id : interaction.member.user.id;
   var guild_id = message ? message.guild_id : interaction.guild_id;
   var to_channel, to_channel_arg;
