@@ -1,4 +1,8 @@
-## Moverbot
+# Moverbot
+
+⚠️ This repository is deprecated and no longer maintained. ⚠️
+
+---
 
 Welcome and join the Discord channel to try out the bot!
 
